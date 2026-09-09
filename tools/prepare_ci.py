@@ -6,7 +6,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import urllib.request
-from policy import validate
+from policy import validate, roster_map
 
 def api(path):
     request=urllib.request.Request("https://api.github.com/"+path,headers={"Authorization":"Bearer "+os.environ["GH_TOKEN"],"Accept":"application/vnd.github+json"})
@@ -36,24 +36,22 @@ def main():
     for entry in filter(None,index):
         if entry[:6] not in ("100644","100755"): raise ValueError("Symlinks and submodules are not accepted")
     if result["kind"]=="student":
-        source=head/"students"/result["student"]/"src"
-        if not (source/"mini_ml"/"__init__.py").is_file(): raise ValueError("Missing src/mini_ml package")
+        source=head/"students"/result["folder"]
+        if not (source/"src"/"mini_ml"/"__init__.py").is_file(): raise ValueError("Missing src/mini_ml package")
         destination=Path("sandbox-source")
-        shutil.copytree(source,destination)
+        shutil.copytree(source,destination,ignore=shutil.ignore_patterns(".venv","__pycache__","test_code",".git"))
         if sum(p.stat().st_size for p in destination.rglob("*") if p.is_file())>5_000_000: raise ValueError("Keep package source under 5 MB")
     else:
         # Teacher release validation is static here. Reference execution occurs in private verification.
+        roster_map(json.loads((head/"roster.json").read_text())["students"])
         manifest=json.loads((head/"course.json").read_text())
         released=manifest["released_weeks"]
         if released!=list(range(1,len(released)+1)) or len(released)>10: raise ValueError("Weeks must be contiguous 1..10")
         for week in released:
             folder=head/"weeks"/f"week-{week:02}"
             if not (folder/"lesson.md").is_file(): raise ValueError("Missing lesson")
-            if manifest.get("material_format") == "cumulative-python-v2":
-                if not (folder/"demo.py").is_file(): raise ValueError("Missing demo.py")
-                json.loads((folder/"changes.json").read_text())
-            else:
-                json.loads((folder/"notebook.ipynb").read_text())
+            if not (folder/"demo.py").is_file(): raise ValueError("Missing demo.py")
+            json.loads((folder/"changes.json").read_text())
             if not (head/"tests"/f"week-{week:02}"/f"test_week_{week:02}.py").is_file(): raise ValueError("Missing tests")
         for file in head.rglob("*.py"):
             if ".git" not in file.parts: ast.parse(file.read_text())

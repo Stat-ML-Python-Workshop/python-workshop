@@ -1,87 +1,104 @@
 # Python Workshop — Build Machine Learning from Scratch
 
-每週正式驗收：PR 最新 commit 的 `workshop/acceptance`；通過與教師 merge 分開記錄。
-
 給生科／生技背景的 Python 初學者。10 週，每週 60 分鐘授課＋30 分鐘操作。
-公式 → 自己的 Python → NumPy／sklearn 核對；每人逐步完成自己的 mini ML library。
+每個人建造一份持續長大的 mini ML package：公式 → 自己的 Python → 正式工具比較。
 
-## 第一次開始
+## 先認識資料夾
 
-先安裝 [Git](https://git-scm.com/downloads)、[uv](https://docs.astral.sh/uv/getting-started/installation/) 及支援 notebook 的編輯器。GitHub Desktop 可以替代部分 Git 操作。
-請教師先把你的 **GitHub login** 加入名單並給予本 repo Write 權限。
-以下指令都在 repo 根目錄執行；把 `<login>` 換成自己的帳號。
+```text
+students/<姓名_學號>/
+├── pyproject.toml
+├── uv.lock
+├── README.md
+├── src/mini_ml/       # 正式函式與模型，提交
+├── tests/            # 自己的 unit tests，提交
+├── test_code/        # 本機試算、畫圖、debug，忽略且不提交
+├── examples/         # 第 10 週正式 biological application，提交
+└── data/
+```
+
+所有人使用相同結構，但各有獨立環境和實作。GitHub login 與資料夾名稱不同，由教師在 `roster.json` 設定對照。
+沒有每週複製的 package：第 3 週擴充原本的 statistics.py；第 8 週移入 math/、models/；第 9 週擴充既有 linear_models.py。
+詳細架構見 [ARCHITECTURE.md](ARCHITECTURE.md)，課程路線見 [SYLLABUS.md](SYLLABUS.md)。
+
+## 第一次開始（repo 根目錄）
+
+先安裝 [Git](https://git-scm.com/downloads) 和 [uv](https://docs.astral.sh/uv/getting-started/installation/)。
+請教師登錄 GitHub login 與姓名學號資料夾，並給予公開 repo Write 權限。
+`<login>` 替換成 GitHub 帳號，`<folder>` 替換成教師登錄的姓名學號資料夾。
 
 ```sh
 git clone https://github.com/Stat-ML-Python-Workshop/python-workshop.git
 cd python-workshop
 git switch -c <login>/week-01
 uv run --no-project --python 3.12 python tools/course.py init <login> 1
-uv sync --project students/<login>
+uv sync --frozen --project students/<folder>
+uv run --frozen --project students/<folder> python tools/course.py test <login> 1
 ```
 
-在編輯器開啟 `students/<login>/notebooks/week-01.ipynb`，選擇
-`students/<login>/.venv` 的 Python kernel。先閱讀 `weeks/week-01/lesson.md`。
-第一週就會看到 `src/`、`tests/`、`pyproject.toml`、README；先會使用，不要求立即了解打包細節。
+第 1 週 CI 驗收 package 可 import 及必要專案檔案。基本算術在本機 test_code/ 練習，不要求將試算內容提交。
 
-## 實作、測試、提交
+## 自己試算與畫圖（學生 package 目錄）
 
 ```sh
-uv run --project students/<login> python tools/course.py test <login> 1
-git status
-git diff
-git add students/<login>
-git commit -m "Complete week 01 core exercise"
-git push -u origin <login>/week-01
+cd students/<folder>
+uv run python test_code/week_01.py
+uv run pytest
 ```
 
-在 GitHub 開 PR 到 main，標題 `[Week 01] <login>`，填寫 PR 模板。
-原始骨架包含 `NotImplementedError`，第一次測試失敗是預期；完成填空再測。
-`tests/week-XX` 是當週公開驗收測試；你可以另外在自己的 `tests/` 撰寫測試。
-不要修改共用測試來通過驗收。CI 使用受保護的驗收版本，不執行學生的打包設定。
+可以自行建立 `test_code/try_mean.py`，呼叫自己的 mini_ml。測試用資料、圖片及暫存輸出也放這裡。
+`uv run pytest` 只收集自己的 `tests/`；正式驗收則使用 repo 根目錄的 course.py。
+可重用的計算寫進 src/mini_ml；test_code/ 的內容不會同步給教師，也不列入正式測試。
 
-## 每週往下累積
+## 每週同步與新增程式（回到 repo 根目錄）
 
-等前週 PR 合併後，切回 main，pull，再建立下一週分支：
+前週 PR 合併後才開始下一週：
 
 ```sh
 git switch main
 git pull --ff-only
 git switch -c <login>/week-02
 uv run --no-project --python 3.12 python tools/course.py sync <login> 2
-uv sync --project students/<login>
-uv run --project students/<login> python tools/course.py test <login> 2
 ```
 
-sync 只新增檔案，不覆蓋你已有的實作。後續週次自行替換數字。
-前週還沒合併時，先請教師協助；不要同時維護互相依賴的作業 PR。
+sync 只新增本機示範和資料，**不替你新增或覆蓋 module**。
+閱讀 `weeks/week-02/lesson.md`，依「開始結構 → 新增片段 → 完成結構」手動整合。
+片段位於 `weeks/week-XX/fragments/`：create 建立檔案；append 在原檔案追加；第 8 週另有 move 與 import 調整。
+第 3 週不可覆蓋先前的 sum_values／mean，第 9 週不可覆蓋 LinearRegressor。
+
+```sh
+uv run --frozen --project students/<folder> python tools/course.py test <login> 2
+git status
+git diff
+git add students/<folder>
+git commit -m "Complete week 02 core exercise"
+git push -u origin <login>/week-02
+```
+
+PR 標題 `[Week 02] <login>`，填写實作、測試與參考解答情況。不要以 `git add -f` 提交 test_code/；CI 會拒絕這些檔案。
+共用驗收測試在 `tests/week-XX/`，只讀不要修改；自己的測試可放在學生 package 的 tests/。
 
 ## 每週節奏
 
-| 時間 | 要做的事 |
+| 時間 | 流程 |
 | --- | --- |
-| 星期二上課後 | 自行實作、提交一份 PR、依 CI 修正 |
-| 星期四晚上 | 教師手動發布當週 `reference/week-XX/` 解答；需要時複製到自己 package |
-| 星期五 | 最新 commit 的正式 CI 通過即算當週完成，與 merge 分開記錄 |
-| 後續 | 教師審核並 merge；未通過者在原 PR 繼續補交 |
+| 星期二上課後 | 自行實作並提交當週 PR |
+| 星期四晚上 | 教師手動發布 reference/week-XX/；可取用需要的片段整合到自己的 codebase |
+| 星期五 | PR 最新 commit 的正式 workshop/acceptance 通過即算完成 |
+| 後續 | 教師 review 與 merge 另外處理；未通過者在原 PR 持續修正 |
 
-解答是協助學習的工具；請在 PR 說明參考情況。程式與 PR 都是公開的，不放學號、私人研究資料或憑證。
+正式狀態由教師工具核對可信 workflow 與 commit，不以任意同名綠燈判定。
 
-## 十週路線
+## 第 10 週可重現成果
 
-1. 環境、Python 與 package
-2. 迴圈、加總與平均
-3. 函式、module、variance、SD、covariance
-4. NumPy、dot 與矩陣
-5. 圖形、標準化與距離
-6. 機率比例、loss 與測試
-7. k-NN 分類
-8. OOP、linear regression 與梯度
-9. logistic regression 與訓練
-10. 真實 biological dataset 整合
+在自己的 package 目錄執行：
 
-詳見 [課綱](SYLLABUS.md)。未發布的週次教材與解答不在此 repo。
+```sh
+uv sync --frozen
+uv run python examples/breast_cancer.py
+```
 
-## 資料與引用
-
-期末使用 [Wisconsin Breast Cancer Diagnostic](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic)，透過 sklearn 載入。569 筆、30 個細胞核形態特徵，主線先選 mean radius／mean texture。資料為 CC BY 4.0；作者 Wolberg、Mangasarian、Street、Street，DOI: 10.24432/C5DW2B。
-教學載入器將標籤轉成 **1=malignant、0=benign**。固定切分，scaler 僅 fit train，validation 選模型，test 最後評估。
+正式範例要提交；JSON 和圖形預設輸出至本機 test_code/。README 記錄執行方法、結果摘要及限制。
+資料使用 [Wisconsin Breast Cancer Diagnostic](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic)（CC BY 4.0；Wolberg、Mangasarian、Street、Street；DOI: 10.24432/C5DW2B）。
+1=malignant、0=benign，固定切分；scaler 只 fit train、validation 選設定、test 留到最後。
+未發布的教材與解答不在公開 repo；不放私人研究資料或憑證。
