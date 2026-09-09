@@ -1,5 +1,7 @@
 # Python Workshop — Build Machine Learning from Scratch
 
+每週正式驗收：PR 最新 commit 的 `workshop/acceptance`；通過與教師 merge 分開記錄。
+
 給生科／生技背景的 Python 初學者。10 週，每週 60 分鐘授課＋30 分鐘操作。
 公式 → 自己的 Python → NumPy／sklearn 核對；每人逐步完成自己的 mini ML library。
 
@@ -83,4 +85,3 @@ sync 只新增檔案，不覆蓋你已有的實作。後續週次自行替換數
 
 期末使用 [Wisconsin Breast Cancer Diagnostic](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic)，透過 sklearn 載入。569 筆、30 個細胞核形態特徵，主線先選 mean radius／mean texture。資料為 CC BY 4.0；作者 Wolberg、Mangasarian、Street、Street，DOI: 10.24432/C5DW2B。
 教學載入器將標籤轉成 **1=malignant、0=benign**。固定切分，scaler 僅 fit train，validation 選模型，test 最後評估。
-
