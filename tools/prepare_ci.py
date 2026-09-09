@@ -49,7 +49,11 @@ def main():
         for week in released:
             folder=head/"weeks"/f"week-{week:02}"
             if not (folder/"lesson.md").is_file(): raise ValueError("Missing lesson")
-            json.loads((folder/"notebook.ipynb").read_text())
+            if manifest.get("material_format") == "cumulative-python-v2":
+                if not (folder/"demo.py").is_file(): raise ValueError("Missing demo.py")
+                json.loads((folder/"changes.json").read_text())
+            else:
+                json.loads((folder/"notebook.ipynb").read_text())
             if not (head/"tests"/f"week-{week:02}"/f"test_week_{week:02}.py").is_file(): raise ValueError("Missing tests")
         for file in head.rglob("*.py"):
             if ".git" not in file.parts: ast.parse(file.read_text())
@@ -58,4 +62,3 @@ def main():
         for key,value in result.items(): output.write(f"{key}={value}\n")
 
 if __name__=="__main__": main()
-
