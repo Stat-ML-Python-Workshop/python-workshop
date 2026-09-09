@@ -1,0 +1,73 @@
+name: Workshop acceptance
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+permissions:
+  contents: read
+concurrency:
+  group: acceptance-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: trusted
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          path: submission
+          persist-credentials: false
+      - name: Validate author, week and changed paths
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python trusted/tools/prepare_ci.py
+      - name: Build trusted test environment
+        if: steps.prepare.outputs.kind == 'student'
+        run: docker build -t workshop-tests -f trusted/tools/Dockerfile trusted/tools
+      - name: Run student code without network or credentials
+        if: steps.prepare.outputs.kind == 'student'
+        env:
+          WEEK: ${{ steps.prepare.outputs.week }}
+        run: >-
+          docker run --rm --network none --read-only --cap-drop ALL --cap-add SETUID --cap-add SETGID
+          --security-opt no-new-privileges --pids-limit 128 --memory 2g --cpus 2
+          --tmpfs /tmp:rw,nosuid,size=256m
+          -v "$PWD/trusted:/trusted:ro" -v "$PWD/sandbox-source:/student:ro"
+          workshop-tests python /trusted/tools/grade.py /student /trusted/tests "$WEEK"
+  report:
+    needs: evaluate
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
+      pull-requests: read
+    steps:
+      - name: Report exact submitted commit
+        uses: actions/github-script@v7
+        env:
+          EVALUATION_RESULT: ${{ needs.evaluate.result }}
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const latest = await github.rest.pulls.get({...context.repo, pull_number: pr.number});
+            if (latest.data.head.sha !== pr.head.sha) {
+              core.setFailed('Superseded by a newer submission'); return;
+            }
+            const passed = process.env.EVALUATION_RESULT === 'success';
+            await github.rest.repos.createCommitStatus({...context.repo, sha: pr.head.sha,
+              state: passed ? 'success' : 'failure', context: 'workshop/acceptance',
+              description: passed ? 'Trusted acceptance passed' : 'Acceptance failed; inspect this run',
+              target_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`});
+            if (!passed) core.setFailed('Acceptance did not pass');
+
