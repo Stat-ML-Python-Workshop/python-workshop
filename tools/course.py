@@ -30,6 +30,10 @@ def sync(login,week):
         dest=target/"notebooks"/f"week-{w:02}.ipynb"
         dest.parent.mkdir(parents=True,exist_ok=True)
         if not dest.exists(): shutil.copy2(lesson/"notebook.ipynb",dest)
+        for file in (lesson/"data").glob("*.csv"):
+            dest=target/"data"/f"week-{w:02}"/file.name
+            dest.parent.mkdir(parents=True,exist_ok=True)
+            if not dest.exists(): shutil.copy2(file,dest)
     print(f"Ready: {target}. Existing files were preserved.")
 
 if __name__=="__main__":
