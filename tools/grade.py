@@ -18,7 +18,7 @@ def grade(source, tests, week, junit=None):
         for test in selected: shutil.copy2(test,destination/test.name)
         for name in ("conftest.py","worker.py"): shutil.copy2(Path(__file__).with_name(name),destination/name)
         (destination/"pytest.ini").write_text("[pytest]\naddopts =\n")
-        env={**os.environ,"STUDENT_SRC":str(source),"PYTEST_DISABLE_PLUGIN_AUTOLOAD":"1","PYTHONDONTWRITEBYTECODE":"1"}
+        env={**os.environ,"STUDENT_ROOT":str(source),"COURSE_WEEK":str(week),"PYTEST_DISABLE_PLUGIN_AUTOLOAD":"1","PYTHONDONTWRITEBYTECODE":"1"}
         env.pop("PYTEST_ADDOPTS",None); env.pop("PYTHONPATH",None)
         cmd=[sys.executable,"-I","-m","pytest","-q","-p","no:cacheprovider","-c",str(destination/"pytest.ini"),str(destination)]
         if junit: cmd += ["--junitxml",str(Path(junit).resolve())]
