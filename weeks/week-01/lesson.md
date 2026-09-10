@@ -23,20 +23,6 @@ AI 可以協助建立檔案骨架，但你需要能指出每個檔案的用途�
 
 Antigravity 與教育優惠是選配，不影響課程驗收。
 
-## 90 分鐘：每學一段就操作
-
-| 時間 | 概念 | 立即操作與檢查點 |
-| --- | --- | --- |
-| 0–5 | 今日目標與最後會完成的成品 | 確認 Git、uv、IDE 可使用 |
-| 5–17 | repository、main 與 branch | clone repo，建立自己的 Week 1 branch，以 Git Graph 確認 |
-| 17–27 | Python 如何執行、語法、動態型別與取捨 | 建立簡短 `.py`，修改字串後再執行 |
-| 27–39 | interpreter、virtual environment、dependency；uv 與 Anaconda | 在自己的 package 根目錄建立 `.venv`，確認 Python 3.12 |
-| 39–57 | package、module、public API、src layout 與責任分離 | 親手建立自己的 package 結構 |
-| 57–68 | editable installation、`uv sync` 與外部 import | 安裝 package，從 `test_code/` 印出 `Hello, world!` |
-| 68–76 | unit test、expected/actual 與 pytest | 先看到一次本機失敗，再修正至通過 |
-| 76–84 | commit、push 與 Pull Request | 建立 `[Week 01] <login>` PR |
-| 84–90 | GitHub Actions、Docker 與 CI | 打開 Actions，觀察 queued、running、passed/failed |
-
 ## Step 1：建立 branch 和自己的資料夾
 
 請把 `<login>` 換成 GitHub 帳號，`<folder>` 換成教師登錄的姓名學號資料夾。
