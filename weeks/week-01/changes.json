@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "op": "create",
+    "path": "src/mini_ml/greetings.py",
+    "fragment": "01_greetings.py"
+  },
+  {
+    "op": "create",
+    "path": "src/mini_ml/__init__.py",
+    "fragment": "02___init__.py"
+  },
+  {
+    "op": "create",
+    "path": "tests/test_greetings.py",
+    "fragment": "03_test_greetings.py"
+  }
+]

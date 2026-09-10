@@ -4,7 +4,7 @@
 
 | 週 | 成長目標 |
 | --- | --- |
-| 1 | 可安裝、可 import；試算留在 test_code/ |
+| 1 | greetings.py、public API、editable install 與 unit test；試算留在 test_code/ |
 | 2 | statistics.py：sum_values、mean |
 | 3 | 同一 statistics.py：加入 variance、std、covariance |
 | 4 | linalg.py：dot、matvec |
