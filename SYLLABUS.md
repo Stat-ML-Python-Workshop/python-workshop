@@ -1,12 +1,12 @@
 # Python Workshop：Build Machine Learning from Scratch
 
-生科／生技背景的 Python beginner；10 週，每週 60 分鐘授課＋30 分鐘 hands-on。
+生科／生技背景的 Python beginner；10 週，每週 90 分鐘，以短講解與立即操作交錯進行。
 以公式 → 純 Python → NumPy／sklearn 比較逐步學習，和正課保持弱連結。
 所有人維護一份累積式 package，第 8 週進行架構重構。日常試算放本機 test_code/，正式實作、unit tests 與期末範例提交 PR。
 
 | 週 | 核心 | 手刻重點 | 小成果 |
 | --- | --- | --- | --- |
-| 1 | uv、Python、package、Git | 基本運算在 test_code/ | 可安裝可 import 的 package 與第一次 PR |
+| 1 | uv、Python、package、Git、CI | hello_world、public API、unit test | 可 editable install、外部 import 的 package 與第一次 PR |
 | 2 | if、for、list、累加 | sum_values、mean | statistics.py |
 | 3 | def、dict、CSV、缺失值 | variance、std；covariance 帶寫 | 擴充相同 statistics.py |
 | 4 | vector、shape、NumPy | dot；matvec 帶寫 | 細胞核形態的加權分數 |

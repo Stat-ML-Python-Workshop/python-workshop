@@ -1,6 +1,6 @@
 # Python Workshop — Build Machine Learning from Scratch
 
-給生科／生技背景的 Python 初學者。10 週，每週 60 分鐘授課＋30 分鐘操作。
+給生科／生技背景的 Python 初學者。10 週，每週 90 分鐘，以短講解與立即操作交錯進行。
 每個人建造一份持續長大的 mini ML package：公式 → 自己的 Python → 正式工具比較。
 
 ## 先認識資料夾
@@ -21,32 +21,42 @@ students/<姓名_學號>/
 沒有每週複製的 package：第 3 週擴充原本的 statistics.py；第 8 週移入 math/、models/；第 9 週擴充既有 linear_models.py。
 詳細架構見 [ARCHITECTURE.md](ARCHITECTURE.md)，課程路線見 [SYLLABUS.md](SYLLABUS.md)。
 
-## 第一次開始（repo 根目錄）
+## 第一次開始：親手建立 package
 
 先安裝 [Git](https://git-scm.com/downloads) 和 [uv](https://docs.astral.sh/uv/getting-started/installation/)。
-請教師登錄 GitHub login 與姓名學號資料夾，並給予公開 repo Write 權限。
+上課前請教師登錄 GitHub login 與姓名學號資料夾，並給予公開 repo Write 權限。
 `<login>` 替換成 GitHub 帳號，`<folder>` 替換成教師登錄的姓名學號資料夾。
 
 ```sh
 git clone https://github.com/Stat-ML-Python-Workshop/python-workshop.git
 cd python-workshop
 git switch -c <login>/week-01
-uv run --no-project --python 3.12 python tools/course.py init <login> 1
-uv sync --frozen --project students/<folder>
-uv run --frozen --project students/<folder> python tools/course.py test <login> 1
+mkdir -p students/<folder>
+cd students/<folder>
 ```
 
-第 1 週 CI 驗收 package 可 import 及必要專案檔案。基本算術在本機 test_code/ 練習，不要求將試算內容提交。
+接著依 [Week 01 教材](weeks/week-01/lesson.md) 親手建立 `pyproject.toml`、`src/mini_ml/`、unit test 與本機 `test_code/`。可以使用 AI 協助建立骨架，但必須能說明每個檔案用途。
+
+```sh
+uv venv --python 3.12
+uv pip install -e .
+uv lock
+uv sync --frozen
+uv run python test_code/try_package.py
+uv run pytest
+```
+
+第 1 週 CI 會在乾淨隔離環境真正安裝 package，從專案外部 import `hello_world()`，再執行學生及教師 unit tests。
 
 ## 自己試算與畫圖（學生 package 目錄）
 
 ```sh
 cd students/<folder>
-uv run python test_code/week_01.py
+uv run python test_code/try_package.py
 uv run pytest
 ```
 
-可以自行建立 `test_code/try_mean.py`，呼叫自己的 mini_ml。測試用資料、圖片及暫存輸出也放這裡。
+可以自行建立其他試算檔案呼叫自己的 mini_ml。測試用資料、圖片及暫存輸出也放這裡。
 `uv run pytest` 只收集自己的 `tests/`；正式驗收則使用 repo 根目錄的 course.py。
 可重用的計算寫進 src/mini_ml；test_code/ 的內容不會同步給教師，也不列入正式測試。
 

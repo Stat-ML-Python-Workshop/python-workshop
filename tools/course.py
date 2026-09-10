@@ -1,4 +1,4 @@
-"""Initialize one package; sync supporting files without editing student modules."""
+"""Sync supporting files without editing student modules; run trusted tests."""
 import argparse
 import json
 from pathlib import Path
@@ -17,16 +17,12 @@ def copy_new(source,destination):
     if not destination.exists():
         destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,destination)
 
-def sync(login,week,initialize=False):
+def sync(login,week):
     released=json.loads((ROOT/'course.json').read_text())['released_weeks']
     if week not in released:raise ValueError('Week has not been published')
     target=folder_for(login)
     if target.is_symlink():raise ValueError('Student folder cannot be a symlink')
-    if initialize:
-        if target.exists():raise ValueError('Package already exists; use sync (never reinitialize source)')
-        for file in (ROOT/'template').rglob('*'):
-            if file.is_file():copy_new(file,target/file.relative_to(ROOT/'template'))
-    elif not (target/'src/mini_ml/__init__.py').is_file():raise ValueError('Initialize your package first')
+    if not (target/'src/mini_ml/__init__.py').is_file():raise ValueError('Build your package from the Week 1 lesson first')
     (target/'test_code').mkdir(exist_ok=True)
     for w in range(1,week+1):
         lesson=ROOT/'weeks'/f'week-{w:02}'
@@ -35,8 +31,8 @@ def sync(login,week,initialize=False):
     print(f'Ready: {target}\nRead weeks/week-{week:02}/lesson.md; manually integrate fragments. Existing source is unchanged.')
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['init','sync','test']);p.add_argument('login');p.add_argument('week',type=int,nargs='?',default=1);a=p.parse_args()
-    if a.action in ('init','sync'):sync(a.login,a.week,initialize=a.action=='init')
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['sync','test']);p.add_argument('login');p.add_argument('week',type=int,nargs='?',default=1);a=p.parse_args()
+    if a.action=='sync':sync(a.login,a.week)
     else:
         if a.week not in json.loads((ROOT/'course.json').read_text())['released_weeks']:p.error('Week not published')
         raise SystemExit(grade(folder_for(a.login),ROOT/'tests',a.week))

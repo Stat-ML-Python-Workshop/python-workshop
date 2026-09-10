@@ -4,7 +4,7 @@ import importlib.util
 import json
 from pathlib import Path
 import sys
-root=Path(sys.argv[1]);sys.path.insert(0,str(root/'src'))
+root=Path(sys.argv[1])
 request=json.loads(sys.stdin.read())
 try:
     if request['module']=='__example__':

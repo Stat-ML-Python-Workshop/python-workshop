@@ -5,7 +5,7 @@
 - 所有變更限定自己的 `students/<姓名_學號>/`。test_code/ 只在本機，不能強制加入 PR。
 - tests/ 是正式 unit tests，要提交；課程會用自己的共用驗收測試，忽略學生 pytest 設定。
 - 第 3、9 週片段是追加內容，不能整檔覆蓋；第 8 週移動既有檔案並修正 import。
-- 首週測試確認 package 與專案檔案；後續 NotImplementedError 代表核心填空尚未完成。
+- 首週由學生依 Markdown 親手建立 package，不使用自動初始化工具。CI 會真正安裝 package、從外部 import `hello_world()`，並執行學生及教師測試。
 - 本機正式驗收使用 repo 根目錄 course.py；學生自己寫的測試在 package 目錄 `uv run pytest`。
 - CI 通過即算完成；教師審核與合併稍後進行。開始下一週前請先確認前週已合併。
 - 未通過者維持原 PR 補交。參考解答後 commit、push 到原分支，不另開 PR。
