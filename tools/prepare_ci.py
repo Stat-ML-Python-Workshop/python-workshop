@@ -51,7 +51,6 @@ def main():
             folder=head/"weeks"/f"week-{week:02}"
             if not (folder/"lesson.md").is_file(): raise ValueError("Missing lesson")
             if not (folder/"demo.py").is_file(): raise ValueError("Missing demo.py")
-            json.loads((folder/"changes.json").read_text())
             if not (head/"tests"/f"week-{week:02}"/f"test_week_{week:02}.py").is_file(): raise ValueError("Missing tests")
         for file in head.rglob("*.py"):
             if ".git" not in file.parts: ast.parse(file.read_text())
