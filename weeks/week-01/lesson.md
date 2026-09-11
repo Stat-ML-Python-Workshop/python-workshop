@@ -105,6 +105,60 @@ where = ["src"]
 testpaths = ["tests"]
 ```
 
+### How `pyproject.toml` is organized
+
+```mermaid
+flowchart TD
+    P["pyproject.toml<br/>Central project configuration"]
+
+    P --> B["[build-system]<br/>How is the package built?"]
+    P --> M["[project]<br/>What is this project?"]
+    P --> D["[dependency-groups]<br/>Which development tools are needed?"]
+    P --> S["[tool.setuptools.packages.find]<br/>Where is the Python package?"]
+    P --> T["[tool.pytest.ini_options]<br/>Where are the tests?"]
+
+    B --> B1["requires = setuptools"]
+    B1 --> B2["build-backend = setuptools.build_meta"]
+    B2 --> INSTALL["Build and install the package"]
+
+    M --> M1["Distribution name and version"]
+    M --> M2["Python 3.12 requirement"]
+    M --> M3["Runtime dependencies"]
+
+    D --> D1["dev = pytest"]
+    D1 --> SYNC["uv sync installs development tools"]
+
+    S --> S1["Search inside src/"]
+    S1 --> S2["Find src/mini_ml/"]
+    S2 --> INSTALL
+    INSTALL --> IMPORT["from mini_ml import ..."]
+
+    T --> T1["Search inside tests/"]
+    T1 --> TEST["uv run pytest"]
+```
+
+### What happens when `uv sync` runs
+
+```mermaid
+flowchart LR
+    UV["uv sync"] --> CONFIG["Read pyproject.toml"]
+
+    CONFIG --> META["[project]<br/>Python and dependencies"]
+    CONFIG --> BUILD["[build-system]<br/>Select setuptools"]
+    CONFIG --> FIND["[tool.setuptools]<br/>Find src/mini_ml"]
+    CONFIG --> DEV["[dependency-groups]<br/>Install pytest"]
+
+    BUILD --> ENV["Prepare .venv"]
+    META --> ENV
+    FIND --> PACKAGE["Install mini_ml"]
+    DEV --> PYTEST["pytest is available"]
+
+    PACKAGE --> RUN["uv run python ..."]
+    PYTEST --> TESTS["uv run pytest"]
+```
+
+The key distinction is that `[project]` describes package metadata and dependencies; it does not discover the folder structure. The `[tool.setuptools.packages.find]` section tells setuptools to find `mini_ml` inside `src/`.
+
 `.gitignore`：
 
 ```gitignore
