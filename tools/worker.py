@@ -2,10 +2,22 @@
 import importlib
 import importlib.util
 import json
+import math
 from pathlib import Path
 import sys
 root=Path(sys.argv[1])
 request=json.loads(sys.stdin.read())
+
+def json_safe(value):
+    """Encode non-finite floats explicitly while keeping strict JSON transport."""
+    if isinstance(value,float) and not math.isfinite(value):
+        if math.isnan(value): label="nan"
+        elif value > 0: label="inf"
+        else: label="-inf"
+        return {"__workshop_nonfinite_float__":label}
+    if isinstance(value,dict):return {key:json_safe(item) for key,item in value.items()}
+    if isinstance(value,(list,tuple)):return [json_safe(item) for item in value]
+    return value
 try:
     if request['module']=='__example__':
         spec=importlib.util.spec_from_file_location('student_breast_cancer',root/'examples/breast_cancer.py')
@@ -21,4 +33,4 @@ try:
     else:value=getattr(module,request['function'])(*request.get('args',[]),**request.get('kwargs',{}))
     response={'value':value}
 except Exception as error:response={'error':type(error).__name__,'message':str(error)}
-print(json.dumps(response,allow_nan=False))
+print(json.dumps(json_safe(response),allow_nan=False))

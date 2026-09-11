@@ -4,14 +4,16 @@
 以公式 → 純 Python → NumPy／sklearn 比較逐步學習，和正課保持弱連結。
 所有人維護一份累積式 package，第 8 週進行架構重構。日常試算放本機 test_code/，正式實作、unit tests 與期末範例提交 PR。
 
+本表是學生發布摘要；可執行課程的 source of truth 是 instructor repo 的 `tools/build_course.py`、`tools/course_sources.py` 與 `tools/build_tests.py`。
+
 | 週 | 核心 | 手刻重點 | 小成果 |
 | --- | --- | --- | --- |
 | 1 | uv、Python、package、Git、CI | hello_world、public API、unit test | 可 editable install、外部 import 的 package 與第一次 PR |
-| 2 | if、for、list、累加 | sum_values、mean | statistics.py |
-| 3 | def、dict、CSV、缺失值 | variance、std；covariance 帶寫 | 擴充相同 statistics.py |
-| 4 | vector、shape、NumPy | dot；matvec 帶寫 | 細胞核形態的加權分數 |
-| 5 | 圖形、normalization、distance | 距離與 transform | 訓練資料標準化與圖形比較 |
-| 6 | 機率、loss、unit tests | class_proportions、mse | 機率摘要與可重跑的測試 |
+| 2 | if、for、counting、probability、Shannon entropy | class_proportions、shannon_entropy | immune-cell composition 與 diversity（bits） |
+| 3 | def、distribution comparison、cross-entropy、KL divergence | cross_entropy、kl_divergence；描述統計由教師提供 | treatment 與 reference cell-type distributions |
+| 4 | vector、shape、NumPy、logits、softmax | dot、stable_softmax；matvec 帶寫 | gene-expression scores → probabilities |
+| 5 | 圖形、z-score、Euclidean distance | euclidean_distance、transform_standardizer | 訓練資料標準化前後的距離與圖形 |
+| 6 | loss、prediction metrics、unit tests | mse；accuracy 帶寫 | 模型誤差與可重跑的測試 |
 | 7 | k-NN、train/validation、baseline | 鄰居選擇與投票 | 第一個分類器 |
 | 8 | 重構、OOP、gradient descent | 移動到 math/、models/；梯度更新 | 前週行為不變，新增 LinearRegressor |
 | 9 | sigmoid、BCE、training loop | 在相同 linear_models.py 加入 logistic | LogisticRegressor 與版本標記 |

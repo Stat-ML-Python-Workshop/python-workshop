@@ -5,11 +5,11 @@
 | 週 | 成長目標 |
 | --- | --- |
 | 1 | greetings.py、public API、editable install 與 unit test；試算留在 test_code/ |
-| 2 | statistics.py：sum_values、mean |
-| 3 | 同一 statistics.py：加入 variance、std、covariance |
-| 4 | linalg.py：dot、matvec |
-| 5 | preprocessing.py：標準化與距離，重用 statistics |
-| 6 | metrics.py：比例、loss、評分 |
+| 2 | probability.py：class_proportions；information.py：Shannon entropy；statistics.py 由教師提供 |
+| 3 | information.py：cross-entropy、KL divergence；statistics.py 加入教師提供的 dispersion |
+| 4 | linalg.py：dot、matvec；probability.py：stable softmax |
+| 5 | linalg.py：Euclidean distance；preprocessing.py：training-only z-score |
+| 6 | metrics.py：loss、prediction 評分；重用 probability.py |
 | 7 | neighbors.py：以函式完成 k-NN |
 | 8 | 重構 math/ 與 models/，加入 class 與線性回歸 |
 | 9 | 擴充 models/linear_models.py，加入 logistic regression |
@@ -22,8 +22,10 @@ src/mini_ml/
 ├── __init__.py
 ├── math/
 │   ├── __init__.py
+│   ├── information.py
 │   ├── statistics.py
-│   └── linalg.py
+│   ├── linalg.py
+│   └── probability.py
 ├── models/
 │   ├── __init__.py
 │   ├── neighbors.py
@@ -32,7 +34,7 @@ src/mini_ml/
 └── metrics.py
 ```
 
-依賴方向：examples 使用 mini_ml；models 使用 math、preprocessing、metrics；math 不依賴模型、讀檔或 dataset。
+依賴方向：examples 使用 mini_ml；models 使用 math、preprocessing、metrics；math 不依賴模型、讀檔或 dataset。probability 負責建立分布，information 負責測量分布，preprocessing 負責從 training data 學習 feature transformation，metrics 負責評估 prediction。
 公式與模型放 src；資料載入、正式工具比較、繪圖、完整流程放 examples 或本機 test_code。
 
 重構順序：先跑第 7 週測試 → 移動檔案 → 調整 import → 跑第 8 週累積測試 → 補完新模型。
