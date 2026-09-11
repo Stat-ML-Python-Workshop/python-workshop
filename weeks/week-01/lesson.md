@@ -1,4 +1,4 @@
-# Week 01 — 建立第一個可安裝的 Python Package
+# Week 01 — Build Your First Installable Python Package
 
 ## 本週完成目標
 
