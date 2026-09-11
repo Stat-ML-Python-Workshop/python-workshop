@@ -1,31 +1,77 @@
 # Python Workshop — Build Machine Learning from Scratch
 
-給生科／生技背景的 Python 初學者。10 週，每週 90 分鐘，以短講解與立即操作交錯進行。
-每個人建造一份持續長大的 mini ML package：公式 → 自己的 Python → 正式工具比較。
+A 10-week, hands-on Python workshop for students in biology and biotechnology. Each 90-minute session alternates between short explanations and immediate practice.
 
-## 先認識資料夾
+You will build one `mini_ml` package that grows throughout the course:
 
 ```text
-students/<姓名_學號>/
+mathematical idea → pure-Python implementation → tests → comparison with established tools
+```
+
+By the end of the workshop, you will have implemented and connected core ideas from statistics, information theory, preprocessing, distance-based learning, linear regression, and logistic regression.
+
+## Start here
+
+Before your first class:
+
+1. Create a GitHub account.
+2. Install [Git](https://git-scm.com/downloads).
+3. Install [uv](https://docs.astral.sh/uv/getting-started/installation/).
+4. Ask the instructor to register your GitHub login and assigned folder in the course roster.
+5. Accept Write access to this repository.
+
+Check your installation:
+
+```sh
+git --version
+uv --version
+```
+
+Use these placeholders throughout the instructions:
+
+- `<login>`: your exact GitHub login.
+- `<folder>`: the `name_studentnumber` folder registered by the instructor.
+
+## What to read, edit, and leave alone
+
+| Path | Purpose | What you should do |
+| --- | --- | --- |
+| `README.md` | Course workflow and submission rules | Read this first |
+| `SYLLABUS.md` | Ten-week learning sequence | Read for the course overview |
+| `weeks/week-XX/lesson.md` | Instructions for the current week | Read carefully and follow in order |
+| `weeks/week-XX/fragments/` | Incomplete starter snippets | Read and manually integrate into your package |
+| `weeks/week-XX/demo.py` | Example of how the completed API is used | Read or run the synced copy |
+| `students/<folder>/` | Your cumulative package and tests | This is your working and submission area |
+| `tests/week-XX/` | Shared course acceptance tests | Read-only; do not modify |
+| `tools/course.py` | Sync and local acceptance commands | Run it; do not modify it |
+| `tools/`, `.github/` | Trusted grading and CI infrastructure | Do not modify |
+| `course.json`, `roster.json` | Instructor-managed release and identity settings | Do not modify |
+| `students/<someone-else>/` | Another student's work | Do not modify |
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the cumulative package design and [CONTRIBUTING.md](CONTRIBUTING.md) for concise PR rules.
+
+## Your workspace
+
+Every student uses the same layout but has an independent environment and implementation:
+
+```text
+students/<folder>/
 ├── pyproject.toml
 ├── uv.lock
 ├── README.md
-├── src/mini_ml/       # 正式函式與模型，提交
-├── tests/            # 自己的 unit tests，提交
-├── test_code/        # 本機試算、畫圖、debug，忽略且不提交
-├── examples/         # 第 10 週正式 biological application，提交
+├── src/
+│   └── mini_ml/       # Reusable functions and models; commit
+├── tests/             # Your unit tests; commit
+├── test_code/         # Local experiments, plots, and debugging; do not commit
+├── examples/          # Week 10 biological application; commit
 └── data/
 ```
 
-所有人使用相同結構，但各有獨立環境和實作。GitHub login 與資料夾名稱不同，由教師在 `roster.json` 設定對照。
-沒有每週複製的 package：第 3 週擴充原本的 statistics.py；第 8 週移入 math/、models/；第 9 週擴充既有 linear_models.py。
-詳細架構見 [ARCHITECTURE.md](ARCHITECTURE.md)，課程路線見 [SYLLABUS.md](SYLLABUS.md)。
+This is one package that grows over ten weeks. Do not create a new package every week. For example, Week 3 extends existing statistics code, Week 8 reorganizes modules into `math/` and `models/`, and Week 9 extends the existing linear-model module.
 
-## 第一次開始：親手建立 package
+## Week 1 — Build Your First Installable Python Package
 
-先安裝 [Git](https://git-scm.com/downloads) 和 [uv](https://docs.astral.sh/uv/getting-started/installation/)。
-上課前請教師登錄 GitHub login 與姓名學號資料夾，並給予公開 repo Write 權限。
-`<login>` 替換成 GitHub 帳號，`<folder>` 替換成教師登錄的姓名學號資料夾。
+Clone the class repository and create a branch inside this repository:
 
 ```sh
 git clone https://github.com/Stat-ML-Python-Workshop/python-workshop.git
@@ -35,7 +81,11 @@ mkdir -p students/<folder>
 cd students/<folder>
 ```
 
-接著依 [Week 01 教材](weeks/week-01/lesson.md) 親手建立 `pyproject.toml`、`src/mini_ml/`、unit test 與本機 `test_code/`。可以使用 AI 協助建立骨架，但必須能說明每個檔案用途。
+Do not use a fork. The acceptance workflow requires the PR branch to belong to the class repository.
+
+Follow [the Week 1 lesson](weeks/week-01/lesson.md) to create `pyproject.toml`, the `src/mini_ml/` package, unit tests, and local `test_code/` experiments by hand. You may use AI to help create a skeleton, but you must be able to explain the purpose of every file and fix the code yourself.
+
+Create and verify the environment:
 
 ```sh
 uv venv --python 3.12
@@ -46,23 +96,11 @@ uv run python test_code/try_package.py
 uv run pytest
 ```
 
-第 1 週 CI 會在乾淨隔離環境真正安裝 package，從專案外部 import `hello_world()`，再執行學生及教師 unit tests。
+Week 1 is complete when the package installs in a clean environment, an external program can run `from mini_ml import hello_world`, your own tests pass, and the trusted CI acceptance check passes.
 
-## 自己試算與畫圖（學生 package 目錄）
+## Weeks 2–10 — Extend the same package
 
-```sh
-cd students/<folder>
-uv run python test_code/try_package.py
-uv run pytest
-```
-
-可以自行建立其他試算檔案呼叫自己的 mini_ml。測試用資料、圖片及暫存輸出也放這裡。
-`uv run pytest` 只收集自己的 `tests/`；正式驗收則使用 repo 根目錄的 course.py。
-可重用的計算寫進 src/mini_ml；test_code/ 的內容不會同步給教師，也不列入正式測試。
-
-## 每週同步與新增程式（回到 repo 根目錄）
-
-前週 PR 合併後才開始下一週：
+Start a new week only after the previous week's PR has been merged:
 
 ```sh
 git switch main
@@ -71,44 +109,154 @@ git switch -c <login>/week-02
 uv run --no-project --python 3.12 python tools/course.py sync <login> 2
 ```
 
-sync 只新增本機示範和資料，**不替你新增或覆蓋 module**。
-閱讀 `weeks/week-02/lesson.md`，依「開始結構 → 新增片段 → 完成結構」手動整合。
-片段位於 `weeks/week-XX/fragments/`：create 建立檔案；append 在原檔案追加；第 8 週另有 move 與 import 調整。
-第 3 週不可覆蓋先前的 sum_values／mean，第 9 週不可覆蓋 LinearRegressor。
+The sync command adds local demos and data only. It never creates, replaces, or edits your package modules.
+
+Next:
+
+1. Read `weeks/week-02/lesson.md`.
+2. Compare the starting and target structures.
+3. Read the starter snippets in `weeks/week-02/fragments/`.
+4. Manually integrate the requested changes into your existing package.
+5. Run a small test after each change.
+6. Confirm that all previous-week behavior still works.
+
+Some weeks append to existing modules; do not replace the entire file. Week 8 includes file moves and import updates while preserving your earlier implementations.
+
+Run the trusted local acceptance tests from the repository root:
 
 ```sh
-uv run --frozen --project students/<folder> python tools/course.py test <login> 2
+uv run --frozen --project students/<folder>   python tools/course.py test <login> 2
+```
+
+Replace `2` with the current week number.
+
+## Local experiments versus submitted work
+
+From your package directory, you can run:
+
+```sh
+uv run python test_code/try_package.py
+uv run pytest
+```
+
+Use `test_code/` for exploratory scripts, temporary datasets, generated plots, and debugging output. It stays on your computer and is excluded from formal grading.
+
+Put reusable calculations in `src/mini_ml/`. Put lasting unit tests in `tests/`.
+
+Never force-add local files with `git add -f`. The CI rejects any submitted path containing `test_code/`.
+
+## Submit your work
+
+Before committing, return to the repository root and inspect exactly what changed:
+
+```sh
 git status
 git diff
 git add students/<folder>
+git diff --cached --name-only
+```
+
+Every staged file must be inside your registered `students/<folder>/` directory.
+
+Commit and push:
+
+```sh
 git commit -m "Complete week 02 core exercise"
 git push -u origin <login>/week-02
 ```
 
-PR 標題 `[Week 02] <login>`，填写實作、測試與參考解答情況。不要以 `git add -f` 提交 test_code/；CI 會拒絕這些檔案。
-共用驗收測試在 `tests/week-XX/`，只讀不要修改；自己的測試可放在學生 package 的 tests/。
+Open one pull request with:
 
-## 每週節奏
+- Base branch: `main`
+- Head branch: `<login>/week-XX`
+- Title: `[Week XX] <login>`
 
-| 時間 | 流程 |
+Complete the PR template with your implementation summary, local test results, reference-solution usage, and remaining questions.
+
+If CI fails, fix the same branch and push again. Do not open a second PR.
+
+## What the CI checks
+
+The trusted `Workshop acceptance` workflow verifies:
+
+1. The PR author is registered in the roster.
+2. The branch is named `<GitHub-login>/week-XX`.
+3. The requested week has been released.
+4. Every changed path belongs to the student's registered folder.
+5. No `test_code/` files were submitted.
+6. The package can be installed and imported in an isolated container.
+7. Student and shared course tests pass.
+8. The result belongs to the latest commit in the PR.
+
+A green check with the exact status name `workshop/acceptance` is the official completion signal.
+
+## Files you must not commit
+
+Keep these local:
+
+```text
+.venv/
+test_code/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.egg-info/
+```
+
+Commit these when they are part of the exercise:
+
+```text
+pyproject.toml
+uv.lock
+README.md
+src/mini_ml/
+tests/
+examples/
+```
+
+## Weekly schedule
+
+| Time | Activity |
 | --- | --- |
-| 星期二上課後 | 自行實作並提交當週 PR |
-| 星期四晚上 | 教師手動發布 reference/week-XX/；可取用需要的片段整合到自己的 codebase |
-| 星期五 | PR 最新 commit 的正式 workshop/acceptance 通過即算完成 |
-| 後續 | 教師 review 與 merge 另外處理；未通過者在原 PR 持續修正 |
+| After Tuesday's class | Implement the current exercise and open a PR |
+| Thursday evening | The instructor releases `reference/week-XX/` |
+| Friday | The latest PR commit must pass `workshop/acceptance` |
+| Later | Instructor review and merge may happen separately |
 
-正式狀態由教師工具核對可信 workflow 與 commit，不以任意同名綠燈判定。
+If your work does not pass by Friday, continue correcting the same PR.
 
-## 第 10 週可重現成果
+## Reference solutions
 
-在自己的 package 目錄執行：
+Reference solutions are released after the initial work period. Each release contains:
+
+- A human-readable integration guide in `reference/week-XX/README.md`
+- Completed code fragments in `reference/week-XX/fragments/`
+
+Use only the fragments you need, integrate them into your existing package, rerun all cumulative tests, and state your level of reference use in the original PR.
+
+Future lessons, unreleased solutions, instructor notes, private research data, and credentials are not stored in this repository.
+
+## Week 10 — Reproducible biological application
+
+From your package directory:
 
 ```sh
 uv sync --frozen
 uv run python examples/breast_cancer.py
 ```
 
-正式範例要提交；JSON 和圖形預設輸出至本機 test_code/。README 記錄執行方法、結果摘要及限制。
-資料使用 [Wisconsin Breast Cancer Diagnostic](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic)（CC BY 4.0；Wolberg、Mangasarian、Street、Street；DOI: 10.24432/C5DW2B）。
-1=malignant、0=benign，固定切分；scaler 只 fit train、validation 選設定、test 留到最後。
-未發布的教材與解答不在公開 repo；不放私人研究資料或憑證。
+Commit the formal example and document how to reproduce it, the result summary, and important limitations. Generated JSON and figures should go to local `test_code/`.
+
+The final project uses the [Wisconsin Breast Cancer Diagnostic dataset](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic) (CC BY 4.0; Wolberg, Mangasarian, Street, and Street; DOI: 10.24432/C5DW2B). The scaler is fit on training data only, validation data is used for decisions, and the test set is reserved for final evaluation.
+
+## Getting help
+
+When asking for help, include:
+
+- The week number
+- The command you ran
+- The complete error message
+- The output of `git status`
+- What you expected to happen
+
+Do not post passwords, access tokens, private datasets, or other credentials.
