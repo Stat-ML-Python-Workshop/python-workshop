@@ -1,4 +1,9 @@
 {
   "schema_version": 2,
-  "students": []
+  "students": [
+    {
+      "github_login": "tttt1314",
+      "folder": "tony_115061801"
+    }
+  ]
 }
