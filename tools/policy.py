@@ -17,8 +17,7 @@ def roster_map(roster):
 def validate(author,branch,head_repository,base_repository,files,roster,released):
     mapping=roster_map(roster)
     if head_repository!=base_repository:raise ValueError('Use a branch in the class repository')
-    if author.lower()==TEACHER:
-        if not branch.startswith('instructor/'):raise ValueError('Teacher PRs use instructor/ branches')
+    if author.lower()==TEACHER and branch.startswith('instructor/'):
         return {'kind':'teacher','student':'','folder':'','week':max(released,default=0)}
     if author.lower() not in mapping:raise ValueError('Teacher must register your GitHub login first')
     match=re.fullmatch(re.escape(author)+r'/week-(\d{2})',branch,re.IGNORECASE)
