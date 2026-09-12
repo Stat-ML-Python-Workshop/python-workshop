@@ -96,7 +96,10 @@ requires-python = ">=3.12,<3.13"
 dependencies = []
 
 [dependency-groups]
-dev = ["pytest>=8.3,<9"]
+dev = [
+    "pytest>=8.3,<9",
+    "setuptools>=75,<81",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -125,7 +128,7 @@ flowchart TD
     M --> M2["Python 3.12 requirement"]
     M --> M3["Runtime dependencies"]
 
-    D --> D1["dev = pytest"]
+    D --> D1["dev = pytest, setuptools"]
     D1 --> SYNC["uv sync installs development tools"]
 
     S --> S1["Search inside src/"]
@@ -146,12 +149,12 @@ flowchart LR
     CONFIG --> META["[project]<br/>Python and dependencies"]
     CONFIG --> BUILD["[build-system]<br/>Select setuptools"]
     CONFIG --> FIND["[tool.setuptools]<br/>Find src/mini_ml"]
-    CONFIG --> DEV["[dependency-groups]<br/>Install pytest"]
+    CONFIG --> DEV["[dependency-groups]<br/>Install pytest and setuptools"]
 
     BUILD --> ENV["Prepare .venv"]
     META --> ENV
     FIND --> PACKAGE["Install mini_ml"]
-    DEV --> PYTEST["pytest is available"]
+    DEV --> PYTEST["pytest and setuptools available"]
 
     PACKAGE --> RUN["uv run python ..."]
     PYTEST --> TESTS["uv run pytest"]
