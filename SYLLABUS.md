@@ -1,25 +1,25 @@
-# Python Workshop: Build Machine Learning from Scratch
+# Python Workshop：Build Machine Learning from Scratch
 
-This workshop is designed for Python beginners with backgrounds in life sciences or biotechnology. It runs for 10 weeks, with one 90-minute session per week, alternating between short explanations and immediate hands-on practice.
-Students progress from mathematical formulas to pure Python implementations and then compare their work with NumPy and scikit-learn, while maintaining a loose connection to the main course.
-Each student maintains a cumulative package and refactors its architecture in Week 8. Exploratory work stays in a local `test_code/` directory, while formal implementations, unit tests, and the final example are submitted through pull requests.
+生科／生技背景的 Python beginner；10 週，每週 90 分鐘，以短講解與立即操作交錯進行。
+以公式 → 純 Python → NumPy／sklearn 比較逐步學習，和正課保持弱連結。
+所有人維護一份累積式 package，第 8 週進行架構重構。日常試算放本機 test_code/，正式實作、unit tests 與期末範例提交 PR。
 
-This table is the published student-facing summary. The source of truth for the executable course is the instructor repository's `tools/build_course.py`, `tools/course_sources.py`, and `tools/build_tests.py`.
+本表是學生發布摘要；可執行課程的 source of truth 是 instructor repo 的 `tools/build_course.py`、`tools/course_sources.py` 與 `tools/build_tests.py`。
 
-| Week | Core Topics | From-Scratch Focus | Weekly Outcome |
+| 週 | 核心 | 手刻重點 | 小成果 |
 | --- | --- | --- | --- |
-| 1 | uv, Python, packages, Git, CI | `hello_world`, public API, unit tests | An editable-installable package that can be imported externally, plus the first pull request |
-| 2 | `if`, `for`, counting, probability, Shannon entropy | `class_proportions`, `shannon_entropy` | Analyze immune-cell composition and diversity in bits |
-| 3 | `def`, distribution comparison, cross-entropy, KL divergence | `cross_entropy`, `kl_divergence`; descriptive statistics provided by the instructor | Compare treatment and reference cell-type distributions |
-| 4 | vectors, shapes, NumPy, logits, softmax | `dot`, `stable_softmax`; instructor-guided `matvec` | Convert gene-expression scores into probabilities |
-| 5 | visualization, z-scores, Euclidean distance | `euclidean_distance`, `transform_standardizer` | Compare distances and visualizations before and after standardizing the training data |
-| 6 | loss, prediction metrics, unit tests | `mse`; instructor-guided `accuracy` | Evaluate model error with reproducible tests |
-| 7 | k-NN, training/validation splits, baselines | Neighbor selection and voting | Build a first classifier |
-| 8 | refactoring, OOP, gradient descent | Move code into `math/` and `models/`; implement gradient updates | Preserve previous behavior while adding `LinearRegressor` |
-| 9 | sigmoid, BCE, training loops | Add logistic regression to the same `linear_models.py` | Implement `LogisticRegressor` and create a version tag |
-| 10 | biological application, evaluation | Assemble a complete model workflow | Create `examples/breast_cancer.py`, compare results, and update the README |
+| 1 | uv、Python、package、Git、CI | hello_world、public API、unit test | 可 editable install、外部 import 的 package 與第一次 PR |
+| 2 | if、for、counting、probability、Shannon entropy | class_proportions、shannon_entropy | immune-cell composition 與 diversity（bits） |
+| 3 | def、distribution comparison、cross-entropy、KL divergence | cross_entropy、kl_divergence；描述統計由教師提供 | treatment 與 reference cell-type distributions |
+| 4 | vector、shape、NumPy、logits、softmax | dot、stable_softmax；matvec 帶寫 | gene-expression scores → probabilities |
+| 5 | 圖形、z-score、Euclidean distance | euclidean_distance、transform_standardizer | 訓練資料標準化前後的距離與圖形 |
+| 6 | loss、prediction metrics、unit tests | mse；accuracy 帶寫 | 模型誤差與可重跑的測試 |
+| 7 | k-NN、train/validation、baseline | 鄰居選擇與投票 | 第一個分類器 |
+| 8 | 重構、OOP、gradient descent | 移動到 math/、models/；梯度更新 | 前週行為不變，新增 LinearRegressor |
+| 9 | sigmoid、BCE、training loop | 在相同 linear_models.py 加入 logistic | LogisticRegressor 與版本標記 |
+| 10 | biological application、評估 | 組裝自己的模型流程 | examples/breast_cancer.py、比較結果、README |
 
-Students submit one pull request per week. The instructor manually publishes solutions on Thursday evening. Work is considered complete when the latest CI run passes by Friday; the instructor reviews and merges it separately.
-If the previous week's pull request has not been merged, students should ask the instructor for help rather than maintain dependent pull requests.
-The Week 8 refactor is instructor-guided, with additional scaffolding provided for linear regression. Each week requires only one or two core implementation tasks.
-PyTorch, general matrix multiplication, and additional Cell Painting or BBBC projects are optional extensions.
+每週一份 PR；星期四晚上教師手動發布解答；星期五最新 CI 通過即算完成，教師另行 review／merge。
+前週未合併時先請教師協助，不要求初學者維護相依 PR。
+第 8 週重構由教師引導，線性回歸提供更多骨架；每週只要求 1–2 個核心實作片段。
+PyTorch、通用矩陣乘法、Cell Painting／BBBC 額外專題為延伸。
