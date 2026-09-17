@@ -3,7 +3,9 @@
   "released_weeks": [
     1
   ],
-  "solution_weeks": [],
+  "solution_weeks": [
+    1
+  ],
   "timezone": "Asia/Taipei",
   "repository": "Stat-ML-Python-Workshop/python-workshop",
   "material_format": "cumulative-python-v2"
