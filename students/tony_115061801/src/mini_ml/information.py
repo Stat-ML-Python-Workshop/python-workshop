@@ -1,4 +1,10 @@
-"""Information measures in bits for finite probability distributions."""
+"""Information measures in bits for finite probability distributions.
+
+Sample inputs and outputs:
+    [0.5, 0.5] -> 1.0
+    [0.75, 0.25] -> 0.8112781244591328
+    [1.0, 0.0] -> 0.0
+"""
 from math import isclose, log2
 
 def _validate_distribution(probabilities):
@@ -13,8 +19,7 @@ def shannon_entropy(probabilities):
     # BEGIN STUDENT: expected self-information
     entropy = 0.0
     for value in probabilities:
-        # TODO: test whether this probability is positive.
-        # Inside that condition, accumulate its entropy contribution.
-        raise NotImplementedError("TODO: positive check and entropy update")
+        if value > 0:
+            entropy -= value * log2(value)
     return entropy
     # END STUDENT
