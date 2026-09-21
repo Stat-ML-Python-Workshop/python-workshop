@@ -1,4 +1,10 @@
-"""Information measures in bits for finite probability distributions."""
+"""Information measures in bits for finite probability distributions.
+
+Sample inputs and outputs:
+    [0.5, 0.5] -> 1.0
+    [0.75, 0.25] -> 0.8112781244591328
+    [1.0, 0.0] -> 0.0
+"""
 from math import isclose, log2
 
 def _validate_distribution(probabilities):
