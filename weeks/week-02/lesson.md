@@ -201,6 +201,18 @@ Output is a dictionary mapping each observed label to its floating-point
 proportion. Preserve label types: integer labels must remain integer keys.
 An empty list must raise the provided `ValueError`.
 
+Use these three examples to understand the required input and output before
+implementing the loops. Dictionary key order does not matter.
+
+| Sample input | Sample output |
+| --- | --- |
+| `["T", "T", "B", "M"]` | `{"T": 0.5, "B": 0.25, "M": 0.25}` |
+| `["B", "B"]` | `{"B": 1.0}` |
+| `[0, 0, 1]` | `{0: 0.6666666666666666, 1: 0.3333333333333333}` |
+
+The third example intentionally uses integer labels: the returned dictionary
+must preserve those integer keys.
+
 Inside the `BEGIN STUDENT` / `END STUDENT` region:
 
 1. In the first loop, replace its TODO exception with a count update. Think about
@@ -215,9 +227,9 @@ Use loops, not `Counter`, comprehensions, or NumPy counting functions.
 uv run python -c "from mini_ml.probability import class_proportions; print(class_proportions(['T', 'T', 'B', 'M']))"
 ```
 
-**Expected:** the Step 4 dictionary (key order does not matter).
-**Check:** one class has proportion 1; `[0, 0, 1]` has integer keys and
-proportions approximately 2/3 and 1/3. Do not hard-code these examples.
+**Expected:** the first sample output above. **Check:** reproduce all three sample
+outputs, allowing for the usual floating-point representation of `2 / 3`. Do not
+hard-code these examples.
 
 ## Step 7 — Complete `shannon_entropy`
 
