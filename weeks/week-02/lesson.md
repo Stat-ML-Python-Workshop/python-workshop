@@ -173,12 +173,22 @@ Keep `greetings.py`, `__init__.py`, and `tests/test_greetings.py` unchanged.
 The statistics helpers `sum_values` and `mean` are already complete. Do not edit
 the provided `_validate_distribution` helper or change the public function names.
 
+Before starting the TODOs, verify the provided statistics helpers against these
+examples:
+
+| Function call | Expected output |
+| --- | ---: |
+| `sum_values([1, 2, 3])` | `6.0` |
+| `sum_values([])` | `0.0` |
+| `mean([2, 4, 6])` | `4.0` |
+
 ```sh
-uv run python -c "from mini_ml.probability import class_proportions; from mini_ml.information import shannon_entropy; print('Imports OK')"
+uv run python -c "from mini_ml.statistics import sum_values, mean; from mini_ml.probability import class_proportions; from mini_ml.information import shannon_entropy; print(sum_values([1, 2, 3]), sum_values([]), mean([2, 4, 6])); print('Imports OK')"
 ```
 
-**Expected/check:** imports succeed, but calling an unfinished core function with
-valid input raises `NotImplementedError`. Import success is not task completion.
+**Expected/check:** the first line is `6.0 0.0 4.0`, followed by `Imports OK`.
+Calling an unfinished core function with valid input still raises
+`NotImplementedError`; import success is not task completion.
 
 **Optional Antigravity prompt — 中文**
 
@@ -240,6 +250,18 @@ Output is a floating-point entropy in bits. The supplied validation rejects
 empty, negative, and incorrectly normalized distributions with `ValueError`.
 Do not normalize invalid input silently.
 
+Use these three examples to understand the required input and output before
+implementing the loop:
+
+| Sample input | Sample output (bits) |
+| --- | ---: |
+| `[0.5, 0.5]` | `1.0` |
+| `[0.75, 0.25]` | approximately `0.8112781244591328` |
+| `[1.0, 0.0]` | `0.0` |
+
+The third example checks the `0 log2(0) = 0` convention: skip zero rather than
+calling `log2(0)`.
+
 The accumulator and loop are provided. Replace the TODO exception with a
 condition that selects positive probabilities and, inside that condition, an
 update to the accumulator using the formula from Step 4. Skip zero terms.
@@ -250,8 +272,8 @@ Keep the final return. Use an explicit loop, not a generator, comprehension,
 uv run python -c "from mini_ml.information import shannon_entropy; print(shannon_entropy([0.5, 0.25, 0.25]))"
 ```
 
-**Expected:** `1.5`. **Check:** `[1.0, 0.0]` returns zero without a logarithm
-error; `[0.2, 0.2]` raises `ValueError`. Do not remove validation to make tests pass.
+**Expected:** `1.5`. **Check:** reproduce all three sample outputs above;
+`[0.2, 0.2]` must raise `ValueError`. Do not remove validation to make tests pass.
 
 ## Step 8 — Add your own unit tests
 
@@ -337,11 +359,18 @@ uv run pytest
 uv run python ../../tools/course.py test <login> 2
 ```
 
-**Expected:** the demo prints approximately 0.811278 bits for skewed composition,
-1.000000 bits for balanced composition, and `NumPy reference checks passed.`
-Dictionary display order may differ. NumPy is an independent reference in the
-demo; your core functions must still use loops. The course command checks
-Week 1–2 cumulatively as well as your own tests, not just the new functions.
+**Expected:** the demo prints the following values (dictionary key order may
+differ):
+
+```text
+skewed: {'T cell': 0.75, 'B cell': 0.25}; entropy = 0.811278 bits
+balanced: {'T cell': 0.5, 'B cell': 0.5}; entropy = 1.000000 bits
+NumPy reference checks passed.
+```
+
+NumPy is an independent reference in the demo; your core functions must still
+use loops. The course command checks Week 1–2 cumulatively as well as your own
+tests, not just the new functions.
 
 **Check:** all three commands succeed. Before both TODO regions are completed,
 failures are expected. Read the first traceback, fix the function, and rerun;
