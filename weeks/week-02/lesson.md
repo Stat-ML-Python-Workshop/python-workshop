@@ -313,7 +313,7 @@ def test_empty_labels():
     # STUDENT TODO: add one more (probabilities, expected) example here.
 ])
 def test_entropy(probabilities, expected):
-    assert shannon_entropy(probabilities) == pytest.approx(expected)
+    assert shannon_entropy(probabilities) == pytest.approx(expected, rel=1e-4)
 
 
 @pytest.mark.parametrize("probabilities", [[], [-0.1, 1.1], [0.2, 0.2]])
@@ -327,11 +327,15 @@ uv run pytest
 ```
 
 **Expected/check:** your new tests and the Week 1 greeting test pass. Your two
-additions should exercise one new proportion case and one new entropy case. Use
-`pytest.approx` for floating-point results. The `sum` call above checks an output;
-it does not implement your core functions. Your package's `tests/` are yours to
-extend and commit. The repository-root `tests/week-XX/` are instructor acceptance
-tests: do not edit or copy them into your package to bypass grading.
+additions should exercise one new proportion case and one new entropy case. For
+entropy, `rel=1e-4` allows a relative error of about **0.01% of the expected
+(ground-truth) value**, so a sensibly rounded value such as `0.72192` is accepted
+for an actual result near `0.721928`. This tolerance covers rounding, not an
+incorrect formula. For an expected value of zero, `pytest.approx` still uses its
+small default absolute tolerance. The `sum` call above checks an output; it does
+not implement your core functions. Your package's `tests/` are yours to extend
+and commit. The repository-root `tests/week-XX/` are instructor acceptance tests:
+do not edit or copy them into your package to bypass grading.
 
 Trusted CI verifies that `tests/test_composition.py` retains the supplied cases,
 contains at least one original case in each of the two marked parametrized lists,
