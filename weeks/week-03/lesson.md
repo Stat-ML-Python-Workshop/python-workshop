@@ -249,6 +249,10 @@ Inside the `variance` student region:
 2. Replace the normalization TODO with a return value using the denominator
    `len(values) - ddof`.
 
+**Python syntax hint:** exponentiation uses `**`, so a squared deviation can be
+written as `(value - center) ** 2`. The `^` operator does not mean
+exponentiation in Python.
+
 Inside `std`, replace its TODO with the square root of the variance calculated
 using the same `values` and `ddof`. Do not duplicate the variance calculation.
 
@@ -277,6 +281,10 @@ Replace the loop TODO with logic that:
    probability is zero;
 3. otherwise updates the accumulator using the Step 4 cross-entropy formula.
 
+Treat the first two items as required **boundary cases** and check them before
+calling `log2`. In Python, positive infinity is written as `float("inf")`; use
+that value when `p_i > 0` but `q_i == 0`.
+
 Keep the final return. Use the explicit loop rather than NumPy, a comprehension,
 or a generator expression.
 
@@ -294,7 +302,9 @@ uv run python -c "from mini_ml.information import cross_entropy; print(cross_ent
 Use the provided accumulator and loop. Apply the same two zero-probability
 rules, then update the accumulator with the directed formula from Step 4. Do
 not swap `actual` and `model`, and do not replace the exercise with a one-line
-call to the other information functions.
+call to the other information functions. Perform the boundary checks before
+evaluating either logarithm so that `p_i == 0` does not cause a math-domain
+error.
 
 ```sh
 uv run python -c "from mini_ml.information import kl_divergence; print(kl_divergence([0.75,0.25], [0.5,0.5])); print(kl_divergence([0.5,0.5], [0.75,0.25]))"
@@ -346,8 +356,9 @@ parametrized list.
 
 ```python
 @pytest.mark.parametrize("p, q, expected", [
-    ([0.75, 0.25], [0.5, 0.5], 1.0),
-    ([0.5, 0.5], [0.5, 0.5], 1.0),
+    ([0.75, 0.25], [0.25, 0.75], 1.603759374819711),
+    ([0.5, 0.5], [0.25, 0.75], 1.207518749639422),
+    ([1.0, 0.0], [1.0, 0.0], 0.0),
     # STUDENT TODO: add one original cross-entropy (p, q, expected) case.
 ])
 def test_cross_entropy(p, q, expected):
@@ -355,8 +366,9 @@ def test_cross_entropy(p, q, expected):
 
 
 @pytest.mark.parametrize("p, q, expected", [
-    ([0.75, 0.25], [0.5, 0.5], 0.18872187554086717),
-    ([0.5, 0.5], [0.5, 0.5], 0.0),
+    ([0.75, 0.25], [0.25, 0.75], 0.792481250360578),
+    ([0.2, 0.8], [0.2, 0.8], 0.0),
+    ([1.0, 0.0], [0.25, 0.75], 2.0),
     # STUDENT TODO: add one original KL (p, q, expected) case.
 ])
 def test_kl_divergence(p, q, expected):
@@ -370,6 +382,10 @@ def test_information_boundaries():
     with pytest.raises(ValueError):
         kl_divergence([0.5, 0.5], [1.0])
 ```
+
+Before running the tests, check that your implementation deliberately handles
+all three boundary categories shown above: a zero-probability event, an event
+that the model says is impossible, and distributions with different lengths.
 
 Run the three levels of checks:
 
