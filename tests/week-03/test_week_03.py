@@ -10,10 +10,15 @@ def test_ddof(invoke):
     assert invoke("statistics","variance",[[2]])["error"]=="ValueError"
     assert invoke("statistics","variance",[[2,4],-1])["error"]=="ValueError"
 def test_cross_entropy_identity(call):
-    assert call("information","cross_entropy",[0.75,0.25],[0.5,0.5])==pytest.approx(1)
+    assert call("information","cross_entropy",[0.75,0.25],[0.25,0.75])==pytest.approx(1.603759374819711)
+    assert call("information","cross_entropy",[0.5,0.5],[0.25,0.75])==pytest.approx(1.207518749639422)
+    assert call("information","cross_entropy",[1.0,0.0],[1.0,0.0])==pytest.approx(0)
     p=[0.5,0.3,0.2]
     assert call("information","cross_entropy",p,p)==pytest.approx(call("information","shannon_entropy",p))
 def test_kl_identity_direction_and_asymmetry(call):
+    assert call("information","kl_divergence",[0.75,0.25],[0.25,0.75])==pytest.approx(0.792481250360578)
+    assert call("information","kl_divergence",[0.2,0.8],[0.2,0.8])==pytest.approx(0,abs=1e-12)
+    assert call("information","kl_divergence",[1.0,0.0],[0.25,0.75])==pytest.approx(2)
     p=[0.5,0.3,0.2];q=[0.6,0.25,0.15]
     assert call("information","kl_divergence",p,p)==pytest.approx(0,abs=1e-12)
     forward=call("information","kl_divergence",p,q)
