@@ -35,13 +35,5 @@ def variance(values, ddof=1):
 
 def std(values, ddof=1):
     # BEGIN STUDENT: standard deviation is the square root of variance
-    if ddof < 0 or len(values) <= ddof:
-        raise ValueError("Require 0 <= ddof <= n")
-    center = mean(values)
-    n = len(values)
-    total = 0.0
-    for value in values:
-        total += (value - center) ** 2
-    var = total / (n - ddof)
-    return sqrt(var)
+    return sqrt(variance(values, ddof=ddof))
     # END STUDENT

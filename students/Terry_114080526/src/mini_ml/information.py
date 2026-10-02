@@ -29,7 +29,6 @@ def shannon_entropy(probabilities):
     # END STUDENT
 def cross_entropy(p, q):
     """Return H(p, q) in bits; impossible q events give infinity."""
-    import numpy as np
     _validate_distribution(p)
     _validate_distribution(q)
     if len(p) != len(q):
@@ -40,10 +39,7 @@ def cross_entropy(p, q):
         if actual > 0:
             if model == 0:
                 return float("inf")
-            else:
-                total += -actual * np.log2(model)
-        else:
-            continue
+            total += -actual * log2(model)
     return total
     # END STUDENT
 
