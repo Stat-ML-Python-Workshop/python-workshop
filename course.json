@@ -2,11 +2,13 @@
   "teacher": "tttt1314",
   "released_weeks": [
     1,
-    2
+    2,
+    3
   ],
   "solution_weeks": [
     1,
-    2
+    2,
+    3
   ],
   "timezone": "Asia/Taipei",
   "repository": "Stat-ML-Python-Workshop/python-workshop",
