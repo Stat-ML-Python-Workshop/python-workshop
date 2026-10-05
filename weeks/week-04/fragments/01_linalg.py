@@ -1,24 +1,42 @@
-"""Week 4: tiny dense vectors and rectangular matrices."""
-def dot(x, y):
-    """Return the dot product of two equal-length vectors."""
-    # BEGIN STUDENT: validate dimensions and accumulate products
-    raise NotImplementedError("Complete this week’s core exercise")
-    # END STUDENT
+def _todo(hint):
+    """Replace each _todo(...) call with your expression."""
+    raise NotImplementedError("TODO: " + hint)
+
+"""Week 4: shapes, transposition, and matrix multiplication."""
 
 def shape(matrix):
-    """Return rows and columns for a nonempty rectangular matrix."""
-    # BEGIN STUDENT: validate the matrix and return its dimensions
-    raise NotImplementedError("Complete this week’s core exercise")
-    # END STUDENT
+    """Return (rows, columns) for a nonempty rectangular matrix."""
+    if not matrix or not matrix[0]:
+        raise ValueError("matrix must be nonempty")
+    rows = _todo("number of rows")
+    columns = _todo("number of columns")
+    for row in matrix:
+        if len(row) != columns:
+            raise ValueError("ragged matrix")
+    return rows, columns
 
 def transpose(matrix):
-    """Return the transpose of a nonempty rectangular matrix."""
-    # BEGIN STUDENT: validate once and turn columns into rows
-    raise NotImplementedError("Complete this week’s core exercise")
-    # END STUDENT
+    """Return a new matrix whose rows are the input columns."""
+    rows, columns = shape(matrix)
+    result = []
+    for i in range(columns):
+        result_row = []
+        for j in range(rows):
+            result_row.append(_todo("input entry for output row i, column j"))
+        result.append(result_row)
+    return result
 
 def matmul(m1, m2):
-    """Return the matrix product of two compatible matrices."""
-    # BEGIN STUDENT: validate dimensions and combine rows with columns
-    raise NotImplementedError("Complete this week’s core exercise")
-    # END STUDENT
+    """Return the product of compatible nonempty rectangular matrices."""
+    rows_m1, columns_m1 = shape(m1)
+    rows_m2, columns_m2 = shape(m2)
+    if columns_m1 != rows_m2:
+        raise ValueError("m1 and m2 dimensions are incompatible")
+    result = [[0.0 for j in range(columns_m2)] for i in range(rows_m1)]
+    for i in range(rows_m1):
+        for j in range(columns_m2):
+            total = 0.0
+            for k in range(columns_m1):
+                total += _todo("multiply matching entries")
+            result[i][j] = total
+    return result
