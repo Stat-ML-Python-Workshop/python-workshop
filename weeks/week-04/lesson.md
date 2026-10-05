@@ -264,33 +264,9 @@ def matmul(m1, m2):
     return result
 ```
 
-Keep the parameter names `m1` and `m2`. Your implementation must:
-
-1. Call `shape` on both inputs.
-2. Check that the number of columns in `m1` equals the number of rows in `m2`.
-3. Raise `ValueError("m1 and m2 dimensions are incompatible")` if they differ.
-4. Allocate a zero-filled matrix with `rows_m1` rows and `columns_m2` columns.
-5. Visit each output position `(i, j)`.
-6. Accumulate `m1[i][k] * m2[k][j]` over the shared inner dimension.
-7. Assign the accumulated value to `result[i][j]`, then return the result.
-
-The initialization creates a separate list for each row. For this example,
-the result starts as `[[0.0, 0.0], [0.0, 0.0]]`. Each `(i, j)` pair
-identifies one cell to fill.
-
-The loop structure is:
-
-```text
-create a zero matrix with the output dimensions
-for each row i in m1:
-    for each column j in m2:
-        total = 0.0
-        for each inner position k:
-            total += m1[i][k] * m2[k][j]
-        result[i][j] = total
-```
-
-Implement `matmul` using pure Python loops.
+Keep the parameter names `m1` and `m2`. Replace only the `_todo(...)`
+expression; keep the supplied validation, result allocation, and loops.
+Do not use NumPy or `@` inside `matmul`.
 
 **Experiment checks:** `test_code/week_04.py`; import `matmul`
 from `mini_ml.linalg` and use `m1`, `m2` from Step 5.
