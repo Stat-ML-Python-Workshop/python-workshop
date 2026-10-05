@@ -227,7 +227,7 @@ The inner dimensions match, so the result has the outer dimensions `2 × 2`.
 Each result entry combines one row from `m1` with one column from `m2`:
 
 $$
-\operatorname{result}_{ij}
+\mathrm{result}_{ij}
 = \sum_{k=1}^{n} (m1)_{ik}(m2)_{kj}.
 $$
 
