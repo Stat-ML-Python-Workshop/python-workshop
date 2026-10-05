@@ -11,9 +11,9 @@ This table is the published student-facing summary. The source of truth for the 
 | 1 | uv, Python, packages, Git, CI | `hello_world`, public API, unit tests | An editable-installable package that can be imported externally, plus the first pull request |
 | 2 | `if`, `for`, counting, probability, Shannon entropy | `class_proportions`, `shannon_entropy` | Analyze immune-cell composition and diversity in bits |
 | 3 | `def`, variance, standard deviation, distribution comparison | `variance`, `std`, `cross_entropy`, `kl_divergence`; explicit loops for aggregations | Estimate variation and compare treatment and reference cell-type distributions |
-| 4 | vectors, shapes, dot products, logits | `dot`, matrix shape validation; instructor-guided `matvec` | Convert one patient's features into a linear model score |
+| 4 | vectors, shapes, transposition, matrix multiplication | `dot`, `shape`, `transpose`, `matmul(m1, m2)` in pure Python | Build matrix multiplication from row-column dot products and calculate patient scores |
 | 5 | visualization, z-scores, Euclidean distance, data leakage | `euclidean_distance`, `fit_standardizer`, `transform_standardizer` | Standardize two-feature training data and compare distances |
-| 6 | NumPy arrays, axes, broadcasting, matrix multiplication | Reimplement dot products, matrix-vector multiplication, and standardization with NumPy | Express loop-based calculations as vectorized matrix operations |
+| 6 | NumPy arrays, axes, broadcasting, matrix multiplication | Reimplement dot products and standardization with NumPy; compare pure Python `matmul` with `@` | Express loop-based calculations as vectorized matrix operations |
 | 7 | 30-dimensional biomedical data, covariance, projection | Center matrices, calculate covariance with `X.T @ X`, and project onto a direction | Move from two visible features to the complete 30-feature dataset |
 | 8 | PCA, eigenvectors, explained variance, dimensionality reduction | `fit_pca`, `transform_pca`; use `np.linalg.eigh` for the eigensolver | Implement PCA and project 30 features into a smaller feature space without leakage |
 | 9 | sigmoid, binary cross-entropy, fixed-step gradient descent | Stable sigmoid and NumPy `LogisticRegressor` with manual gradients | Train logistic regression on PCA scores and inspect its loss curve |
