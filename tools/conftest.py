@@ -17,8 +17,6 @@ def restore_nonfinite(value):
 def invoke():
     def run(module,function=None,args=None,kwargs=None,**extra):
         if module == "application": module = "__example__"
-        elif int(os.environ["COURSE_WEEK"]) >= 8:
-            module = {"statistics":"math.statistics", "linalg":"math.linalg", "probability":"math.probability", "information":"math.information", "neighbors":"models.neighbors", "linear_models":"models.linear_models"}.get(module,module)
         request={"module":module,"args":args or [],"kwargs":kwargs or {},**extra}
         if function: request["function"]=function
         def drop_privileges():
