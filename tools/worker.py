@@ -15,6 +15,7 @@ def json_safe(value):
         elif value > 0: label="inf"
         else: label="-inf"
         return {"__workshop_nonfinite_float__":label}
+    if hasattr(value, "tolist"):return json_safe(value.tolist())
     if isinstance(value,dict):return {key:json_safe(item) for key,item in value.items()}
     if isinstance(value,(list,tuple)):return [json_safe(item) for item in value]
     return value
@@ -26,8 +27,10 @@ try:
     if request.get('operation')=='package_info':
         value={'name':module.__name__,'has_init':bool(getattr(module,'__file__',None))}
     elif 'class' in request:
-        model=getattr(module,request['class'])(**request.get('init',{}));model.fit(*request['fit'])
-        value={'prediction':model.predict(request['predict'])}
+        model=getattr(module,request['class'])(**request.get('init',{}))
+        if 'fit' in request:model.fit(*request['fit'])
+        method = request.get('method', 'predict')
+        value={'prediction':getattr(model, method)(request['predict'])}
         for key in request.get('attributes',[]):value[key]=getattr(model,key)
         if request.get('probabilities'):value['probabilities']=model.predict_proba(request['predict'])
     else:value=getattr(module,request['function'])(*request.get('args',[]),**request.get('kwargs',{}))

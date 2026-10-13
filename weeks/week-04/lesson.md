@@ -53,10 +53,13 @@ From your package root:
 uv run python ../../tools/course.py sync <login> 4
 ```
 
-Create `src/mini_ml/linalg.py` inside your own package. The implementation
-blocks in Steps 3, 4, and 6 are the instructor-provided scaffolds for this
-lesson; copy them into that file once, then replace each TODO with your code.
-They are not completed solutions. Preserve functions you have already written.
+Use `weeks/week-04/fragments/01_linalg.py` as the starter source. Integrate
+that complete fragment into `src/mini_ml/linalg.py` in your package once.
+If you have already integrated it, edit your existing file; do not add the
+functions again. Preserve work you have already completed.
+
+The code blocks in Steps 3, 4, and 6 only display excerpts from that fragment
+to explain the fill-ins. Do not copy or append those blocks from this lesson.
 
 **Scaffold source:** `weeks/week-04/fragments/01_linalg.py` in the
 repository root. The implementation blocks below reproduce its functions.
@@ -68,8 +71,10 @@ Keep the validation, loops, and list assembly provided by the instructor.
 Replace only the four `_todo("...")` calls with Python expressions:
 two dimensions, one transpose entry, and one multiply-and-add expression.
 
-Copy this helper into `src/mini_ml/linalg.py` once, before the three functions.
-It produces a clear error when you run an unfinished exercise:
+**Displayed excerpt source:** the `_todo` helper in
+`weeks/week-04/fragments/01_linalg.py`. It is already included when you
+integrate the complete fragment and produces a clear error for unfinished
+fill-ins:
 
 ```python
 def _todo(hint):
@@ -112,10 +117,10 @@ You should see `2`, `[[1, 2, 3], [4, 5, 6]]`, `[1, 2, 3]`, and `3`.
 The outer list contains two rows. The first row contains three entries, so
 this matrix has two rows and three columns.
 
-**Implementation scaffold source:** this lesson, adapted from the
-`shape` function in `weeks/week-04/fragments/01_linalg.py`.
-**Edit:** `src/mini_ml/linalg.py` relative to your package root.
-Copy this function scaffold, then replace the TODO:
+**Displayed excerpt source:** `shape` in
+`weeks/week-04/fragments/01_linalg.py`.
+**Edit:** fill in the two `_todo(...)` expressions in the existing `shape`
+function in your package's `src/mini_ml/linalg.py`.
 
 ```python
 def shape(matrix):
@@ -169,9 +174,10 @@ well-defined matrix product.
 
 ## Step 4 — Implement `transpose`
 
-**Implementation scaffold source:** this lesson, adapted from the
-`transpose` function in `weeks/week-04/fragments/01_linalg.py`.
-**Edit:** append this function to `src/mini_ml/linalg.py` in your package.
+**Displayed excerpt source:** `transpose` in
+`weeks/week-04/fragments/01_linalg.py`.
+**Edit:** fill in the `_todo(...)` expression in the existing `transpose`
+function in your package's `src/mini_ml/linalg.py`.
 
 ```python
 def transpose(matrix):
@@ -221,7 +227,7 @@ The inner dimensions match, so the result has the outer dimensions `2 × 2`.
 Each result entry combines one row from `m1` with one column from `m2`:
 
 $$
-\operatorname{result}_{ij}
+\mathrm{result}_{ij}
 = \sum_{k=1}^{n} (m1)_{ik}(m2)_{kj}.
 $$
 
@@ -236,8 +242,10 @@ The complete result is `[[58, 64], [139, 154]]`.
 
 ## Step 6 — Implement `matmul(m1, m2)` directly
 
-**Implementation scaffold source:** this lesson's revised matrix-first
-version of `matmul`. **Edit:** append to `src/mini_ml/linalg.py`.
+**Displayed excerpt source:** `matmul` in
+`weeks/week-04/fragments/01_linalg.py`.
+**Edit:** fill in the `_todo(...)` expression in the existing `matmul`
+function in your package's `src/mini_ml/linalg.py`.
 
 ```python
 def matmul(m1, m2):
@@ -256,33 +264,9 @@ def matmul(m1, m2):
     return result
 ```
 
-Keep the parameter names `m1` and `m2`. Your implementation must:
-
-1. Call `shape` on both inputs.
-2. Check that the number of columns in `m1` equals the number of rows in `m2`.
-3. Raise `ValueError("m1 and m2 dimensions are incompatible")` if they differ.
-4. Allocate a zero-filled matrix with `rows_m1` rows and `columns_m2` columns.
-5. Visit each output position `(i, j)`.
-6. Accumulate `m1[i][k] * m2[k][j]` over the shared inner dimension.
-7. Assign the accumulated value to `result[i][j]`, then return the result.
-
-The initialization creates a separate list for each row. For this example,
-the result starts as `[[0.0, 0.0], [0.0, 0.0]]`. Each `(i, j)` pair
-identifies one cell to fill.
-
-The loop structure is:
-
-```text
-create a zero matrix with the output dimensions
-for each row i in m1:
-    for each column j in m2:
-        total = 0.0
-        for each inner position k:
-            total += m1[i][k] * m2[k][j]
-        result[i][j] = total
-```
-
-Implement `matmul` using pure Python loops.
+Keep the parameter names `m1` and `m2`. Replace only the `_todo(...)`
+expression; keep the supplied validation, result allocation, and loops.
+Do not use NumPy or `@` inside `matmul`.
 
 **Experiment checks:** `test_code/week_04.py`; import `matmul`
 from `mini_ml.linalg` and use `m1`, `m2` from Step 5.

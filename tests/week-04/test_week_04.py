@@ -33,10 +33,17 @@ def test_pure_python_composition():
     source=path.read_text()
     tree=ast.parse(source)
     imports=[node for node in ast.walk(tree) if isinstance(node,(ast.Import,ast.ImportFrom))]
-    assert all(not any(alias.name=="numpy" or alias.name.startswith("numpy.") for alias in node.names)
-               for node in imports), "Use pure Python in linalg.py"
+    numpy_aliases={alias.asname or alias.name.split(".")[0] for node in imports
+                   for alias in node.names if alias.name=="numpy" or alias.name.startswith("numpy.")
+                   or isinstance(node,ast.ImportFrom) and (node.module or "").startswith("numpy")}
+    if int(os.environ["COURSE_WEEK"]) < 5:
+        assert not numpy_aliases, "Use pure Python in Week 4 linalg.py"
     functions={node.name:node for node in tree.body if isinstance(node,ast.FunctionDef)}
     assert set(("shape","transpose","matmul"))<=functions.keys()
+    for name in ("shape","transpose","matmul"):
+        assert not any(isinstance(node,ast.Name) and node.id in numpy_aliases
+                       for node in ast.walk(functions[name])), "Preserve pure Python Week 4 functions"
+
     assert [arg.arg for arg in functions["matmul"].args.args]==["m1","m2"]
     calls={node.func.id for node in ast.walk(functions["matmul"])
            if isinstance(node,ast.Call) and isinstance(node.func,ast.Name)}
