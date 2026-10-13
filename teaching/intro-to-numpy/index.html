@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An interactive beginner lesson on NumPy arrays, shape, indexing, axis, broadcasting, and copies.">
+<title>Intro to NumPy</title>
+<style>
+:root{--ink:#263740;--muted:#68716e;--paper:#fffdf8;--canvas:#eae7e0;--teal:#087f79;--soft:#e1f2ee;--brown:#80502c;--gold:#bf914d;--blue:#365d93;--line:#dcded4;--error:#a43c31;--code:#22353b;--code-text:#ecf4ee}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--canvas);font-family:Arial,Helvetica,sans-serif}
+button,select,a{touch-action:manipulation}button,select{font:inherit}button,a,select{outline-offset:4px}button{cursor:pointer}button:disabled{cursor:default;opacity:.35}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--blue)}
+[hidden]{display:none!important}
+.shell{max-width:min(1240px,calc((100dvh - 165px)*16/9 + 48px));margin:auto;padding:18px 24px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 16px}.brand{font-size:15px;letter-spacing:.12em;font-weight:700}.brand span{color:var(--teal)}.top-right{display:flex;align-items:center;gap:12px}.top small{font-size:13px;color:var(--muted)}
+.quiet{background:transparent;border:1px solid var(--line);border-radius:4px;padding:8px 12px;color:var(--ink);font-size:14px}.quiet:hover{background:var(--paper)}
+.stage{background:var(--paper);aspect-ratio:16/9;position:relative;border-top:4px solid var(--gold);box-shadow:0 10px 35px #26374010}
+.slide{display:none;padding:32px 44px 22px;height:100%;flex-direction:column;gap:12px}.slide.active{display:flex}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:0}
+h1,h2,h3,p{margin:0}h1{font-size:clamp(48px,6.3vw,80px);line-height:1.05;font-weight:600;color:var(--brown)}h2{font-size:clamp(30px,3.6vw,44px);line-height:1.1;font-weight:600;color:var(--brown)}h3{font-size:20px;font-weight:600}
+.lead{font-size:clamp(17px,1.7vw,21px);line-height:1.4;color:var(--muted)}.content{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:35px}.split{display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:36px;width:100%}.stack{display:flex;flex-direction:column;gap:15px}.center{text-align:center}.big{font-size:clamp(30px,3.5vw,44px);font-weight:500}.accent{color:var(--teal)}.caption{font-size:15px;line-height:1.45;color:var(--muted)}.rule{border-top:1px solid var(--line);padding-top:12px;font-size:18px;line-height:1.4}
+.source{font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;margin-top:auto;line-height:1.4}.source a{color:inherit;text-underline-offset:3px}.provenance{max-width:55%;text-align:right}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.95em}p code,.rule code,.caption code,td code{color:var(--teal)}
+pre{margin:0;background:var(--code);color:var(--code-text);border-radius:3px;padding:20px;font-size:clamp(16px,1.8vw,22px);line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.code-wrap{position:relative}.copy{position:absolute;right:5px;top:5px;background:var(--code);color:#cbded6;border:1px solid #526468;font-size:11px;padding:4px 7px;border-radius:2px}.copy-status{position:absolute;right:6px;bottom:3px;font-size:11px;color:#cbded6}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.toggle{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:3px;padding:8px 12px;font-size:15px}.toggle[aria-pressed=true]{background:var(--teal);border-color:var(--teal);color:var(--paper)}.primary{background:var(--teal);color:var(--paper);border:0;border-radius:3px;padding:10px 17px;font-size:16px}.primary:hover{filter:brightness(.95)}
+.array{display:inline-flex;flex-direction:column;align-items:center;gap:12px;max-width:100%}.array-grid{display:grid;gap:6px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);padding:10px}.cell{min-width:56px;min-height:48px;padding:8px 14px;display:flex;align-items:center;justify-content:center;background:#f0f0e8;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:clamp(23px,2.7vw,34px);border:0;color:var(--ink);position:relative}.cell.selected{background:var(--soft);box-shadow:inset 0 -3px var(--teal)}.cell.secondary{background:#e6edf7;box-shadow:inset 0 -3px var(--blue)}.cell.dim{opacity:.35}.cell.changed{color:var(--error);background:#f8e5df}.cell small{position:absolute;top:1px;left:4px;font:10px Arial;color:var(--muted)}.shape{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:15px;color:var(--teal)}.array-label{font-size:16px;color:var(--muted)}.array-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px}.operator{font-size:35px;color:var(--muted)}.empty-output{font-size:20px;line-height:1.5;color:var(--muted)}.answer{background:var(--soft);padding:12px 16px;font-size:20px;border-left:3px solid var(--teal)}.error{color:var(--error);background:#f8e5df;padding:14px;border-left:3px solid var(--error);font-size:17px;line-height:1.4}
+.attributes{border-collapse:collapse;width:100%;font-size:22px}.attributes td{padding:13px 4px;border-bottom:1px solid var(--line)}.attributes td:last-child{text-align:right;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.attributes .meaning{font-size:14px;display:block;color:var(--muted);padding-top:5px}
+.cover{justify-content:center;gap:30px}.cover .content{flex:1 0 auto;justify-content:flex-start}.cover > .eyebrow,.cover > .source{flex-shrink:0}.cover .split{grid-template-columns:1.4fr 1fr}.cover .title-note{font-size:24px;line-height:1.5;color:var(--muted);margin-top:22px}.cover .source{margin-top:0}.cover .array-grid{transform:rotate(-3deg)}
+.mask-stage{min-height:560px}.mask-slide .content{flex:1 0 auto}.mask-lesson{display:flex;flex-direction:column;gap:14px;width:100%}.mask-top{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:20px}.mask-top .code-wrap{min-width:0}.mask-top pre{font-size:clamp(14px,1.45vw,18px);line-height:1.4;padding:14px 16px}.mask-flow{display:grid;grid-template-columns:.95fr 22px 1.8fr 22px 1fr;align-items:center;gap:14px}.mask-panel{min-width:0;text-align:center}.mask-flow-arrow{font-size:26px;text-align:center;color:var(--muted)}.mask-table{border-collapse:collapse;width:100%;text-align:center}.mask-table caption{font-size:16px;color:var(--muted);padding-bottom:8px}.mask-table th{font-size:12px;color:var(--muted);font-weight:400;padding:4px 6px;border-bottom:1px solid var(--line)}.mask-table tbody tr{height:48px}.mask-table td{padding:5px 6px;border-bottom:1px solid var(--line);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:22px}.mask-tests td{font-size:15px}.mask-tests .comparison{font-size:12px;line-height:1.5;text-align:left;white-space:nowrap}.mask-table tr.mask-keep{background:var(--soft)}.mask-table .mask-decision{font-size:14px}.mask-decision small{display:block;font:11px Arial;color:var(--muted);margin-top:3px}.mask-panel .shape{font-size:12px;margin-top:8px;overflow-wrap:anywhere}.mask-row-caption{font-size:13px;color:var(--muted);line-height:1.4;margin-top:8px}
+@media(max-width:850px){.mask-top{grid-template-columns:1fr;gap:12px}.mask-flow{grid-template-columns:1fr;gap:12px}.mask-panel{max-width:430px;width:100%;justify-self:center}.mask-flow-arrow{transform:rotate(90deg)}.mask-table td{font-size:25px}.mask-tests td{font-size:17px}.mask-tests .comparison{font-size:14px}.mask-decision small{font-size:12px}}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:16px}.nav-left{display:flex;align-items:center;gap:12px}.nav select{max-width:300px;border:0;background:transparent;color:var(--ink);padding:8px 0;font-size:14px}.count{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;white-space:nowrap;color:var(--muted)}.nav-right{display:flex;gap:8px}.progress{height:3px;background:#d3d8cf;margin-top:12px}.progress>div{height:100%;background:var(--teal);transition:width .15s}.keyboard{font-size:12px;color:var(--muted)}
+.checks{display:flex;flex-direction:column;gap:12px;width:100%}.check{border-bottom:1px solid var(--line);padding-bottom:12px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;font-size:20px}.check-answer{grid-column:1/-1;font-size:17px;color:var(--teal)}.contracts{border-collapse:collapse;width:100%;font-size:20px}.contracts th{text-align:left;font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.contracts td,.contracts th{padding:15px 5px;border-bottom:1px solid var(--line)}.contracts code{font-size:17px}
+.kahoot-title{font-size:48px;font-weight:600;color:var(--brown);line-height:1.1}.kahoot-details{font-size:24px;color:var(--muted);margin:16px 0 26px}.join{font-size:36px;color:var(--teal);text-decoration:underline;text-underline-offset:8px}.join-note{font-size:18px;color:var(--muted);margin-top:22px}
+.kahoot-actions{justify-content:center;margin-top:24px}.kahoot-host{display:inline-flex;align-items:center;text-decoration:none}.host-note{margin-top:14px}
+dialog{border:0;border-radius:5px;max-width:1000px;width:calc(100% - 40px);max-height:90vh;padding:28px 36px;background:var(--paper);color:var(--ink);overflow:auto}dialog::backdrop{background:#15282dcc}.dialog-top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:18px}.dialog-top h2{font-size:24px}.quiz-question{font-size:clamp(22px,2.4vw,30px);line-height:1.35;margin:14px 0 20px}.quiz-code{font-size:19px}.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.option{padding:15px 20px;border:1px solid var(--line);border-radius:3px;background:transparent;text-align:left;color:var(--ink);font:18px ui-monospace,SFMono-Regular,Consolas,monospace}.option .letter{display:inline-block;margin-right:12px;font:600 15px Arial;color:var(--muted)}.option[aria-pressed=true]{border-color:var(--blue);box-shadow:inset 3px 0 var(--blue)}.option.correct{background:var(--soft);border-color:var(--teal)}.option.wrong{background:#f8e5df;border-color:var(--error)}.quiz-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}.quiz-explanation{font-size:18px;line-height:1.5;padding:12px 16px;background:var(--soft);border-left:3px solid var(--teal)}.notes-body{font-size:19px;line-height:1.6}.notes-body p+p{margin-top:14px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.option:disabled{opacity:1}
+@media(max-width:850px){.shell{max-width:1240px}}
+@media(min-width:1500px){.shell{padding-top:30px}.stage{aspect-ratio:16/9}.slide{padding:42px 52px 26px}.cell{min-height:56px}.source{font-size:12px}}
+@media(max-width:850px){.shell{padding:14px}.stage{aspect-ratio:auto;min-height:600px}.slide{padding:25px;min-height:600px}.split{gap:24px;grid-template-columns:1fr}.content{flex-direction:column;align-items:stretch;gap:20px}.cover .split{grid-template-columns:1fr}.cover .content{align-items:center}.cover h1{font-size:54px}.cover .title-note{font-size:20px}.source{margin-top:16px}.array-grid{align-self:center}.keyboard,.top small{display:none}.nav select{max-width:220px}.contracts{font-size:17px}.contracts code{font-size:15px}}
+@media(max-width:500px){.shell{padding:10px}.slide{padding:22px 16px}.top{gap:8px}.brand{font-size:12px}.top-right{gap:5px}.quiet{font-size:12px;padding:7px 9px}.nav{flex-wrap:wrap}.nav-left{width:100%;justify-content:space-between}.nav-right{width:100%;justify-content:flex-end}.nav select{max-width:260px}.cell{min-width:44px;padding:8px 10px}.array-row{gap:10px}.source{flex-direction:column}.provenance{text-align:left;max-width:100%}.check{font-size:17px}.options{grid-template-columns:1fr}.quiz-code{font-size:16px}dialog{padding:22px 18px}.contracts td{overflow-wrap:anywhere}.kahoot-title{font-size:36px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{@page{size:landscape;margin:10mm}body{background:white}.shell{padding:0;max-width:none}.top,.nav,.progress,.controls,.copy,.copy-status,dialog{display:none!important}.stage{aspect-ratio:auto;box-shadow:none;border:0}.slide,.slide.active{display:flex!important;height:175mm;min-height:0;padding:8mm 10mm;break-after:page;page-break-after:always}.content{flex:1}.split{grid-template-columns:1fr 1fr}h1{font-size:52pt}h2{font-size:28pt}pre{font-size:14pt;print-color-adjust:exact}.cell{font-size:24pt;print-color-adjust:exact}.check-answer[hidden]{display:block!important}.source{font-size:8pt}.cover .split{grid-template-columns:1.4fr 1fr}}
+@media print{.mask-top{grid-template-columns:1fr}.mask-top pre{font-size:12pt}.mask-flow{grid-template-columns:.95fr 22px 1.8fr 22px 1fr}.mask-flow-arrow{transform:none}.mask-table td{font-size:17pt}.mask-tests td{font-size:12pt}.mask-tests .comparison{font-size:10pt}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div class="brand">PYTHON WORKSHOP <span>/ 05</span></div>
+    <div class="top-right"><small>Intro to NumPy</small><button class="quiet" id="notes-button">Teacher notes</button><button class="quiet" id="fullscreen-button">Fullscreen</button></div>
+  </header>
+  <main class="stage" id="deck" aria-label="Intro to NumPy slides">
+    <section class="slide cover active" data-title="Intro to NumPy" data-source="why-use-numpy" data-notes="25–30 minutes for the lesson, followed by 8–10 minutes for the quiz. Ask students to predict the output before revealing it. All small numeric examples are instructor-designed.">
+      <p class="eyebrow">Week 05 · NumPy basics</p>
+      <div class="content"><div class="split">
+        <div><h1>Intro to<br>NumPy</h1><p class="title-note">Arrays, shapes, and calculations<br>for your first standardizer</p></div>
+        <div class="center"><div id="cover-array"></div><p class="caption" style="margin-top:18px">3 samples · 2 features</p></div>
+      </div></div>
+      <div class="source"></div>
+    </section>
+    <section class="slide" data-title="Lists and arrays" data-source="array-fundamentals" data-notes="Ask what + does to two Python lists. Reveal that result first, then the NumPy result. An ndarray uses one dtype for its entries; this lesson uses floating-point numeric arrays. Avoid unmeasured speed claims.">
+      <p class="eyebrow">01 · Represent data</p><h2>Lists and arrays</h2><p class="lead">The same numbers. Different operations.</p>
+      <div class="content"><div class="split">
+        <div class="stack"><pre><code>import numpy as np
+
+[1, 2] + [3, 4]
+
+np.array([1, 2]) + np.array([3, 4])</code></pre><div class="controls"><button class="primary" data-reveal="list-answer">Reveal outputs</button></div></div>
+        <div class="stack" id="list-answer" hidden><p class="caption">Python list: concatenate</p><p class="big"><code>[1, 2, 3, 4]</code></p><p class="caption">NumPy array: add matching entries</p><p class="big accent"><code>[4, 6]</code></p><p class="rule">An <code>ndarray</code> has one dtype.</p></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Creating arrays" data-source="array-fundamentals" data-notes="Use np.array to convert numeric lists. Each nested list is one row. dtype=float makes these teaching arrays floating-point. A 1D array with shape (2,) is distinct from a 2D array with shape (1,2).">
+      <p class="eyebrow">01 · Represent data</p><h2>Creating arrays</h2><p class="lead">One sample: <code>(d,)</code>. A batch: <code>(n,d)</code>.</p>
+      <div class="content"><div class="split">
+        <div class="stack"><div class="controls" id="creation-controls"><button class="toggle" aria-pressed="true" data-mode="vector">1D array</button><button class="toggle" aria-pressed="false" data-mode="matrix">2D array</button></div><pre><code id="creation-code"></code></pre><p class="rule"><code>dtype=float</code> selects floating-point entries.</p></div>
+        <div class="center" id="creation-array"></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Array attributes" data-source="array-attributes" data-notes="Our data convention is X.shape=(n,d): n samples on axis 0, d features on axis 1. NumPy does not assign those meanings automatically. Rows are samples and columns are features because we arranged the data that way. Distinguish two axes from the number of features. For 341 patients and 30 features, ndim is still 2. size is the product of shape. dtype describes entries, not the array shape.">
+      <p class="eyebrow">01 · Represent data</p><h2>Array attributes</h2><p class="lead">Our convention: rows are samples, columns are features.</p>
+      <div class="content"><div class="split">
+        <div class="center"><div id="attributes-array"></div><p class="rule" style="margin-top:18px"><code>axis 0</code>: 3 samples (rows)<br><code>axis 1</code>: 2 features (columns)</p></div>
+        <table class="attributes"><tbody><tr><td><code>X.shape</code><span class="meaning">Entries along each axis</span></td><td>(3, 2)</td></tr><tr><td><code>X.ndim</code><span class="meaning">Number of axes</span></td><td>2</td></tr><tr><td><code>X.size</code><span class="meaning">Total number of entries</span></td><td>6</td></tr><tr><td><code>X.dtype</code><span class="meaning">Type of each entry</span></td><td>float64</td></tr></tbody></table>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Indexing" data-source="indexing-and-slicing" data-notes="Indices start at zero. Click row 1, column 0 to get 3. Integer indexing both axes returns a scalar; shape is (). The smaller labels inside cells are row,column indices.">
+      <p class="eyebrow">02 · Select data</p><h2>Indexing</h2><p class="lead"><code>X[row, column]</code> selects one entry. Indices start at 0.</p>
+      <div class="content"><div class="split">
+        <div class="center"><div id="index-array"></div><p class="caption" style="margin-top:15px">Select any entry.</p></div>
+        <div class="stack"><pre><code id="index-code">X[1, 0]</code></pre><div class="big accent" id="index-result" aria-live="polite">3.0</div><p class="shape">scalar · shape ()</p></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Slicing" data-source="indexing-and-slicing" data-notes="Contrast X[0,:] with X[0:1,:]. Integer indexing removes an axis; slicing preserves it. The stop index is excluded. Use the single-row batch example to prepare for transform accepting only (m,d) inputs.">
+      <p class="eyebrow">02 · Select data</p><h2>Slicing</h2><p class="lead">Select a row, a column, or a smaller batch.</p>
+      <div class="content"><div class="split">
+        <div class="stack"><div class="controls" id="slice-controls"><button class="toggle" aria-pressed="true" data-mode="row">One row</button><button class="toggle" aria-pressed="false" data-mode="column">One column</button><button class="toggle" aria-pressed="false" data-mode="batch">One-row batch</button><button class="toggle" aria-pressed="false" data-mode="subset">Submatrix</button></div><pre><code id="slice-code"></code></pre><div id="slice-result"></div></div>
+        <div class="center" id="slice-array"></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide mask-slide" data-title="Boolean masks" data-source="indexing-and-slicing" data-notes="Read left to right: original X, comparisons for each row, then X[mask]. X[:,0] reads the first feature, [1,3,5]; comparing it with 2 gives [False,True,True]. One Boolean maps to one row index. False skips row 0; True retains complete rows 1 and 2, including their second features. The mask is (3,) and the selected batch is (2,2). With AND both tests must be True; with OR either test may be True. Highlighting marks retained rows in both tables. Keep each comparison parenthesized when using & and |. X[X>2] would instead use an elementwise mask and is a different operation.">
+      <p class="eyebrow">02 · Select data</p><h2>Boolean masks</h2><p class="lead">Compare each row. <code>X[mask]</code> keeps whole rows marked True.</p>
+      <div class="content"><div class="mask-lesson">
+        <div class="mask-top"><div class="controls" id="mask-controls"><button class="toggle" aria-pressed="true" data-mode="single">One condition</button><button class="toggle" aria-pressed="false" data-mode="and">AND &amp;</button><button class="toggle" aria-pressed="false" data-mode="or">OR |</button></div><pre><code id="mask-code"></code></pre></div>
+        <div class="mask-flow" aria-live="polite">
+          <div class="mask-panel"><table class="mask-table" aria-label="Original X with row and column indices"><caption>Original X</caption><thead><tr><th scope="col">row</th><th scope="col">col 0</th><th scope="col">col 1</th></tr></thead><tbody id="mask-input"></tbody></table><p class="shape">X.shape = (3, 2)</p></div>
+          <span class="mask-flow-arrow" aria-hidden="true">→</span>
+          <div class="mask-panel"><table class="mask-table mask-tests" aria-label="Per-row comparisons and Boolean decisions"><caption id="mask-test-heading">Compare → mask</caption><thead><tr><th scope="col">row</th><th scope="col">comparison</th><th scope="col">mask[i]</th></tr></thead><tbody id="mask-tests"></tbody></table><p class="shape" id="mask-values"></p></div>
+          <span class="mask-flow-arrow" aria-hidden="true">→</span>
+          <div class="mask-panel"><div id="mask-array"></div><p class="mask-row-caption" id="mask-retained"></p></div>
+        </div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Elementwise operations" data-source="basic-array-operations" data-notes="All X entries are nonzero, so X/X is valid and produces ones. Contrast X*X with X@B where B has shape (2,1). Do not say array multiplication is matrix multiplication. The @ example only reconnects to Week 4.">
+      <p class="eyebrow">03 · Calculate</p><h2>Elementwise operations</h2><p class="lead"><code>+</code>, <code>−</code>, <code>*</code>, <code>/</code> operate at matching positions.</p>
+      <div class="content"><div class="split">
+        <div class="stack"><div class="controls" id="ops-controls"><button class="toggle" aria-pressed="true" data-mode="+">+</button><button class="toggle" aria-pressed="false" data-mode="-">−</button><button class="toggle" aria-pressed="false" data-mode="*">*</button><button class="toggle" aria-pressed="false" data-mode="/">/</button><button class="toggle" aria-pressed="false" data-mode="@">@</button></div><pre><code id="ops-code"></code></pre><p class="rule" id="ops-note"></p></div>
+        <div class="center" id="ops-array"></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Aggregations" data-source="more-useful-array-operations" data-notes="Without axis, these operations aggregate all six entries. std defaults to ddof=0. The initial sum is 69 and mean is 11.5. Min, max and prod are vocabulary, not extra implementation assignments.">
+      <p class="eyebrow">03 · Calculate</p><h2>Aggregations</h2><p class="lead">Many entries become one summary.</p>
+      <div class="content"><div class="split">
+        <div class="stack"><div class="controls" id="aggregation-controls"><button class="toggle" aria-pressed="true" data-mode="sum">sum</button><button class="toggle" aria-pressed="false" data-mode="mean">mean</button><button class="toggle" aria-pressed="false" data-mode="std">std</button><button class="toggle" aria-pressed="false" data-mode="min">min</button><button class="toggle" aria-pressed="false" data-mode="max">max</button><button class="toggle" aria-pressed="false" data-mode="prod">prod</button></div><pre><code id="aggregation-code"></code></pre><p class="rule">No <code>axis</code>: use all entries.</p></div>
+        <div class="center stack"><div id="aggregation-input"></div><p class="big accent" id="aggregation-result" aria-live="polite"></p><p class="shape">scalar · shape ()</p></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Understanding axis" data-source="basic-array-operations" data-notes="The axis argument names the input dimension being reduced. With X.shape=(n,d), features are on input axis 1, but one mean per feature requires reducing the sample axis 0. X.mean(axis=0) has shape (d,); X.mean(axis=1) has shape (n,). Use the non-square matrix to make these output shapes distinguishable. Each highlighted group becomes one output value. All results use mean, not sum.">
+      <p class="eyebrow">03 · Calculate</p><h2>Understanding axis</h2><p class="lead"><code>axis</code> specifies the input dimension to reduce.</p>
+      <div class="content"><div class="split">
+        <div class="stack"><div class="controls" id="axis-controls"><button class="toggle" aria-pressed="false" data-mode="none">axis=None</button><button class="toggle" aria-pressed="true" data-mode="0">axis=0</button><button class="toggle" aria-pressed="false" data-mode="1">axis=1</button></div><pre><code id="axis-code"></code></pre><p class="rule" id="axis-note"></p><div id="axis-result" aria-live="polite"></div></div>
+        <div class="center"><div id="axis-array"></div><p class="caption" style="margin-top:14px" id="axis-group-label"></p></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Broadcasting" data-source="broadcasting" data-notes="Compare a scalar with one value per feature. Align shape dimensions from the right; each pair must match or include 1. A (3,) vector does not align with the final dimension 2, so this example fails. Never imply arbitrary shapes work.">
+      <p class="eyebrow">03 · Calculate</p><h2>Broadcasting</h2><p class="lead">Apply the same operation across compatible shapes.</p>
+      <div class="content"><div class="split">
+        <div class="stack"><div class="controls" id="broadcast-controls"><button class="toggle" aria-pressed="false" data-mode="scalar">Scalar</button><button class="toggle" aria-pressed="true" data-mode="features">Feature means</button><button class="toggle" aria-pressed="false" data-mode="invalid">Incompatible</button></div><pre><code id="broadcast-code"></code></pre><p class="rule" id="broadcast-note"></p></div>
+        <div class="center" id="broadcast-array" aria-live="polite"></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Views and copies" data-source="how-to-create-an-array-from-existing-data" data-notes="Reset the demonstration before each comparison. Basic slicing creates a view; .copy() makes independent data. Do not generalize this to every indexing operation: boolean and advanced indexing behave differently. Return to the input-not-modified requirement in Week 5.">
+      <p class="eyebrow">04 · Preserve data</p><h2>Views and copies</h2><p class="lead">Does changing a slice change the original?</p>
+      <div class="content"><div class="split">
+        <div class="stack"><div class="controls" id="memory-controls"><button class="toggle" aria-pressed="true" data-mode="view">Basic slice: view</button><button class="toggle" aria-pressed="false" data-mode="copy">Slice + copy()</button></div><pre><code id="memory-code"></code></pre><div class="controls"><button class="primary" id="memory-modify">Set b[0] = 99</button><button class="quiet" id="memory-reset">Reset</button></div><p class="rule" id="memory-note" aria-live="polite"></p></div>
+        <div class="stack center"><div id="memory-a"></div><div id="memory-b"></div></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Transpose" data-source="transposing-and-reshaping-a-matrix" data-notes="In 2D, transpose swaps axes. A 1D array has one axis, so .T keeps shape (3,). It is not automatically a column matrix. Shape changes that add axes are intentionally outside this introductory deck.">
+      <p class="eyebrow">04 · Reconnect to Week 4</p><h2>Transpose</h2><p class="lead"><code>X.T</code> is the NumPy counterpart of your transpose function.</p>
+      <div class="content"><div class="split">
+        <div class="stack"><div class="controls" id="transpose-controls"><button class="toggle" aria-pressed="true" data-mode="matrix">2D array</button><button class="toggle" aria-pressed="false" data-mode="vector">1D array</button></div><pre><code id="transpose-code"></code></pre><p class="rule" id="transpose-note"></p></div>
+        <div class="center" id="transpose-array"></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Check your understanding" data-source="array-attributes" data-notes="The question context explicitly defines three sample rows and two feature columns. Shape alone does not define which axis represents features. For the second question, students choose the dimension to reduce: average across sample rows on axis 0 to obtain one value for each feature column. Keep explanations brief because the final Kahoot covers these ideas again.">
+      <p class="eyebrow">05 · Predict the output</p><h2>Check your understanding</h2><p class="lead">X has 3 sample rows and 2 feature columns: <code>X.shape == (3,2)</code>.</p>
+      <div class="content"><div class="checks">
+        <div class="check"><p>What is <code>X[0].shape</code>?</p><button class="quiet" data-reveal="check-one">Reveal</button><p class="check-answer" id="check-one" hidden><code>(2,)</code> · The integer row index removes an axis.</p></div>
+        <div class="check"><p>Which call computes one mean per feature column?</p><button class="quiet" data-reveal="check-two">Reveal</button><p class="check-answer" id="check-two" hidden><code>X.mean(axis=0)</code> · Average across sample rows → shape (2,).</p></div>
+        <div class="check"><p>What is the shape of <code>X − X.mean(axis=0)</code>?</p><button class="quiet" data-reveal="check-three">Reveal</button><p class="check-answer" id="check-three" hidden><code>(3,2)</code> · Broadcasting preserves the batch shape.</p></div>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Your Week 5 implementation" data-source="working-with-mathematical-formulas" data-notes="scaler is a Standardizer instance. Inside its methods, self refers to that same instance. fit(X) saves mean_ and scale_ on scaler and returns scaler; its return is an object, not an array shape. This permits scaler=Standardizer().fit(X). transform(X) returns an ndarray using the saved parameters. The deck provides NumPy vocabulary, not complete homework solutions. Continue with lesson.md for class structure, zero-scale protection and validation.">
+      <p class="eyebrow">05 · Apply the basics</p><h2>Your Week 5 implementation</h2><p class="lead">Use NumPy operations inside your own package.</p>
+      <div class="content"><div class="stack" style="width:100%">
+        <table class="contracts"><thead><tr><th>Interface</th><th>Input → return</th><th>NumPy ideas</th></tr></thead><tbody><tr><td><code>scaler.fit(X)</code></td><td><code>(n,d) → scaler</code></td><td>Feature means and standard deviations</td></tr><tr><td><code>scaler.transform(X)</code></td><td><code>(m,d) → (m,d)</code></td><td>Broadcast saved feature parameters</td></tr><tr><td><code>euclidean_distance(x,y)</code></td><td><code>(d,), (d,) → float</code></td><td>Subtract, square, sum, square root</td></tr></tbody></table>
+        <p class="rule"><strong>fit</strong> saves <code>mean_</code> and <code>scale_</code>, then returns the same <code>scaler</code> object.<br><strong>transform</strong> returns a standardized array using those saved values.</p>
+      </div></div><div class="source"></div>
+    </section>
+    <section class="slide" data-title="Kahoot: NumPy Quick Check" data-source="array-fundamentals" data-notes="Your instructor will launch the live quiz. Open kahoot.it and enter the displayed session PIN.">
+      <p class="eyebrow">Final round</p>
+      <div class="content center"><div>
+        <p class="kahoot-title">NumPy Quick Check</p><p class="kahoot-details">12 questions · 20–30 seconds each</p>
+        <a class="join" href="https://kahoot.it/" target="_blank" rel="noopener">kahoot.it</a>
+        <p class="join-note">Students: enter the game PIN shown by your instructor.</p>
+
+        <p class="caption host-note">Your instructor will start the game and display the PIN.</p>
+      </div></div><div class="source"></div>
+    </section>
+  </main>
+  <nav class="nav" aria-label="Slide navigation">
+    <div class="nav-left"><select id="slide-picker" aria-label="Choose slide"></select><span class="count" id="slide-count"></span><span class="keyboard">← → navigate</span></div>
+    <div class="nav-right"><button class="quiet" id="print-button">Print</button><button class="quiet" id="previous-button">← Previous</button><button class="primary" id="next-button">Next →</button></div>
+  </nav>
+  <div class="progress" aria-hidden="true"><div id="progress-fill"></div></div>
+  <p class="sr-only" id="slide-announcement" aria-live="polite"></p>
+</div>
+<dialog id="notes-dialog" aria-labelledby="notes-title"><div class="dialog-top"><h2 id="notes-title">Teacher notes</h2><button class="quiet" id="notes-close">Close</button></div><div class="notes-body" id="notes-body"></div></dialog>
+
+<!-- QUIZ_DATA_START -->
+
+<!-- QUIZ_DATA_END -->
+<script>
+(function () {
+  'use strict';
+  const X = [[1,10],[3,20],[5,30]];
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const $ = function (id) { return document.getElementById(id); };
+  const text = function (id, value) { $(id).textContent = value; };
+  const shapeText = function (shape) { return shape.length === 0 ? '()' : '(' + shape.join(', ') + (shape.length === 1 ? ',' : '') + ')'; };
+  const format = function (v) { return typeof v === 'boolean' ? (v ? 'True' : 'False') : (Number.isInteger(v) ? String(v) : String(Number(v.toFixed(4)))); };
+  function array(id, values, shape, options) {
+    options = options || {};
+    const target = $(id); target.replaceChildren();
+    const wrapper = document.createElement('div'); wrapper.className = 'array';
+    if (options.label) { const label = document.createElement('div'); label.className='array-label'; label.textContent=options.label; wrapper.append(label); }
+    const grid = document.createElement('div'); grid.className='array-grid';
+    const rows = shape.length === 2 ? values : [values];
+    grid.style.gridTemplateColumns = 'repeat(' + (shape.length === 2 ? shape[1] : shape[0]) + ', minmax(0,1fr))';
+    rows.forEach(function (row, i) { row.forEach(function (v,j) {
+      const cell = document.createElement(options.onCell ? 'button' : 'div'); cell.className='cell';
+      if (options.classFor) cell.className += ' ' + options.classFor(i,j);
+      cell.textContent = format(v);
+      if (options.onCell) {
+        cell.type='button'; cell.setAttribute('aria-label','Row '+i+', column '+j+', value '+v);
+        cell.setAttribute('aria-pressed', String(options.selected && options.selected[0]===i && options.selected[1]===j));
+        const index=document.createElement('small'); index.textContent=i+','+j; cell.append(index);
+        cell.addEventListener('click',function(){options.onCell(i,j);});
+      }
+      grid.append(cell);
+    }); });
+    const label = document.createElement('div'); label.className='shape'; label.textContent='shape ' + shapeText(shape);
+    wrapper.append(grid,label); target.append(wrapper);
+  }
+  function group(id, initial, callback) {
+    const buttons = Array.from($(id).querySelectorAll('button'));
+    function update(mode) { buttons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.mode===mode));}); callback(mode); }
+    buttons.forEach(function(b){b.addEventListener('click',function(){update(b.dataset.mode);});});
+    update(initial);
+  }
+  slides.forEach(function (slide,i) {
+    const footer=slide.querySelector('.source');
+    const link=document.createElement('a'); link.href='https://numpy.org/doc/stable/user/absolute_beginners.html#'+slide.dataset.source; link.target='_blank'; link.rel='noopener'; link.textContent='Reference: NumPy beginner guide';
+    const source=document.createElement('span'); source.className='provenance'; source.textContent=i===14?'Course interface: Week 05 lesson':'Instructor-designed examples';
+    footer.append(link,source);
+    const option=document.createElement('option'); option.value=i; option.textContent=String(i+1).padStart(2,'0')+' · '+slide.dataset.title; $('slide-picker').append(option);
+  });
+  document.querySelectorAll('pre').forEach(function(pre){
+    const code=pre.querySelector('code'); if(!code) return;
+    const wrap=document.createElement('div'); wrap.className='code-wrap'; pre.replaceWith(wrap); wrap.append(pre);
+    const button=document.createElement('button'); button.className='copy'; button.textContent='Copy'; button.type='button'; button.setAttribute('aria-label','Copy Python example');
+    const status=document.createElement('span'); status.className='copy-status'; status.setAttribute('aria-live','polite');
+    button.addEventListener('click',async function(){
+      try { await navigator.clipboard.writeText(code.textContent); status.textContent='Copied'; }
+      catch(e) { const range=document.createRange(); range.selectNodeContents(code); const selection=window.getSelection(); selection.removeAllRanges(); selection.addRange(range); status.textContent='Selected: copy with Ctrl/Cmd+C'; }
+      window.setTimeout(function(){status.textContent='';},3500);
+    }); wrap.append(button,status);
+  });
+  document.querySelectorAll('[data-reveal]').forEach(function(button){
+    const target=$(button.dataset.reveal); button.setAttribute('aria-expanded','false'); button.setAttribute('aria-controls',target.id);
+    button.addEventListener('click',function(){target.hidden=!target.hidden; button.setAttribute('aria-expanded',String(!target.hidden)); button.textContent=target.hidden?(target.id==='list-answer'?'Reveal outputs':'Reveal'):'Hide';});
+  });
+  array('cover-array',X,[3,2]); array('attributes-array',X,[3,2]);
+  group('creation-controls','vector',function(mode){const vector=mode==='vector'; text('creation-code',vector?'x = np.array([1, 10], dtype=float)\nx.shape  # (2,)':'X = np.array([[1, 10],\n              [3, 20],\n              [5, 30]], dtype=float)\nX.shape  # (3, 2)'); array('creation-array',vector?[1,10]:X,vector?[2]:[3,2],{label:vector?'One sample · 1D':'Three samples · 2D'});});
+  function index(i,j) { text('index-code','X['+i+', '+j+']'); text('index-result',X[i][j]+'.0'); array('index-array',X,[3,2],{onCell:index,selected:[i,j],classFor:function(r,c){return r===i&&c===j?'selected':'';}}); } index(1,0);
+  const slices={
+    row:{code:'X[0, :]',values:[1,10],shape:[2],choose:function(i,j){return i===0;},note:'Integer index: remove the row axis.'},
+    column:{code:'X[:, 1]',values:[10,20,30],shape:[3],choose:function(i,j){return j===1;},note:'Integer index: remove the column axis.'},
+    batch:{code:'X[0:1, :]',values:[[1,10]],shape:[1,2],choose:function(i,j){return i===0;},note:'Slice: retain both axes.'},
+    subset:{code:'X[1:3, 0:1]',values:[[3],[5]],shape:[2,1],choose:function(i,j){return i>=1&&j===0;},note:'Stop indices are excluded.'}
+  };
+  group('slice-controls','row',function(mode){const s=slices[mode];text('slice-code',s.code);array('slice-result',s.values,s.shape,{label:'Example output'});array('slice-array',X,[3,2],{classFor:function(i,j){return s.choose(i,j)?'selected':'dim';}});});
+  const masks={
+    single:{code:'mask = X[:, 0] > 2\nX[mask]',heading:'One test per row',tests:function(row){return [{expression:row[0]+' > 2',result:row[0]>2}];}},
+    and:{code:'mask = (X[:, 0] > 2) & (X[:, 1] < 30)\nX[mask]',heading:'AND: both tests must be True',tests:function(row){return [{expression:row[0]+' > 2',result:row[0]>2},{expression:row[1]+' < 30',result:row[1]<30}];}},
+    or:{code:'mask = (X[:, 0] == 1) | (X[:, 1] == 30)\nX[mask]',heading:'OR: either test may be True',tests:function(row){return [{expression:row[0]+' == 1',result:row[0]===1},{expression:row[1]+' == 30',result:row[1]===30}];}}
+  };
+  group('mask-controls','single',function(mode){
+    const s=masks[mode], tests=X.map(s.tests);
+    const mask=tests.map(function(checks){return mode==='or'?checks.some(function(t){return t.result;}):checks.every(function(t){return t.result;});});
+    text('mask-code',s.code);text('mask-test-heading',s.heading);text('mask-values','mask = ['+mask.map(format).join(', ')+'] · (3,)');
+    $('mask-input').replaceChildren();$('mask-tests').replaceChildren();
+    X.forEach(function(row,i){
+      const original=document.createElement('tr'), trace=document.createElement('tr');
+      original.className=trace.className=mask[i]?'mask-keep':'';
+      const originalIndex=document.createElement('th'), traceIndex=document.createElement('th');
+      originalIndex.scope=traceIndex.scope='row';originalIndex.textContent=traceIndex.textContent=i;original.append(originalIndex);trace.append(traceIndex);
+      row.forEach(function(value){const cell=document.createElement('td');cell.textContent=format(value);original.append(cell);});
+      const comparison=document.createElement('td');comparison.className='comparison';
+      tests[i].forEach(function(test){const line=document.createElement('div');line.textContent=test.expression+' → '+format(test.result);comparison.append(line);});
+      const decision=document.createElement('td');decision.className='mask-decision';decision.textContent=format(mask[i]);
+      const action=document.createElement('small');action.textContent=mask[i]?'keep row':'skip row';decision.append(action);
+      trace.append(comparison,decision);$('mask-input').append(original);$('mask-tests').append(trace);
+    });
+    const selected=X.filter(function(row,i){return mask[i];}), indices=X.map(function(row,i){return i;}).filter(function(i){return mask[i];});
+    array('mask-array',selected,[selected.length,2],{label:'X[mask]'});
+    text('mask-retained','Keep row'+(indices.length===1?' ':'s ')+indices.join(', ')+'. All columns stay.');
+  });
+  group('ops-controls','+',function(mode){
+    if(mode==='@'){text('ops-code','B = np.array([[1], [2]])\nX @ B');text('ops-note','Matrix multiplication: (3,2) @ (2,1) → (3,1)');array('ops-array',[[21],[43],[65]],[3,1],{label:'Example output'});return;}
+    const operations={'+':function(v){return v+v;},'-':function(v){return v-v;},'*':function(v){return v*v;},'/':function(v){return v/v;}};
+    text('ops-code','X '+mode+' X');text('ops-note','Matching entries → output shape (3,2)');array('ops-array',X.map(function(row){return row.map(operations[mode]);}),[3,2],{label:'Example output'});
+  });
+  array('aggregation-input',X,[3,2]);
+  const aggregations={sum:69,mean:11.5,std:Math.sqrt(641.5/6),min:1,max:30,prod:90000};
+  group('aggregation-controls','sum',function(mode){text('aggregation-code','X.'+mode+'('+(mode==='std'?'ddof=0':'')+')');text('aggregation-result',format(aggregations[mode]));});
+  group('axis-controls','0',function(mode){
+    text('axis-code','X.mean(axis='+(mode==='none'?'None':mode)+')');
+    text('axis-note',mode==='0'?'Reduce samples → 2 feature means':mode==='1'?'Reduce features → 3 sample means':'Reduce all entries → one scalar');
+    if(mode==='none'){ $('axis-result').replaceChildren(); const p=document.createElement('p');p.className='big accent';p.textContent='11.5 · shape ()';$('axis-result').append(p); }
+    else array('axis-result',mode==='0'?[3,20]:[5.5,11.5,17.5],mode==='0'?[2]:[3],{label:'Example output'});
+    array('axis-array',X,[3,2],{label:'X: 3 samples × 2 features',classFor:function(i,j){return mode==='none'?'selected':((mode==='0'?j:i)%2===0?'selected':'secondary');}});
+    text('axis-group-label',mode==='none'?'All six entries form one group.':mode==='0'?'Each column is a reduction group.':'Each row is a reduction group.');
+  });
+  group('broadcast-controls','features',function(mode){
+    if(mode==='invalid'){text('broadcast-code','bad = np.array([1, 2, 3])  # (3,)\nX - bad                  # (3,2) - (3,)');text('broadcast-note','Trailing dimensions 2 and 3 are incompatible.');$('broadcast-array').replaceChildren();const p=document.createElement('p');p.className='error';p.textContent='ValueError: operands could not be broadcast together';$('broadcast-array').append(p);return;}
+    text('broadcast-code',mode==='features'?'mean = np.array([3, 20])  # (2,)\nX - mean':'X - 1');
+    text('broadcast-note',mode==='features'?'(3,2) − (2,) → (3,2). Reuse feature means across rows.':'(3,2) − scalar → (3,2). Subtract 1 from every entry.');
+    array('broadcast-array',mode==='features'?[[-2,-10],[0,0],[2,10]]:[[0,9],[2,19],[4,29]],[3,2],{label:'Example output'});
+  });
+  let memoryMode='view', changed=false;
+  function memory(){
+    text('memory-code','a = np.array([1, 2, 3])\nb = a[1:]'+(memoryMode==='copy'?'.copy()':'')+(changed?'\nb[0] = 99':''));
+    const a=changed&&memoryMode==='view'?[1,99,3]:[1,2,3], b=changed?[99,3]:[2,3];
+    array('memory-a',a,[3],{label:'a · original',classFor:function(i,j){return changed&&memoryMode==='view'&&j===1?'changed':'';}});
+    array('memory-b',b,[2],{label:'b · '+memoryMode,classFor:function(i,j){return changed&&j===0?'changed':'';}});
+    text('memory-note',changed?(memoryMode==='view'?'a[1] is now 99. The view shares data.':'a[1] is still 2. The copy owns independent data.'):'Predict a[1] after setting b[0] to 99.');
+    $('memory-modify').disabled=changed;
+  }
+  group('memory-controls','view',function(mode){memoryMode=mode;changed=false;memory();});
+  $('memory-modify').addEventListener('click',function(){changed=true;memory();});$('memory-reset').addEventListener('click',function(){changed=false;memory();});
+  group('transpose-controls','matrix',function(mode){const m=mode==='matrix';text('transpose-code',m?'X.T\n# X.shape:   (3, 2)\n# X.T.shape: (2, 3)':'x = np.array([1, 2, 3])\nx.T\n# x.shape:   (3,)\n# x.T.shape: (3,)');text('transpose-note',m?'Two axes: swap rows and columns.':'One axis: .T keeps the same shape.');array('transpose-array',m?[[1,3,5],[10,20,30]]:[1,2,3],m?[2,3]:[3],{label:'Example output'});});
+  let slideIndex=0;
+  function showSlide(i,writeHash){
+    slideIndex=Math.max(0,Math.min(slides.length-1,i));slides.forEach(function(s,n){s.classList.toggle('active',n===slideIndex);});
+    $('deck').classList.toggle('mask-stage',slides[slideIndex].classList.contains('mask-slide'));
+    $('slide-picker').value=slideIndex;text('slide-count',String(slideIndex+1).padStart(2,'0')+' / '+slides.length);
+    $('previous-button').disabled=slideIndex===0;$('next-button').disabled=slideIndex===slides.length-1;$('progress-fill').style.width=((slideIndex+1)/slides.length*100)+'%';
+    text('slide-announcement','Slide '+(slideIndex+1)+': '+slides[slideIndex].dataset.title);
+    if(writeHash!==false)history.replaceState(null,'','#slide-'+(slideIndex+1));
+    if($('notes-dialog').open)showNotes();
+  }
+  function readHash(){const match=location.hash.match(/^#slide-(\d+)$/);showSlide(match?Number(match[1])-1:0,false);}
+  $('previous-button').addEventListener('click',function(){showSlide(slideIndex-1);});
+  $('next-button').addEventListener('click',function(){showSlide(slideIndex+1);});
+  $('slide-picker').addEventListener('change',function(e){showSlide(Number(e.target.value));});
+  window.addEventListener('hashchange',readHash);
+  $('print-button').addEventListener('click',function(){window.print();});
+  $('fullscreen-button').addEventListener('click',async function(){try{if(document.fullscreenElement){await document.exitFullscreen();}else{await document.documentElement.requestFullscreen();}}catch(e){text('fullscreen-button','Use browser fullscreen');}});
+  document.addEventListener('fullscreenchange',function(){text('fullscreen-button',document.fullscreenElement?'Exit fullscreen':'Fullscreen');});
+  function showNotes(){text('notes-title',slides[slideIndex].dataset.title);text('notes-body',slides[slideIndex].dataset.notes);}
+  $('notes-button').addEventListener('click',function(){showNotes();$('notes-dialog').showModal();});$('notes-close').addEventListener('click',function(){$('notes-dialog').close();});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')return;const tag=e.target.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(tag)||e.ctrlKey||e.metaKey||e.altKey)return;
+    if($('notes-dialog').open)return;
+    if(e.key==='ArrowRight'||(e.key===' '&&tag!=='BUTTON')){e.preventDefault();showSlide(slideIndex+1);}
+    if(e.key==='ArrowLeft'){e.preventDefault();showSlide(slideIndex-1);}
+    if(e.key==='Home'){e.preventDefault();showSlide(0);}if(e.key==='End'){e.preventDefault();showSlide(slides.length-1);}
+  });
+  readHash();
+}());
+</script>
+</body>
+</html>

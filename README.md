@@ -5,10 +5,30 @@ A 10-week, hands-on Python workshop for students in biology and biotechnology. E
 You will build one `mini_ml` package that grows throughout the course:
 
 ```text
-mathematical idea → pure-Python implementation → tests → comparison with established tools
+mathematical idea → implementation (pure Python in Weeks 1–4, NumPy from Week 5) → tests → reference comparison
 ```
 
-By the end of the workshop, you will have implemented and connected core ideas from statistics, information theory, preprocessing, distance-based learning, linear regression, and logistic regression.
+You will connect statistics and information theory to NumPy preprocessing, PCA, multiclass logistic regression and a reproducible pathology-image scanning application. You will implement the numerical core; the instructor supplies data preparation and plotting scaffolds.
+
+## What you will build
+
+```text
+RGB pathology tiles → training-only PCA → your multiclass logistic classifier → large-image probability maps
+```
+
+Your final product will include image reconstructions, a PC1–3 3D distribution, validation comparisons, a held-out test confusion matrix, and tissue/tumor probability maps on a larger pathology image.
+
+![Instructor prototype: original image, tissue predictions, tumor probability and maximum class probability](docs/assets/final-project/slide-scan.png)
+
+*Teacher model prediction demonstration: scikit-learn PCA + RBF SVM (30 PCs). Gray marks regions where the maximum averaged class probability is below 0.5: 35.1% of the display. This is a visualization rule; the large image has no regional ground truth. The required student project will use your PCA and hand-written multiclass logistic regression.*
+
+See the [final-project preview](docs/final-project-preview.md) for reconstructions, PC distributions, classification results, data sources and interpretation limits.
+
+## Current materials
+
+- [Week 5 lesson](weeks/week-05/lesson.md): NumPy, Standardizer.fit/transform, distance and WDBC visualization.
+- [Intro to NumPy](teaching/intro-to-numpy/README.md): download the standalone HTML lesson and open it in your browser.
+- Lessons: Weeks 1–5. Reference solutions: Weeks 1–4. Weeks 6–10 are planned milestones; their runnable lessons will be released later. Check `course.json` for the current release state.
 
 ## Start here
 
@@ -67,7 +87,7 @@ students/<folder>/
 └── data/
 ```
 
-This is one package that grows over ten weeks. Do not create a new package every week. For example, Week 3 extends existing statistics code, Week 8 reorganizes modules into `math/` and `models/`, and Week 9 extends the existing linear-model module.
+This is one package that grows over ten weeks. Week 3 extends statistics; Week 5 adds a NumPy Standardizer. The planned continuation adds PCA, a hand-built softmax classifier and pathology scanning, with stable numerical module paths. See SYLLABUS.md for the learning roadmap; course.json lists released lessons and solutions.
 
 ## Week 1 — Build Your First Installable Python Package
 
@@ -109,7 +129,7 @@ git switch -c <login>/week-02
 uv run --no-project --python 3.12 python tools/course.py sync <login> 2
 ```
 
-The sync command adds local demos and data only. It never creates, replaces, or edits your package modules.
+The sync command adds local demos, data and supplied tests when provided. It never creates, replaces, or edits your package modules, and it preserves existing files.
 
 Next:
 
@@ -234,20 +254,15 @@ Reference solutions are released after the initial work period. Each release con
 
 Use only the fragments you need, integrate them into your existing package, rerun all cumulative tests, and state your level of reference use in the original PR.
 
-Future lessons, unreleased solutions, instructor notes, private research data, and credentials are not stored in this repository.
+Weekly lessons and solutions are released in stages. The high-level roadmap and an instructor prototype preview are available now; unreleased solution code, instructor-only notes, private data and credentials remain outside this repository.
 
-## Week 10 — Reproducible biological application
+## Final project — Pathology classification and scanning (planned)
 
-From your package directory:
+Weeks 6–10 build toward the final product shown above. Implement training-only PCA, a hand-written eight-class softmax classifier, and overlapping-window probability aggregation. Compare your classifier with scikit-learn; optional SVM and PyTorch work is separate from the required implementation.
 
-```sh
-uv sync --frozen
-uv run python examples/breast_cancer.py
-```
+The planned image dataset is [Kather 2016](https://zenodo.org/records/53169): 5,000 RGB tiles in eight tissue classes, with a fixed seed-42 60%/20%/20% train/validation/test split. Fit PCA on training images, choose PC count and model settings on validation, then freeze the pipeline before evaluating test data. WDBC remains the introductory tabular dataset in the earlier weeks.
 
-Commit the formal example and document how to reproduce it, the result summary, and important limitations. Generated JSON and figures should go to local `test_code/`.
-
-The final project uses the [Wisconsin Breast Cancer Diagnostic dataset](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic) (CC BY 4.0; Wolberg, Mangasarian, Street, and Street; DOI: 10.24432/C5DW2B). The scaler is fit on training data only, validation data is used for decisions, and the test set is reserved for final evaluation.
+The final-project CLI and executable acceptance will be provided with later lessons. Until then, use the [preview](docs/final-project-preview.md) to understand the target artifacts. Tile-level classification results do not establish patient-independent performance, and unannotated large-image prediction maps do not establish localization accuracy.
 
 ## Getting help
 

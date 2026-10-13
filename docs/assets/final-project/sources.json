@@ -1,0 +1,57 @@
+[
+  {
+    "image": "slide-scan.png",
+    "source": "Instructor feasibility experiment on Kather 2016",
+    "dataset": "https://doi.org/10.5281/zenodo.53169",
+    "dataset_license": "CC BY 4.0",
+    "classifier": "scikit-learn RBF SVM, 30 PCs; LR shown separately in validation comparison",
+    "sha256": "8dd5dd8c9663575cde67ec51700da06a682177dd41715dff95e81077111cbb53",
+    "display_rule": {
+      "threshold": 0.5,
+      "low_score_display_fraction": 0.3508,
+      "gray": "maximum overlap-averaged class probability below threshold",
+      "changes_model_or_probabilities": false,
+      "validated_rejection_threshold": false
+    }
+  },
+  {
+    "image": "reconstructions.png",
+    "source": "Instructor feasibility experiment on Kather 2016",
+    "dataset": "https://doi.org/10.5281/zenodo.53169",
+    "dataset_license": "CC BY 4.0",
+    "classifier": "scikit-learn RBF SVM, 30 PCs; LR shown separately in validation comparison",
+    "sha256": "7b64db0dd0d045f53ea6665ad981b8e25e5c77da195c3b8a7aa6e9a26c04eff3"
+  },
+  {
+    "image": "pca-distribution.png",
+    "source": "Instructor feasibility experiment on Kather 2016",
+    "dataset": "https://doi.org/10.5281/zenodo.53169",
+    "dataset_license": "CC BY 4.0",
+    "classifier": "scikit-learn RBF SVM, 30 PCs; LR shown separately in validation comparison",
+    "sha256": "9540472ee9bee8a55c3f1ef5b01b0ab34e4ae7e62caf1a3e82204aa7bed38e70"
+  },
+  {
+    "image": "validation-performance.png",
+    "source": "Instructor feasibility experiment on Kather 2016",
+    "dataset": "https://doi.org/10.5281/zenodo.53169",
+    "dataset_license": "CC BY 4.0",
+    "classifier": "scikit-learn RBF SVM, 30 PCs; LR shown separately in validation comparison",
+    "sha256": "d4f1b28eb6f9e69d82ed94dd4d3d922a0d9b80265cd75bca2194421313f62b23"
+  },
+  {
+    "image": "test-confusion-matrix.png",
+    "source": "Instructor feasibility experiment on Kather 2016",
+    "dataset": "https://doi.org/10.5281/zenodo.53169",
+    "dataset_license": "CC BY 4.0",
+    "classifier": "scikit-learn RBF SVM, 30 PCs; LR shown separately in validation comparison",
+    "sha256": "2a1482544d40bac57c133a31d14b7d68e00566934f424f1762634928d44d6fdb"
+  },
+  {
+    "image": "selected-patches.png",
+    "source": "Instructor feasibility experiment on Kather 2016",
+    "dataset": "https://doi.org/10.5281/zenodo.53169",
+    "dataset_license": "CC BY 4.0",
+    "classifier": "scikit-learn RBF SVM, 30 PCs; LR shown separately in validation comparison",
+    "sha256": "c351af084c3e65ebf09d9c8e61f9ec64ff13327c143dcaad50eb625761b940d2"
+  }
+]
