@@ -1,4 +1,5 @@
 """Training-only feature standardization with NumPy."""
+from multiprocessing import resource_sharer
 import numpy as np
 
 
@@ -22,8 +23,8 @@ class Standardizer:
         """Learn per-feature parameters from training rows only."""
         array = _matrix(X)
         # BEGIN STUDENT: training mean and population scale
-        self.mean_ = np.mean(X, axis=0)
-        self.scale_ = np.std(X, axis=0, ddof=0)
+        self.mean_ = np.mean(array, axis=0)
+        self.scale_ = np.std(array, axis=0, ddof=0)
         self.scale_ = np.where(self.scale＿==0,1,self.scale_)
         # END STUDENT
         self.n_features_in_ = array.shape[1]
@@ -37,5 +38,5 @@ class Standardizer:
         if array.shape[1] != self.n_features_in_:
             raise ValueError("feature dimensions differ")
         # BEGIN STUDENT: broadcast saved training parameters
-        return (X - self.mean_) / self.scale_
+        return (array - self.mean_) / self.scale_
         # END STUDENT
