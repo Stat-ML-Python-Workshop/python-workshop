@@ -5,13 +5,15 @@
     2,
     3,
     4,
-    5
+    5,
+    6
   ],
   "solution_weeks": [
     1,
     2,
     3,
-    4
+    4,
+    5
   ],
   "timezone": "Asia/Taipei",
   "repository": "Stat-ML-Python-Workshop/python-workshop",
