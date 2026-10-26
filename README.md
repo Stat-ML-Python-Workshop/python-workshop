@@ -26,9 +26,10 @@ See the [final-project preview](docs/final-project-preview.md) for reconstructio
 
 ## Current materials
 
-- [Week 5 lesson](weeks/week-05/lesson.md): NumPy, Standardizer.fit/transform, distance and WDBC visualization.
-- [Intro to NumPy](teaching/intro-to-numpy/README.md): download the standalone HTML lesson and open it in your browser.
-- Lessons: Weeks 1–5. Reference solutions: Weeks 1–4. Weeks 6–10 are planned milestones; their runnable lessons will be released later. Check `course.json` for the current release state.
+- [Week 6 lesson](weeks/week-06/lesson.md): centering, sample covariance, directional variance and the native variance explorer.
+- [Intro to PCA](teaching/intro-to-pca/README.md): interactive visual introduction to modes, eigenfaces, covariance and reconstruction.
+- [Week 5 lesson](weeks/week-05/lesson.md) and [Intro to NumPy](teaching/intro-to-numpy/README.md).
+- Lessons: Weeks 1–6. Reference solutions: Weeks 1–5. Weeks 7–10 are planned milestones; their runnable lessons will be released later. Check `course.json` for the current release state.
 
 ## Start here
 
