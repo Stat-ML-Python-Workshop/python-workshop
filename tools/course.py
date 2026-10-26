@@ -28,7 +28,9 @@ def sync(login,week):
         lesson=ROOT/'weeks'/f'week-{w:02}'
         copy_new(lesson/'demo.py',target/'test_code'/f'week_{w:02}.py')
         for file in (lesson/'student_tests').glob('test_*.py'):copy_new(file,target/'tests'/file.name)
-        for file in (lesson/'data').glob('*.csv'):copy_new(file,target/'data'/f'week-{w:02}'/file.name)
+        for pattern in ('*.csv', '*.npz', '*.json'):
+            for file in (lesson/'data').glob(pattern):
+                copy_new(file,target/'data'/f'week-{w:02}'/file.name)
     print(f'Ready: {target}\nRead weeks/week-{week:02}/lesson.md; manually integrate fragments. Existing source is unchanged.')
 
 if __name__=='__main__':
