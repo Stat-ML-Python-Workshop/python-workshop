@@ -26,10 +26,11 @@ See the [final-project preview](docs/final-project-preview.md) for reconstructio
 
 ## Current materials
 
+- [Week 7 lesson](weeks/week-07/lesson.md): projection, reconstruction and MSE with WDBC and eight tissue-image examples. Start with the [12-slide offline lecture](teaching/week07-projection/README.md).
 - [Week 6 lesson](weeks/week-06/lesson.md): centering, sample covariance, directional variance and the native variance explorer.
 - [Intro to PCA](teaching/intro-to-pca/README.md): interactive visual introduction to modes, eigenfaces, covariance and reconstruction.
 - [Week 5 lesson](weeks/week-05/lesson.md) and [Intro to NumPy](teaching/intro-to-numpy/README.md).
-- Lessons: Weeks 1–6. Reference solutions: Weeks 1–5. Weeks 7–10 are planned milestones; their runnable lessons will be released later. Check `course.json` for the current release state.
+- Lessons: Weeks 1–7. Reference solutions: Weeks 1–6. Weeks 8–10 are planned milestones; their runnable lessons will be released later. Check `course.json` for the current release state.
 
 ## Start here
 
