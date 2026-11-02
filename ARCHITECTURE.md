@@ -1,6 +1,6 @@
 # Cumulative Package Architecture
 
-Weeks 1–6 have released lesson materials. Weeks 7–10 paths below are planned contracts; implement them only when the corresponding lesson is released.
+Weeks 1–7 have released lesson materials. Weeks 8–10 paths below are planned contracts; implement them only when the corresponding lesson is released.
 
 | Milestone | Package change |
 |---|---|
@@ -9,7 +9,8 @@ Weeks 1–6 have released lesson materials. Weeks 7–10 paths below are planned
 | 4 | linalg.py with pure-Python shape, transpose and matmul |
 | 5 | append NumPy euclidean_distance to linalg.py; create preprocessing.py with Standardizer |
 | 6 | create decomposition.py: center, covariance_matrix, variance_along_direction; supplied Python explorer |
-| 7–8 (draft) | append projection/reconstruction, then PCA to decomposition.py |
+| 7 | append project, reconstruct and reconstruction_error to decomposition.py; supplied fixed-basis image and WDBC explorers |
+| 8 (draft) | append fitted PCA object to decomposition.py |
 | 9 (draft) | models/__init__.py and models/linear_models.py with multiclass LogisticClassifier |
 | 10 (draft) | scanning.py plus examples/pathology.py integration |
 
