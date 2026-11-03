@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import pytest
 
 def restore_nonfinite(value):
@@ -23,7 +24,7 @@ def invoke():
             if os.getuid() == 0:
                 os.setgroups([]); os.setgid(65534); os.setuid(65534)
         python=os.environ.get("STUDENT_PYTHON",sys.executable)
-        process=subprocess.run([python,"-I",str(Path(__file__).with_name("worker.py")),os.environ["STUDENT_ROOT"]],input=json.dumps(request),text=True,capture_output=True,timeout=90,cwd="/tmp",preexec_fn=drop_privileges if os.environ.get("SANDBOX_STUDENT")=="1" else None)
+        process=subprocess.run([python,"-I",str(Path(__file__).with_name("worker.py")),os.environ["STUDENT_ROOT"]],input=json.dumps(request),text=True,capture_output=True,timeout=90,cwd=tempfile.gettempdir(),preexec_fn=drop_privileges if os.environ.get("SANDBOX_STUDENT")=="1" else None)
         assert process.returncode==0, "Student operation exited unexpectedly: "+process.stderr[-1000:]
         try: return restore_nonfinite(json.loads(process.stdout))
         except ValueError: pytest.fail("Expected one JSON result; remove debug print calls from library functions")
