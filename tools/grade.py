@@ -179,6 +179,10 @@ def show_failure(label,result):
     if result.stdout:print(result.stdout[-4000:],file=sys.stderr)
     if result.stderr:print(result.stderr[-4000:],file=sys.stderr)
 
+def runtime_python_path(runtime):
+    """Locate the interpreter created by Python's platform-native venv."""
+    return runtime/("Scripts/python.exe" if os.name == "nt" else "bin/python")
+
 def grade(source, tests, week, junit=None):
     source=Path(source).resolve(); tests=Path(tests).resolve()
     if not 1 <= week <= 10: raise ValueError("week must be 1..10")
@@ -215,7 +219,7 @@ def grade(source, tests, week, junit=None):
                 print(error, file=sys.stderr)
                 return 1
         subprocess.run([sys.executable,"-m","venv","--system-site-packages",str(runtime)],check=True)
-        runtime_python=runtime/"bin"/"python"
+        runtime_python=runtime_python_path(runtime)
         purelib=Path(subprocess.check_output(
             [str(runtime_python),"-c",'import sysconfig; print(sysconfig.get_paths()["purelib"])'],text=True).strip())
         (purelib/"workshop-ci-dependencies.pth").write_text("\n".join(site.getsitepackages())+"\n")

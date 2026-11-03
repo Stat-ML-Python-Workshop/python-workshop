@@ -1,0 +1,619 @@
+{
+  "purpose": "Frozen reference views for the Week 8 offline lecture; no fitted model is distributed.",
+  "source_pack": "../../weeks/week-08/data/provenance.json",
+  "source_provenance_sha256": "ce209153e974c8e569c14503423a62bc85f64262e3993568ad34fda3a8c92537",
+  "source_files": {
+    "kather_examples.npz": {
+      "sha256": "1b3e47a7bc633e9250cbd8c69a1d8dbcc6a9df5616a1d037b07c4e17377358af",
+      "bytes": 393176
+    },
+    "kather_train.npz": {
+      "sha256": "994bf42d4f5dffea5fa86f9fbd93e6f9c16ccfa8f5c1f7f2aed7630881860d5b",
+      "bytes": 6181260
+    },
+    "kather_validation.npz": {
+      "sha256": "ba9a330ae40a961e5ba18d4fef72b2bcde67713c7b22b9046f509ac2e74e8fc6",
+      "bytes": 2064934
+    },
+    "wdbc.npz": {
+      "sha256": "89ecec3a3c4fa433b80a0b133e09de81227cba1ca1b1e416484765eabe832bcb",
+      "bytes": 63966
+    }
+  },
+  "wdbc": {
+    "training_rows": 341,
+    "validation_rows": 114,
+    "features": 30,
+    "preprocessing": "Training Standardizer (ddof=0); PCA uses saved training mean",
+    "solver": "eigh",
+    "fit_components": 30,
+    "display_components": 3,
+    "id_definition": "zero-based sklearn source-row indices, not clinical identifiers",
+    "class_labels": {
+      "0": "benign",
+      "1": "malignant"
+    }
+  },
+  "kather": {
+    "training_rows": 3000,
+    "validation_rows": 1000,
+    "input_shape": [
+      28,
+      28,
+      3
+    ],
+    "original_shape": [
+      150,
+      150,
+      3
+    ],
+    "fit_components": 300,
+    "solver": "NumPy randomized SVD",
+    "oversampling": 10,
+    "qr_power_iterations": 7,
+    "random_state": 42,
+    "k": [
+      3,
+      10,
+      30,
+      100,
+      300
+    ],
+    "display_ids": [
+      107,
+      1095,
+      1712,
+      2356,
+      2523,
+      3429,
+      4172,
+      4431
+    ],
+    "mse_population": "the same eight validation examples as Week 7",
+    "mse_before_display_clipping": true,
+    "signed_components": "RGB channels side by side; blue negative, white zero, red positive; shared limit across first three PCs",
+    "signed_limit": 0.04526449271508207,
+    "mode_multipliers": [
+      -2.0,
+      -1.75,
+      -1.5,
+      -1.25,
+      -1.0,
+      -0.75,
+      -0.5,
+      -0.25,
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      2.0
+    ],
+    "mode_formula": "mean + multiplier * sqrt(explained_variance[pc]) * component[pc]"
+  },
+  "licenses": [
+    {
+      "dataset": "WDBC",
+      "url": "https://doi.org/10.24432/C5DW2B",
+      "license": "CC BY 4.0"
+    },
+    {
+      "dataset": "Kather et al. (2016)",
+      "url": "https://doi.org/10.5281/zenodo.53169",
+      "license": "CC BY 4.0"
+    }
+  ],
+  "reference_source_sha256": "c260e9b6817c4af45581e8c7a7c3c3e61a13ecdf943a4b7a2a7b71c4f64c2277",
+  "demo_sha256": "7182ea2ce959684bf29ae963a9d2e6d90540ed1a329a8f34a6e95ecc8ad60b27",
+  "runtime_assets": {
+    "assets/component-0.png": {
+      "sha256": "2e3a49d6b73b5ceb6f34615ed42f158b42283b9907ebf84b44460b75482b3ec3",
+      "bytes": 1425
+    },
+    "assets/component-1.png": {
+      "sha256": "8a8b44e0ea57fd24dad4610458529d1147b5cdfb75eb86dff589d869bb668d94",
+      "bytes": 3173
+    },
+    "assets/component-2.png": {
+      "sha256": "9fe19d2d7cf68c4d5dad06c34d7acbf10c51a3dfa124eba084cf73bf1a0dba9c",
+      "bytes": 3723
+    },
+    "assets/mode-0-0.png": {
+      "sha256": "14ad6ed3a90467097596ed830cfa166855d7b4daf1f488e7ab4a3fc7147c45a7",
+      "bytes": 685
+    },
+    "assets/mode-0-1.png": {
+      "sha256": "e1a0813ad6f411ae3b2447d5ace63ca44b683f2cb959e1bf415ea7c4fb451185",
+      "bytes": 654
+    },
+    "assets/mode-0-10.png": {
+      "sha256": "37f2fc4f5ebd3d5c9d9cef674028c799c08ca695c1d10d5fbb1a2ac741b14ce7",
+      "bytes": 548
+    },
+    "assets/mode-0-11.png": {
+      "sha256": "a2a405ca5f07b10eb967c5a282f881b296acf1569f8c4c244242c67405cd4f49",
+      "bytes": 564
+    },
+    "assets/mode-0-12.png": {
+      "sha256": "e321f70ea92b99570e7077abcede737763496b8f1f6a8ac86d78b37ccb1db46c",
+      "bytes": 576
+    },
+    "assets/mode-0-13.png": {
+      "sha256": "98ec1581661e3bc9a6a7a2603d42297848af12e6310dd91e436717563730a30f",
+      "bytes": 588
+    },
+    "assets/mode-0-14.png": {
+      "sha256": "a9be70f57c8610265e879e3faa0991404d087bc416c3f78a6a104f175ece3fc1",
+      "bytes": 618
+    },
+    "assets/mode-0-15.png": {
+      "sha256": "580196c86f0d1d7fe50413160dce06d354359a9f02cb172025b10e8eb378fea3",
+      "bytes": 636
+    },
+    "assets/mode-0-16.png": {
+      "sha256": "e668d88d9ca3d809ad757fdb62de37ec780b49cab4720a0843264f350814ef9b",
+      "bytes": 109
+    },
+    "assets/mode-0-2.png": {
+      "sha256": "2c0d576519658fbc6bf4195903211cc5eb590eef1a5fdddeb98550da34e9b37b",
+      "bytes": 744
+    },
+    "assets/mode-0-3.png": {
+      "sha256": "320c5515e29e3d9eba6b46dc33f16d3996cd2422b1312a2f3e31815542afa44b",
+      "bytes": 726
+    },
+    "assets/mode-0-4.png": {
+      "sha256": "c047070216e15810273831366e5cd00cba382cb4e9023484eab400edcb3969ef",
+      "bytes": 702
+    },
+    "assets/mode-0-5.png": {
+      "sha256": "7b34d71523dcc77c96e18e5e9ac19946465863c60ea4d45e1e0d79163a9ac583",
+      "bytes": 664
+    },
+    "assets/mode-0-6.png": {
+      "sha256": "0609feed345e0d9c3cea8ea9650d94430d4def918b0b9c9f03be4100000394c5",
+      "bytes": 647
+    },
+    "assets/mode-0-7.png": {
+      "sha256": "2be9ca50134d068e93901c2ee8223c360b3c71f58efadcaa53b8468de0383dd2",
+      "bytes": 622
+    },
+    "assets/mode-0-8.png": {
+      "sha256": "01b689721282a1fe23b4d30446ca58ee1b6a79dbd6c2d86d638b2cec3888a247",
+      "bytes": 607
+    },
+    "assets/mode-0-9.png": {
+      "sha256": "8d2acb4c23d12325278982ef133446ffee9688d8d6922247a318e91334866837",
+      "bytes": 568
+    },
+    "assets/mode-1-0.png": {
+      "sha256": "640cd96748cc8560a29f044bcb5c2ac3c555ae6b9a214447aec27ac1a3007de2",
+      "bytes": 825
+    },
+    "assets/mode-1-1.png": {
+      "sha256": "8c52f73ec5ace1c40a9255a91e402879b54736e28896aeca2726365ce0e91e0b",
+      "bytes": 801
+    },
+    "assets/mode-1-10.png": {
+      "sha256": "dc2e525f81703cdeeb4d1541d1c31a2503c169d34d9178dd073a618d9adbe02f",
+      "bytes": 621
+    },
+    "assets/mode-1-11.png": {
+      "sha256": "2005edbb6b361364694b1cabf77b9dcc615224e92ace8c69a10e6578151923f7",
+      "bytes": 632
+    },
+    "assets/mode-1-12.png": {
+      "sha256": "f579386d2d3b85c3f7bda07586d3fd9a60d3074e7a542dcb451684abe4b89fa9",
+      "bytes": 672
+    },
+    "assets/mode-1-13.png": {
+      "sha256": "7a1cf76741eafdca165fa031e67498f8395b3aab28eba928b461bb1a0ceb85f2",
+      "bytes": 705
+    },
+    "assets/mode-1-14.png": {
+      "sha256": "0260ddd780507057a71cf27180ba58f5223050aa8d87793303187e2d524305df",
+      "bytes": 733
+    },
+    "assets/mode-1-15.png": {
+      "sha256": "2d85e13fd360015aaf3e602aaab698a970eaa5553049be63a92f043e6f63b198",
+      "bytes": 762
+    },
+    "assets/mode-1-16.png": {
+      "sha256": "d14b527c9982c49effcf0c80b0c725b291570b8263424bbc8f9fac20581a6d25",
+      "bytes": 789
+    },
+    "assets/mode-1-2.png": {
+      "sha256": "589698cf6d7f42f12b79ad210b6c84571f8ab5fb2aab7ccbf2e857496c30262d",
+      "bytes": 759
+    },
+    "assets/mode-1-3.png": {
+      "sha256": "e9f5f88a5106a9c9b6e02edb14952919faff6246fd5e9f717588fb85bbfe6b32",
+      "bytes": 727
+    },
+    "assets/mode-1-4.png": {
+      "sha256": "257099f35dc0b001aa0c5a184f6db49d95991c1df6510eb07ab3ecee2995c1d5",
+      "bytes": 704
+    },
+    "assets/mode-1-5.png": {
+      "sha256": "cb6fe457af68d062fa480a6399deeaaf4c11d2b9c7f93335b7bfbb1fd767297f",
+      "bytes": 665
+    },
+    "assets/mode-1-6.png": {
+      "sha256": "52bd29219eb3620a8f0d6d16d028be0a9480764f5e7209e5e90fd43bf4f674b5",
+      "bytes": 647
+    },
+    "assets/mode-1-7.png": {
+      "sha256": "9b50386284afd4c1512ef0f070534e04e16fd385f3074c625ac3a8763533dc05",
+      "bytes": 610
+    },
+    "assets/mode-1-8.png": {
+      "sha256": "01b689721282a1fe23b4d30446ca58ee1b6a79dbd6c2d86d638b2cec3888a247",
+      "bytes": 607
+    },
+    "assets/mode-1-9.png": {
+      "sha256": "9364d6edfcf04a22891f132062cdc87cbdca512d3cabeba4217b9f725d518dac",
+      "bytes": 607
+    },
+    "assets/mode-2-0.png": {
+      "sha256": "1d0a0dae170c2ccc4cc768ef56d05b95377857d11099d963376246744cbfba84",
+      "bytes": 925
+    },
+    "assets/mode-2-1.png": {
+      "sha256": "d4dfcdaf7ba967c72987938988f3b8d945912c49fd3cecccdcfbe86467e8635e",
+      "bytes": 880
+    },
+    "assets/mode-2-10.png": {
+      "sha256": "f9de53d10b7596419916d5e56bda071becac942e2bb08f48648a3ab315c9011b",
+      "bytes": 678
+    },
+    "assets/mode-2-11.png": {
+      "sha256": "4bb8e5c614c02283d69e26806bf12e709da8dc3f5020506d206b2de4cfe253e5",
+      "bytes": 716
+    },
+    "assets/mode-2-12.png": {
+      "sha256": "2ebc46f1035e751ad03f2352826576aa267bdcf55efa6493d9c501fe6ecc121f",
+      "bytes": 749
+    },
+    "assets/mode-2-13.png": {
+      "sha256": "38a3509f5b5ed531ff4c82eb767142bdf0711b34405b7def507b866de0eb6ab6",
+      "bytes": 804
+    },
+    "assets/mode-2-14.png": {
+      "sha256": "288a6d6c4d10ec709988e1afd14644d8d500d7cdd5dcbd07cb5ddf93bd685959",
+      "bytes": 862
+    },
+    "assets/mode-2-15.png": {
+      "sha256": "f75e1aeb558fd3155264f8bfd094cfaff641edd352e2ee8fdf26faef81411426",
+      "bytes": 885
+    },
+    "assets/mode-2-16.png": {
+      "sha256": "69711ba88ba36e5542f2a2c91ecaea60d7cdcd416e47ddb21bbb7d10b4adbb09",
+      "bytes": 924
+    },
+    "assets/mode-2-2.png": {
+      "sha256": "b1bdc2b5e35a62e0777efc6d2c722783ebfd58411671e3f0f1dfc0cf9d7f97f9",
+      "bytes": 834
+    },
+    "assets/mode-2-3.png": {
+      "sha256": "09750392260ed24840618c41dc24b316ebad153760d95b12c049dbd5c7bcf891",
+      "bytes": 787
+    },
+    "assets/mode-2-4.png": {
+      "sha256": "32bc1acbf8ccf8491ca1a38ff26d9ffbfa53105bbe3e60db59c91460d285cd63",
+      "bytes": 734
+    },
+    "assets/mode-2-5.png": {
+      "sha256": "842e6d1da54db16be27a90eeb9564780fabed0d566f7ab3ee267ec0c3ef24294",
+      "bytes": 706
+    },
+    "assets/mode-2-6.png": {
+      "sha256": "76f66942c8123261f65f8b43a36721a886d08c23af96a529a5baaec2510e1425",
+      "bytes": 651
+    },
+    "assets/mode-2-7.png": {
+      "sha256": "c6025d2fdad35d047e0269586a1cc31d4b7716d75bc662702197e55f291d9f90",
+      "bytes": 614
+    },
+    "assets/mode-2-8.png": {
+      "sha256": "01b689721282a1fe23b4d30446ca58ee1b6a79dbd6c2d86d638b2cec3888a247",
+      "bytes": 607
+    },
+    "assets/mode-2-9.png": {
+      "sha256": "b009f5d9f33a8e3cae81ebd764a6edced4dbcbd9b317c9706f49891a386f5b0f",
+      "bytes": 626
+    },
+    "assets/tissue-input-0.png": {
+      "sha256": "609cd7b890a2d65f9d5b0b9686319d7f877ab0d5fb4434f7c20719c41520880e",
+      "bytes": 1843
+    },
+    "assets/tissue-input-1.png": {
+      "sha256": "d9ddfb1c0f451c885712462e88d69fc6e18e79fa70fea5fb795e2f7e7e74d836",
+      "bytes": 2035
+    },
+    "assets/tissue-input-2.png": {
+      "sha256": "29f567ab4affd22a727119a667b7ba5723d4aae239e0412acf2c96adb6775ba5",
+      "bytes": 1855
+    },
+    "assets/tissue-input-3.png": {
+      "sha256": "ec3385a10e61ce2ff1d34c8c94032a3566835e20f1623b46ffbf4662c237aece",
+      "bytes": 2007
+    },
+    "assets/tissue-input-4.png": {
+      "sha256": "fa82e307c5800915a6bc88eab470bb984e83ef25508cdc0da97cc4f8c0d651dc",
+      "bytes": 1953
+    },
+    "assets/tissue-input-5.png": {
+      "sha256": "96f871089e5f376f7964d4324eda859c552cc526fba5ef18fc25054ce5b439c9",
+      "bytes": 2079
+    },
+    "assets/tissue-input-6.png": {
+      "sha256": "d0f791a4715af583622c2568de0d422251278c4a24347481d8c0beada8a63840",
+      "bytes": 1073
+    },
+    "assets/tissue-input-7.png": {
+      "sha256": "1c86f4ac65edbfede6b727476d4f8595c078e26dd1bb185edc9bad6e7904df87",
+      "bytes": 743
+    },
+    "assets/tissue-k10-0.png": {
+      "sha256": "860bae79520c718598a6ae8b890ee14bb3c44858078ce0dcfabb36909f4d6f50",
+      "bytes": 1110
+    },
+    "assets/tissue-k10-1.png": {
+      "sha256": "e52538f431c52d9c1b1e2bcdf1868f713b0a2af8a5087b98ce1d5f8bc3bb8809",
+      "bytes": 1072
+    },
+    "assets/tissue-k10-2.png": {
+      "sha256": "ba65f4f707f3b7ad533631f6c252fb39367b16cf97be3862bee06f97eed49b79",
+      "bytes": 943
+    },
+    "assets/tissue-k10-3.png": {
+      "sha256": "3d5a773937f7d727f036592d094c9ec2d0a23e8010708ce1f271e7366ec8fa34",
+      "bytes": 955
+    },
+    "assets/tissue-k10-4.png": {
+      "sha256": "93429ec9499eccb1f482d6be0e5e9e4182c59a37e00f5511e06f1b84a98fd419",
+      "bytes": 1247
+    },
+    "assets/tissue-k10-5.png": {
+      "sha256": "23d86301300ba9f6a30dffd0e82561d74f879e7bc5a257f19b8ae57dcee6079f",
+      "bytes": 1171
+    },
+    "assets/tissue-k10-6.png": {
+      "sha256": "79125ea51231a7ff3803d62d74f8c9b755fff0d66ab2936d141455adfe7f0c16",
+      "bytes": 707
+    },
+    "assets/tissue-k10-7.png": {
+      "sha256": "9383550b5cfbeaba121b97925ce1a8935a2e2127deacee7c3f0ca2b3f8b1d328",
+      "bytes": 621
+    },
+    "assets/tissue-k100-0.png": {
+      "sha256": "58ca5922622b41f24352069c7b861dfb42c76683915ebadb74640d1544e8ee66",
+      "bytes": 1564
+    },
+    "assets/tissue-k100-1.png": {
+      "sha256": "6d7a05631cbf2e01cebf61a4c6ec84a08f363e39feea98e6ec2d6fe399d67ece",
+      "bytes": 1713
+    },
+    "assets/tissue-k100-2.png": {
+      "sha256": "888ba03ad6c54938363b544ae45268f505b83f4d2257dc527d7b32eed4b3fb55",
+      "bytes": 1473
+    },
+    "assets/tissue-k100-3.png": {
+      "sha256": "c8ef0c0ac52eaefe343794398c7e8e14b6e37a294b2e1cdb42007c9cb730596a",
+      "bytes": 1540
+    },
+    "assets/tissue-k100-4.png": {
+      "sha256": "55be0fdf9c0e1c66e2ba3ac6ad8f756b0f33e77df737b95afef16e90d8608900",
+      "bytes": 1675
+    },
+    "assets/tissue-k100-5.png": {
+      "sha256": "316542287da47f36c9a9332655db742c386e1c32df3e2b26bdeaf34956b6985b",
+      "bytes": 1834
+    },
+    "assets/tissue-k100-6.png": {
+      "sha256": "b86270475827911a4a6e116ed2f6478905accec3ad7ca8c6fca8e591fef2516b",
+      "bytes": 979
+    },
+    "assets/tissue-k100-7.png": {
+      "sha256": "30ab5a8809c870c88750a4dd56c7ec4a77a4a7b838da7fe6818efb7940b245e1",
+      "bytes": 630
+    },
+    "assets/tissue-k3-0.png": {
+      "sha256": "4d1b644dbfd2cbd1334ae5539d6761bb6e583abe923bd55cf586d54e263e0299",
+      "bytes": 987
+    },
+    "assets/tissue-k3-1.png": {
+      "sha256": "8e029065f5933d420326575d662f1aa83b5b13baf2a17ba6265279a4ccff1864",
+      "bytes": 768
+    },
+    "assets/tissue-k3-2.png": {
+      "sha256": "18362fe898e55122059195f4e40eedf91368549763ee5c9bd24bf797e718ee3f",
+      "bytes": 805
+    },
+    "assets/tissue-k3-3.png": {
+      "sha256": "8811ab1c689ebfa6b766a99466012f94144bd513ee223255262b5c862d01822e",
+      "bytes": 822
+    },
+    "assets/tissue-k3-4.png": {
+      "sha256": "9c9bf6e620f1292e9ccfe7cc9aadc837d4751dd481edd04efd71c19ec9ef84c8",
+      "bytes": 1114
+    },
+    "assets/tissue-k3-5.png": {
+      "sha256": "c75a74bfcfa511a115a2e096cc80d56a5a7ef372409b348797a5d4f4c88172a7",
+      "bytes": 636
+    },
+    "assets/tissue-k3-6.png": {
+      "sha256": "0f35a70cb18d48c86664af51b158edce8d7f75e878e141454a71488946dd88e2",
+      "bytes": 613
+    },
+    "assets/tissue-k3-7.png": {
+      "sha256": "3f8516a9aba7cfa64155614ff0a41e84ef546e333c12288bb5df44032df26a81",
+      "bytes": 605
+    },
+    "assets/tissue-k30-0.png": {
+      "sha256": "1628b778a120ea434babdab0a3cd32c7a6bc57b8c30539e8fa0630787c3a8d16",
+      "bytes": 1261
+    },
+    "assets/tissue-k30-1.png": {
+      "sha256": "100586bed14d6058f0b3991d4f6f60510d9256d04986f051a48e1c6f81e3716d",
+      "bytes": 1302
+    },
+    "assets/tissue-k30-2.png": {
+      "sha256": "041d3521c22f8673e1f589b17a9a2e0486ba2da8c54aba5bd32046bd4c540b7f",
+      "bytes": 1232
+    },
+    "assets/tissue-k30-3.png": {
+      "sha256": "00c4094e4ca6d414e6c6bf960d6e38c68e8eb81644d66963a1fe9d836f1d0f97",
+      "bytes": 1123
+    },
+    "assets/tissue-k30-4.png": {
+      "sha256": "c7546506c4ccc4c2fca3fb294c88489be9d467769d6efe8254bd0e2c0e41cc92",
+      "bytes": 1417
+    },
+    "assets/tissue-k30-5.png": {
+      "sha256": "d6d56434a9675b7d9a7d4008f1cdee414192816d73ecef2372a5d1ff104429f6",
+      "bytes": 1387
+    },
+    "assets/tissue-k30-6.png": {
+      "sha256": "706e0e2e766740d5c34db9a0d4cd88697550223e8708a8c88a38151e3a793e45",
+      "bytes": 765
+    },
+    "assets/tissue-k30-7.png": {
+      "sha256": "cbb4e6d5760dc2b26c8ec7b8e4bc0106d1c1b717e133caa07cc01949f9847ff0",
+      "bytes": 618
+    },
+    "assets/tissue-k300-0.png": {
+      "sha256": "953f2d41442b879e84117175cf7ac6207fb5778b096ae5655101ad4750a822f6",
+      "bytes": 1773
+    },
+    "assets/tissue-k300-1.png": {
+      "sha256": "7cd98d096923bf6a8ae6aa53eb4ff9f0951412afcea806c6a9db5704fb5b8df6",
+      "bytes": 1941
+    },
+    "assets/tissue-k300-2.png": {
+      "sha256": "420eb720646bc26f040cd00969571d95eeb977d4f818bd22d3ae186a1ee62e6d",
+      "bytes": 1751
+    },
+    "assets/tissue-k300-3.png": {
+      "sha256": "55f9d631f9b34b526bbeb555923f36335389ae96b26c70ada7a91281b4b0683a",
+      "bytes": 1869
+    },
+    "assets/tissue-k300-4.png": {
+      "sha256": "a0e9a3ddc117e2001b5a25042c57d54afde4ff26151cfd65d14d750ef05e5b03",
+      "bytes": 1874
+    },
+    "assets/tissue-k300-5.png": {
+      "sha256": "ada0f136ebafe66397f1eb6f4482aaa251c5c8a22f7b2274e786d0d09aa91d83",
+      "bytes": 2024
+    },
+    "assets/tissue-k300-6.png": {
+      "sha256": "95b093752f16218834887cb6944c7c77a88a36db154ec84c8bfba0fab880cd57",
+      "bytes": 1109
+    },
+    "assets/tissue-k300-7.png": {
+      "sha256": "822958310f6b4d27b63b1d090092a5457c5f437d7518778bb4c4dc2e1e3bb9c8",
+      "bytes": 705
+    },
+    "assets/tissue-mean.png": {
+      "sha256": "01b689721282a1fe23b4d30446ca58ee1b6a79dbd6c2d86d638b2cec3888a247",
+      "bytes": 607
+    },
+    "assets/tissue-source-0.png": {
+      "sha256": "5120e1fc531af0c425fab99dd6ae1ca221682e641bba511c8adfb275545ce051",
+      "bytes": 45328
+    },
+    "assets/tissue-source-1.png": {
+      "sha256": "b7ad1a7e127ac2bbfdd52ba8a77b93ad95d19ef2d3872717e0d3e87b4f03e917",
+      "bytes": 47476
+    },
+    "assets/tissue-source-2.png": {
+      "sha256": "eaac847d6a0739311ec9c2fa4bbfadb41048bb31afdfa697f2ba2fb26278be4a",
+      "bytes": 44375
+    },
+    "assets/tissue-source-3.png": {
+      "sha256": "416ad5bb995c843fdb1f6261c8921ba9c3c41ecd59fbb8be649ebcf437ecda23",
+      "bytes": 44893
+    },
+    "assets/tissue-source-4.png": {
+      "sha256": "c24ff7c85de15b8f9d632299cc5681dc92b9a739ac4e115e60b22d3091988c3a",
+      "bytes": 42723
+    },
+    "assets/tissue-source-5.png": {
+      "sha256": "4c7290102822219434dfc562a2576e774461374fabf42fe53aa9ac91f635cadc",
+      "bytes": 44684
+    },
+    "assets/tissue-source-6.png": {
+      "sha256": "0f6cb1d8a8e56e217c98c18495b86d396d18524e3ccde5ef63841d90eba65caa",
+      "bytes": 15123
+    },
+    "assets/tissue-source-7.png": {
+      "sha256": "c2c8140cd3a41d00912656c6c287e62200cc27e677db086e9c643607aba2e8cb",
+      "bytes": 6214
+    },
+    "data.js": {
+      "sha256": "7a02dc52ae8edc98cdd820632861bca842bb067e0f745cab16c5c0bb009e24bd",
+      "bytes": 35078
+    },
+    "variance-explorer-data.js": {
+      "sha256": "f729c5ac2433011efd680ca10a0b5cbeed20ef24e0c739aa2dd1690d0b49e4a8",
+      "bytes": 12126
+    },
+    "variance-explorer.js": {
+      "sha256": "ab8e4f3dc84f62bfc5455324cf60da733a8d77eda768e569361d19e54dd0c732",
+      "bytes": 13172
+    },
+    "variance-explorer.css": {
+      "sha256": "53482dbaeca3c106d3b06a508c95fdc32e0982463e86717baad15162965a5a67",
+      "bytes": 3903
+    }
+  },
+  "variance_explorer": {
+    "kind": "synthetic complete three-feature sample; not WDBC PC1-3",
+    "seed": 42,
+    "n_samples": 240,
+    "ddof": 1,
+    "construction": "Centered seeded Gaussian sample whitened to sample covariance I, then rotated and scaled; NumPy eigh of the resulting sample covariance supplies displayed eigenpairs.",
+    "eigenvalues": [
+      9.0,
+      3.0,
+      0.6
+    ],
+    "components": [
+      [
+        0.666666666667,
+        0.666666666667,
+        0.333333333333
+      ],
+      [
+        -0.666666666667,
+        0.333333333333,
+        0.666666666667
+      ],
+      [
+        0.333333333333,
+        -0.666666666667,
+        0.666666666667
+      ]
+    ],
+    "covariance": [
+      [
+        5.4,
+        3.2,
+        0.8
+      ],
+      [
+        3.2,
+        4.6,
+        2.4
+      ],
+      [
+        0.8,
+        2.4,
+        2.6
+      ]
+    ]
+  }
+}
