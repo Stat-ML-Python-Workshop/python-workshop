@@ -26,11 +26,12 @@ See the [final-project preview](docs/final-project-preview.md) for reconstructio
 
 ## Current materials
 
+- [Week 8 lesson](weeks/week-08/lesson.md): implement PCA with ten short expressions, including sample covariance and NumPy `eigh`. Explore direction weights and variance bounds in the new 3D view in the [17-slide offline lecture](teaching/week08-pca/README.md), also available as an [A4 landscape PDF](teaching/week08-pca/slides.pdf).
 - [Week 7 lesson](weeks/week-07/lesson.md): projection, reconstruction and MSE with WDBC and eight tissue-image examples. Start with the [12-slide offline lecture](teaching/week07-projection/README.md).
 - [Week 6 lesson](weeks/week-06/lesson.md): centering, sample covariance, directional variance and the native variance explorer.
 - [Intro to PCA](teaching/intro-to-pca/README.md): interactive visual introduction to modes, eigenfaces, covariance and reconstruction.
 - [Week 5 lesson](weeks/week-05/lesson.md) and [Intro to NumPy](teaching/intro-to-numpy/README.md).
-- Lessons: Weeks 1–7. Reference solutions: Weeks 1–6. Weeks 8–10 are planned milestones; their runnable lessons will be released later. Check `course.json` for the current release state.
+- Lessons: Weeks 1–8. Reference solutions: Weeks 1–6. Weeks 9–10 are planned milestones; their runnable lessons will be released later. Check `course.json` for the current release state.
 
 ## Start here
 
@@ -89,7 +90,7 @@ students/<folder>/
 └── data/
 ```
 
-This is one package that grows over ten weeks. Week 3 extends statistics; Week 5 adds a NumPy Standardizer. The planned continuation adds PCA, a hand-built softmax classifier and pathology scanning, with stable numerical module paths. See SYLLABUS.md for the learning roadmap; course.json lists released lessons and solutions.
+This is one package that grows over ten weeks. Week 3 extends statistics; Week 5 adds a NumPy Standardizer; Week 8 adds fitted PCA. The planned continuation adds a hand-built softmax classifier and pathology scanning, with stable numerical module paths. See SYLLABUS.md for the learning roadmap; course.json lists released lessons and solutions.
 
 ## Week 1 — Build Your First Installable Python Package
 
@@ -142,7 +143,7 @@ Next:
 5. Run a small test after each change.
 6. Confirm that all previous-week behavior still works.
 
-Some weeks append to existing modules; do not replace the entire file. Week 8 includes file moves and import updates while preserving your earlier implementations.
+Some weeks append to existing modules; do not replace the entire file. Week 8 appends PCA to your existing `src/mini_ml/decomposition.py`, preserving all earlier functions without moving modules.
 
 Run the trusted local acceptance tests from the repository root:
 
