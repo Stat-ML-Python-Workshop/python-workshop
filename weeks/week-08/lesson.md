@@ -2,7 +2,7 @@
 
 Complete **ten short expressions** in `PCA.fit`, `transform` and `inverse_transform`. In `fit`, you will build a covariance matrix and explicitly call **`np.linalg.eigh(C)`** to learn its eigenvectors. Keep the Week 6–7 functions in the same `src/mini_ml/decomposition.py`. The instructor supplies input checks, state management, an image SVD helper, data, plotting and tests. You use NumPy's numerical eigensolver; you do not write an eigensolver or SVD algorithm, or add original tests this week.
 
-Use the [16-slide offline lecture](../../teaching/week08-pca/index.html) and its printable PDF. The browser shows precomputed results from the complete course PCA; the Python demo uses **your installed package**. Neither browser controls nor the offline demo download data.
+Use the [17-slide offline lecture](../../teaching/week08-pca/index.html) and its printable PDF. The browser shows precomputed results from the complete course PCA; the Python demo uses **your installed package**. Neither browser controls nor the offline demo download data.
 
 ## 1. Start from your completed Week 7 package
 
@@ -314,3 +314,109 @@ Answer these questions:
 0–10 min: W7 recap, centered data and shapes. 10–30: covariance, direction variance and eigendecomposition. 30–40: correlated hand example and NumPy checks. 40–60: fill eight fit expressions. 60–67: transform/reconstruct and saved-state checks. 67–76: WDBC exploration. 76–84: image basis, nested k and interpretation. 84–90: cumulative checks and exit questions.
 
 [WDBC source](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic), CC BY 4.0; [Kather 2016 tiles](https://doi.org/10.5281/zenodo.53169), CC BY 4.0. The pack's provenance records IDs, filenames, classes, preprocessing, fixed stratified seed-42 splits and SHA-256 hashes. Kather uses 375 training and 125 validation tiles per class; the 1,000 held-out test tiles are not included. This tile split does not establish patient-independent validation. No classification or test evaluation is required this week. Week 9 will use the learned scores to train a classifier.
+
+## Extra material: visualize image PC1–PC30
+
+This optional viewer extends the image-component view from three to **30 learned directions**. It uses your completed `PCA.fit`, the existing `test_code/week_08.py`, and the Week 8 data already on your computer. It adds no assignment requirements or dependencies.
+
+**Already working in class?** Stay on your current branch. Copy the complete block below into a **new** file, `test_code/week_08_extra_30pcs.py`, beside `week_08.py`. You can copy it directly from this online lesson without pulling or switching branches. Keep your existing demo, tests and `src/mini_ml/decomposition.py` as they are. If your Week 8 demo already runs, you have everything needed. If data or `week_08.py` are missing, run the existing Week 8 sync command from section 1 first.
+
+From your **package root** (`students/<name_studentnumber>/`), run:
+
+```sh
+uv run python test_code/week_08_extra_30pcs.py
+```
+
+For a terminal, server or notebook environment without native plot windows, save the same figures without opening them:
+
+```sh
+uv run python test_code/week_08_extra_30pcs.py --headless
+```
+
+```python
+"""Optional Week 8 viewer. Save beside the existing test_code/week_08.py."""
+import argparse
+from pathlib import Path
+
+import matplotlib
+import numpy as np
+from week_08 import PAPER, fit_models, load_data
+
+
+def component_grid(model, signed):
+    import matplotlib.pyplot as plt
+
+    # Reuse the first 30 directions of one 300-component training fit.
+    components = model.components_[:30].reshape(30, 28, 28, 3)
+    mean = model.mean_.reshape(28, 28, 3)
+    bound = max(float(np.abs(components).max()), np.finfo(float).eps)
+    fig, axes = plt.subplots(6, 5, figsize=(15, 11), facecolor=PAPER,
+                             layout="constrained")
+    for i, ax in enumerate(axes.flat):
+        if signed:
+            # Three scalar channel maps preserve positive AND negative weights.
+            panel = np.concatenate([components[i, :, :, c] for c in range(3)], axis=1)
+            image = ax.imshow(panel, cmap="RdBu_r", vmin=-bound, vmax=bound,
+                              interpolation="nearest")
+        else:
+            delta = 2 * np.sqrt(model.explained_variance_[i]) * components[i]
+            panel = np.concatenate([mean - delta, mean, mean + delta], axis=1)
+            ax.imshow(np.clip(panel, 0, 1), interpolation="nearest")
+        ax.set_title(f"PC{i + 1} | {model.explained_variance_ratio_[i]:.2%}", fontsize=10)
+        ax.set_axis_off()
+    if signed:
+        fig.suptitle("PC1–PC30: signed component weights\n"
+                     "Each panel: R / G / B channels", fontsize=16)
+        fig.colorbar(image, ax=axes.ravel().tolist(), orientation="horizontal",
+                     shrink=.7, pad=.025,
+                     label="Shared coefficient scale: blue negative, white zero, red positive")
+    else:
+        fig.suptitle("PC1–PC30: isolated changes around the training mean\n"
+                     "Each panel: mean − 2σ × PC / mean / mean + 2σ × PC", fontsize=16)
+    return fig
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--headless", action="store_true")
+    args = parser.parse_args()
+    if args.headless:
+        matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    print("Loading the existing offline pack and fitting your PCA. Please wait...", flush=True)
+    models = fit_models(load_data())
+    model = models["tissue"]
+    output = Path(__file__).resolve().parent
+    figures = []
+    for signed, filename in (
+        (True, "week_08_extra_30pcs_signed.png"),
+        (False, "week_08_extra_30pcs_mean_modes.png"),
+    ):
+        fig = component_grid(model, signed)
+        fig.savefig(output / filename, dpi=130, facecolor=PAPER)
+        figures.append(fig)
+        print(f"Saved {output / filename}")
+    print(f"PC1–PC30 retain {model.explained_variance_ratio_[:30].sum():.2%} "
+          "of total training pixel variance.")
+    if args.headless or figures[0].canvas.required_interactive_framework is None:
+        plt.close("all")
+        print("Open the two saved PNG files to view all 30 components.")
+    else:
+        plt.show()
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Expected: two windows, or two PNG files in `test_code/`, each with **30 panels ordered PC1 through PC30**, left to right and then top to bottom. The program always saves both PNGs, including when you use native windows. The existing helper also performs its small WDBC fit; the image PCA is fitted **once with 300 components**, and both figures reuse its first 30. This preserves the basis used by the original image demo rather than fitting a separate 30-component randomized approximation. A new launch fits again; it does not load a pretrained PCA.
+
+| Figure | How to read one panel |
+|---|---|
+| `week_08_extra_30pcs_signed.png` | R, G and B **coefficient maps**, side by side. All 90 channel maps share one symmetric color scale. These diverging colors represent signed weights, not tissue RGB colors. |
+| `week_08_extra_30pcs_mean_modes.png` | Three RGB images: `mean − 2σ × PC`, the training mean, and `mean + 2σ × PC`, with `σ = sqrt(explained_variance_[i])`. Only this PC changes; all other scores stay zero. RGB values clip to `[0,1]` for display. These are synthesized variations, not individual image reconstructions. |
+
+Each panel's percentage is that PC's fraction of **all training pixel variance**. The first 30 percentages do not have to sum to 100%. Component signs can flip across valid implementations: that swaps the minus/plus images but preserves the learned direction. Components describe pixel combinations, not tissue classes or diagnostic importance.
+
+If you see `NotImplementedError: TODO`, finish the remaining expressions in **your `PCA.fit`**. If Python cannot import `week_08`, check that the new file is in `test_code/` beside the already-synced `week_08.py`; run the command from package root. Keep this optional script and its generated images in ignored `test_code/`, outside your submission.
