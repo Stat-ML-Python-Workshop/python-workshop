@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "week": 8,
+  "tissue": {
+    "source": "https://doi.org/10.5281/zenodo.53169",
+    "attribution": "Kather et al. (2016), Collection of textures in colorectal cancer histology",
+    "related_article": "Kather et al. (2016), Multi-class texture analysis in colorectal cancer histology, Scientific Reports 6, 27988; https://doi.org/10.1038/srep27988",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "modifications": "RGB BILINEAR resizing from 150x150 to 28x28; prepared train/validation subsets and eight original display examples",
+    "source_archive_md5": "0ddbebfc56344752028fda72602aaade",
+    "source_tiles_sha256": "a889734ab877d469c201264572070b5db14db7ea3ad1cbead7f600572bc97589",
+    "preprocessing": "RGB uint8; Pillow BILINEAR 150x150 to 28x28; C-order flatten and float64 /255 at runtime; no per-pixel Standardizer or stain normalization",
+    "split": {
+      "seed": 42,
+      "unit": "individual tile; patient independence not established",
+      "counts": {
+        "training": 3000,
+        "validation": 1000,
+        "test_withheld": 1000
+      },
+      "per_class_counts": {
+        "training": 375,
+        "validation": 125,
+        "test_withheld": 125
+      },
+      "recipe": "Sorted archive filenames; train_test_split(test_size=.4,stratify=labels,random_state=42), then split held-out IDs with test_size=.5,stratify=held_labels,random_state=42",
+      "training_ids_sha256": "7774a5771eefe1d6fdefcb652308bc283e769cf2b07636b388725f126c0f3856",
+      "validation_ids_sha256": "4bbfe4625b04f25b9ce4f07d40b88d10e83287ff98dc718d4b42fa217a3d8305",
+      "withheld_test_ids_sha256": "f790b748fcb4f809493929361a7a5d344470a711d3c7312eaa83c5cd25696b90",
+      "test_pixels_exported": false,
+      "test_used": false
+    },
+    "selected_validation_ids": [
+      107,
+      1095,
+      1712,
+      2356,
+      2523,
+      3429,
+      4172,
+      4431
+    ],
+    "classes": [
+      "01_TUMOR",
+      "02_STROMA",
+      "03_COMPLEX",
+      "04_LYMPHO",
+      "05_DEBRIS",
+      "06_MUCOSA",
+      "07_ADIPOSE",
+      "08_EMPTY"
+    ],
+    "mse_populations": {
+      "examples": "Eight fixed validation images, all 8x2352 entries",
+      "validation": "All 1000 validation images, all 1000x2352 entries"
+    },
+    "mse_before_display_clipping": true,
+    "fitted_state_exported": false
+  },
+  "wdbc": {
+    "source": "https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic",
+    "attribution": "Wolberg, W., Mangasarian, O., Street, N., and Street, W. (1993), Breast Cancer Wisconsin (Diagnostic), UCI Machine Learning Repository; https://doi.org/10.24432/C5DW2B",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "loader": "scikit-learn bundled load_breast_cancer (teacher build only; no student download)",
+    "feature_names": [
+      "mean radius",
+      "mean texture",
+      "mean perimeter",
+      "mean area",
+      "mean smoothness",
+      "mean compactness",
+      "mean concavity",
+      "mean concave points",
+      "mean symmetry",
+      "mean fractal dimension",
+      "radius error",
+      "texture error",
+      "perimeter error",
+      "area error",
+      "smoothness error",
+      "compactness error",
+      "concavity error",
+      "concave points error",
+      "symmetry error",
+      "fractal dimension error",
+      "worst radius",
+      "worst texture",
+      "worst perimeter",
+      "worst area",
+      "worst smoothness",
+      "worst compactness",
+      "worst concavity",
+      "worst concave points",
+      "worst symmetry",
+      "worst fractal dimension"
+    ],
+    "label_convention": "malignant=1, benign=0",
+    "id_definition": "train_ids and validation_ids are zero-based row indices in sklearn's bundled 569-row table, not the original UCI clinical ID column",
+    "preprocessing": "Raw 30-feature arrays; student Standardizer is fitted on training only at runtime",
+    "split": {
+      "seed": 42,
+      "training": 341,
+      "validation": 114,
+      "test_withheld": 114,
+      "recipe": "Exact W4-W7 stratified 80/20 then 75/25 of training-validation, random_state=42 each time",
+      "training_ids_sha256": "1f0e8a318d1f59b39c06d838142d32b02aff8b73d5b043d054f8c7f41ea718a3",
+      "validation_ids_sha256": "f36175f56a67c2fabcf3e346c5ede3c497d2a759dd97f4187468045570092ddd",
+      "withheld_test_ids_sha256": "5142927a39816de62e267a286e46b0252910746d725fbf6aaba9e765437e0a0d",
+      "test_rows_exported": false
+    },
+    "matches_week07_training_ids_and_first_two_features": true,
+    "fitted_state_exported": false
+  },
+  "files": {
+    "kather_train.npz": {
+      "sha256": "994bf42d4f5dffea5fa86f9fbd93e6f9c16ccfa8f5c1f7f2aed7630881860d5b",
+      "bytes": 6181260,
+      "arrays": {
+        "images": {
+          "shape": [
+            3000,
+            28,
+            28,
+            3
+          ],
+          "dtype": "uint8"
+        },
+        "labels": {
+          "shape": [
+            3000
+          ],
+          "dtype": "int64"
+        },
+        "image_ids": {
+          "shape": [
+            3000
+          ],
+          "dtype": "int64"
+        },
+        "filenames": {
+          "shape": [
+            3000
+          ],
+          "dtype": "<U101"
+        },
+        "classes": {
+          "shape": [
+            8
+          ],
+          "dtype": "<U10"
+        }
+      }
+    },
+    "kather_validation.npz": {
+      "sha256": "ba9a330ae40a961e5ba18d4fef72b2bcde67713c7b22b9046f509ac2e74e8fc6",
+      "bytes": 2064934,
+      "arrays": {
+        "images": {
+          "shape": [
+            1000,
+            28,
+            28,
+            3
+          ],
+          "dtype": "uint8"
+        },
+        "labels": {
+          "shape": [
+            1000
+          ],
+          "dtype": "int64"
+        },
+        "image_ids": {
+          "shape": [
+            1000
+          ],
+          "dtype": "int64"
+        },
+        "filenames": {
+          "shape": [
+            1000
+          ],
+          "dtype": "<U101"
+        },
+        "classes": {
+          "shape": [
+            8
+          ],
+          "dtype": "<U10"
+        }
+      }
+    },
+    "kather_examples.npz": {
+      "sha256": "1b3e47a7bc633e9250cbd8c69a1d8dbcc6a9df5616a1d037b07c4e17377358af",
+      "bytes": 393176,
+      "arrays": {
+        "original_images": {
+          "shape": [
+            8,
+            150,
+            150,
+            3
+          ],
+          "dtype": "uint8"
+        },
+        "image_ids": {
+          "shape": [
+            8
+          ],
+          "dtype": "int64"
+        },
+        "labels": {
+          "shape": [
+            8
+          ],
+          "dtype": "int64"
+        },
+        "classes": {
+          "shape": [
+            8
+          ],
+          "dtype": "<U10"
+        },
+        "filenames": {
+          "shape": [
+            8
+          ],
+          "dtype": "<U101"
+        }
+      }
+    },
+    "wdbc.npz": {
+      "sha256": "89ecec3a3c4fa433b80a0b133e09de81227cba1ca1b1e416484765eabe832bcb",
+      "bytes": 63966,
+      "arrays": {
+        "X_train": {
+          "shape": [
+            341,
+            30
+          ],
+          "dtype": "float64"
+        },
+        "y_train": {
+          "shape": [
+            341
+          ],
+          "dtype": "int64"
+        },
+        "train_ids": {
+          "shape": [
+            341
+          ],
+          "dtype": "int64"
+        },
+        "X_validation": {
+          "shape": [
+            114,
+            30
+          ],
+          "dtype": "float64"
+        },
+        "y_validation": {
+          "shape": [
+            114
+          ],
+          "dtype": "int64"
+        },
+        "validation_ids": {
+          "shape": [
+            114
+          ],
+          "dtype": "int64"
+        },
+        "feature_names": {
+          "shape": [
+            30
+          ],
+          "dtype": "<U23"
+        }
+      }
+    }
+  },
+  "total_npz_bytes": 8703336,
+  "build_versions": {
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.0",
+    "Pillow": "12.3.0"
+  }
+}
