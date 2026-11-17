@@ -8,31 +8,32 @@ You will build one `mini_ml` package that grows throughout the course:
 mathematical idea → implementation (pure Python in Weeks 1–4, NumPy from Week 5, PyTorch in Weeks 9–10) → tests → reference comparison
 ```
 
-You will connect statistics and information theory to NumPy preprocessing, PCA, multiclass logistic regression and manual backpropagation. You will implement the numerical core; the instructor supplies data preparation and plotting scaffolds. Pathology-image scanning is an optional Week 10 vibe coding bonus.
+You will connect statistics and information theory to NumPy preprocessing, PCA, multiclass logistic regression and a pathology-image scanning demo page. You will implement the numerical core; the instructor supplies data preparation and plotting scaffolds. In Week 10 you vibe code the scanning demo around your own model; manual backpropagation is an optional bonus.
 
 ## What you will build
 
 ```text
-RGB pathology tiles → training-only PCA → your multiclass logistic classifier → training/validation comparisons
+RGB pathology tiles → training-only PCA → your multiclass logistic classifier → large-image scanning demo page
 ```
 
-Required results include image reconstructions, a PC1–3 3D distribution, learning-rate loss curves and a comparison of automatic versus manual gradients and updates. The optional Week 10 bonus extends the classifier to tissue/tumor probability maps on a larger pathology image.
+Required results include image reconstructions, a PC1–3 3D distribution, learning-rate loss curves and a Week 10 demo page that uploads a larger pathology image and shows tissue/tumor probability maps.
 
 ![Instructor prototype: original image, tissue predictions, tumor probability and maximum class probability](docs/assets/final-project/slide-scan.png)
 
-*Teacher model prediction demonstration: scikit-learn PCA + RBF SVM (30 PCs). Gray marks regions where the maximum averaged class probability is below 0.5: 35.1% of the display. This is a visualization rule; the large image has no regional ground truth. This illustrates the optional scanning application. The required classifier labs use your PCA and a PyTorch softmax classifier.*
+*Teacher model prediction demonstration: scikit-learn PCA + RBF SVM (30 PCs). Gray marks regions where the maximum averaged class probability is below 0.5: 35.1% of the display. This is a visualization rule; the large image has no regional ground truth. Your Week 10 demo page uses your own PCA and PyTorch softmax classifier, so its maps will differ.*
 
-See the [application prototype preview](docs/final-project-preview.md) for reconstructions, PC distributions, classification results, data sources and interpretation limits. The preview illustrates the optional application rather than the required submission list.
+See the [application prototype preview](docs/final-project-preview.md) for reconstructions, PC distributions, classification results, data sources and interpretation limits. The preview illustrates the scanning application rather than the required submission list.
 
 ## Current materials
 
+- [Week 10 lesson](weeks/week-10/lesson.md) (中文): vibe code a demo page that uploads a large pathology image and outputs scan predictions with your own PCA and Week 9 classifier. Start with the [Vibe Coding slides (PDF)](teaching/week10-vibe-coding/slides.pdf). Download the large images before class; manual backpropagation is an optional bonus.
 - [Week 9 lesson](weeks/week-09/lesson.md): complete five PyTorch forward expressions (softmax, scores and probabilities), then train with supplied autograd and SGD. Compare training/validation loss curves at four learning rates. PyTorch is required; follow the lesson's dependency and setup commands.
 - [Week 8 lesson](weeks/week-08/lesson.md): implement PCA with ten short expressions, including sample covariance and NumPy `eigh`. Explore direction weights and variance bounds in the new 3D view in the [17-slide offline lecture](teaching/week08-pca/README.md), also available as an [A4 landscape PDF](teaching/week08-pca/slides.pdf).
 - [Week 7 lesson](weeks/week-07/lesson.md): projection, reconstruction and MSE with WDBC and eight tissue-image examples. Start with the [12-slide offline lecture](teaching/week07-projection/README.md).
 - [Week 6 lesson](weeks/week-06/lesson.md): centering, sample covariance, directional variance and the native variance explorer.
 - [Intro to PCA](teaching/intro-to-pca/README.md): interactive visual introduction to modes, eigenfaces, covariance and reconstruction.
 - [Week 5 lesson](weeks/week-05/lesson.md) and [Intro to NumPy](teaching/intro-to-numpy/README.md).
-- Lessons: Weeks 1–9. Reference solutions: Weeks 1–6. Week 10 is planned: manual backpropagation and SGD, with optional vibe coding pathology scanning. Its runnable materials will be released later. Check `course.json` for the current release state.
+- Lessons: Weeks 1–10. Reference solutions: Weeks 1–6. Check `course.json` for the current release state.
 
 ## Start here
 
@@ -87,11 +88,11 @@ students/<folder>/
 │   └── mini_ml/       # Reusable functions and models; commit
 ├── tests/             # Your unit tests; commit
 ├── test_code/         # Local experiments, plots, and debugging; do not commit
-├── examples/          # Optional Week 10 bonus application; commit
+├── examples/          # Week 10 scanning demo page; commit
 └── data/
 ```
 
-This is one package that grows over ten weeks. Week 3 extends statistics; Week 5 adds a NumPy Standardizer; Week 8 adds fitted PCA. Week 9 implements five forward expressions in PyTorch and uses supplied autograd/SGD. Week 10 will reuse that forward pass and add four expressions for manual gradients and SGD updates, plus an optional vibe coding scanning task. See SYLLABUS.md for the learning roadmap; course.json lists released lessons and solutions.
+This is one package that grows over ten weeks. Week 3 extends statistics; Week 5 adds a NumPy Standardizer; Week 8 adds fitted PCA. Week 9 implements five forward expressions in PyTorch and uses supplied autograd/SGD. Week 10 freezes that model and wraps it in a vibe-coded scanning demo page under `examples/`; manual gradients and SGD updates are an optional bonus. See SYLLABUS.md for the learning roadmap; course.json lists released lessons and solutions.
 
 ## Week 1 — Build Your First Installable Python Package
 
@@ -260,13 +261,13 @@ Use only the fragments you need, integrate them into your existing package, reru
 
 Weekly lessons and solutions are released in stages. The high-level roadmap and an instructor prototype preview are available now; unreleased solution code, instructor-only notes, private data and credentials remain outside this repository.
 
-## Classifier labs and optional Week 10 bonus
+## Classifier labs and Week 10 scanning demo
 
-The required sequence is training-only PCA, five forward expressions in Week 9, then manual gradients and SGD updates in Week 10. PyTorch is required for both classifier labs. Week 9 supplies automatic differentiation and the optimizer; Week 10 will compare the manual tensor implementation with that reference. Optional SVM comparisons are separate from required work.
+The required sequence is training-only PCA, five forward expressions in Week 9, then a Week 10 scanning demo page built with AI coding assistance. PyTorch is required from Week 9. Week 9 supplies automatic differentiation and the optimizer; replacing them with manual gradients and SGD updates is an optional Week 10 bonus. Optional SVM comparisons are separate from required work.
 
 The image dataset is [Kather 2016](https://zenodo.org/records/53169): 5,000 RGB tiles in eight tissue classes, with a fixed seed-42 60%/20%/20% train/validation/test split. Reuse the Week 8 offline pack. Week 9 fixes 30 training-only PCs and compares learning rates using training/validation data; test data stays reserved. WDBC remains the introductory tabular dataset in the earlier weeks.
 
-The planned Week 10 bonus allows AI coding assistance to build an overlapping-window scanning app around the completed classifier. It is optional and has no separate required acceptance milestone. Freeze the model before final held-out test evaluation. The bonus instructions are not yet released. Tile-level classification results do not establish patient-independent performance, and unannotated large-image prediction maps do not establish localization accuracy.
+In Week 10, use AI coding assistance to build an overlapping-window scanning demo page around the frozen classifier; see the [Week 10 lesson](weeks/week-10/lesson.md). Acceptance tests only check that your PCA and classifier give identical batch and single-tile results; the page itself is reviewed in your PR. Freeze the model before final held-out test evaluation. Tile-level classification results do not establish patient-independent performance, and unannotated large-image prediction maps do not establish localization accuracy.
 
 ## Getting help
 

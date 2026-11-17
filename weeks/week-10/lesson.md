@@ -1,4 +1,6 @@
-# Week 10 Bonus：病理大圖掃描 Demo 網頁
+# Week 10：Vibe Coding 病理大圖掃描 Demo 網頁
+
+先看投影片：[Vibe Coding 重要概念（PDF）](../../teaching/week10-vibe-coding/slides.pdf)
 
 ## 🎯 目標
 
@@ -19,7 +21,7 @@ Week 8 的資料包**沒有大圖**，請另外下載測試用的圖：
 
 - **技術不限**：可以用 Gradio、Streamlit，也可以用 JavaScript 自己寫網頁。
 - 用 Python 套件的話，請用 `uv add` 安裝，並把 `pyproject.toml` 和 `uv.lock` 一起 commit。
-- demo 程式請寫成獨立的檔案，**不要放進 `src/mini_ml/`**，以免影響自動評分。
+- demo 程式請放在你資料夾的 `examples/` 裡，**不要放進 `src/mini_ml/`**，以免影響自動評分。
 - 請保留 Week 9 存下來的模型檔，網頁要載入它來預測。如果選擇純 JS，需要自己把模型參數匯出成網頁讀得到的格式。
 
 ## 🔧 提醒
@@ -29,3 +31,26 @@ Week 8 的資料包**沒有大圖**，請另外下載測試用的圖：
   💡 提示：掃描時餵給模型的資料，要跟訓練時「長得一樣」。
 - 大圖跑起來可能要一點時間，可以先拿小的裁切圖測試。
 - 大圖沒有標準答案，網頁顯示的是模型的預測，不代表正確答案。
+
+## 🚀 開始
+
+從 `students/<name_studentnumber>/`，開 `<login>/week-10` 分支後：
+
+```sh
+uv run python ../../tools/course.py test <login> 9
+uv run python ../../tools/course.py sync <login> 10
+uv run python test_code/week_10.py --image <大圖路徑>
+```
+
+`week_10.py` 只會印出你 Week 9 模型檔的內容和大圖尺寸，用來確認檔案都準備好了。掃描和網頁要自己做。
+
+## 📤 繳交
+
+- PR 內容：`examples/` 裡的 demo 程式，以及新增的 `pyproject.toml`、`uv.lock` 變更。
+- PR 說明裡附上網頁截圖，或是一張大圖的掃描結果。
+- 自動測試只檢查你的 PCA 和分類器「整批預測」跟「一張一張預測」的結果一致，網頁本身由老師看 PR。
+
+## ⭐ Bonus（選做）：手刻 backprop
+
+把 Week 9 用 PyTorch autograd 和 SGD 做的訓練，改成自己手寫 gradient 和參數更新，再跟 autograd 的 loss curve 比較，看兩者是否一致。
+
