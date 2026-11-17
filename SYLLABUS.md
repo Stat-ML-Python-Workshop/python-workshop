@@ -1,8 +1,8 @@
 # Python Workshop: PCA Pathology Classification from Scratch
 
-Ten 90-minute sessions for life-science Python beginners, maintaining one cumulative mini_ml package. The required goal is RGB tiles → student PCA → forward classification → manual backpropagation and SGD. An optional Week 10 vibe coding bonus adds overlapping large-image prediction maps.
+Ten 90-minute sessions for life-science Python beginners, maintaining one cumulative mini_ml package. The required goal is RGB tiles → student PCA → forward classification → a vibe-coded demo page with overlapping large-image prediction maps. Manual backpropagation is an optional Week 10 bonus.
 
-**Release status:** Weeks 1–9 have lesson materials in this release; reference solutions are available for Weeks 1–6. Week 10 and its optional bonus are planned and not yet released. `course.json` records released lessons and solutions; the roadmap is not a promise that later sync or test commands already work.
+**Release status:** Weeks 1–10 have lesson materials in this release; reference solutions are available for Weeks 1–6. `course.json` records released lessons and solutions; the roadmap is not a promise that later sync or test commands already work.
 
 | Week | Concepts | Student implementation | Visible outcome | Status |
 |---|---|---|---|---|
@@ -15,7 +15,7 @@ Ten 90-minute sessions for life-science Python beginners, maintaining one cumula
 | 7 | Projection, reconstruction, information loss | project, reconstruct, reconstruction_error | Fixed-basis reconstruction and MSE curve | Released |
 | 8 | Covariance eigendecomposition, PCA state, explained variance | PCA.fit, transform, inverse_transform | 3D variance-bound explorer, PC1–3 scores, loadings and image reconstruction | Released |
 | 9 | Forward, PyTorch tensors, experimental design and metrics | Five expressions: softmax and forward; supplied autograd + SGD | Four learning rates with training/validation loss curves | Released |
-| 10 | Backpropagation, batch gradients and SGD | Four expressions: manual W/b gradients and updates in PyTorch | Automatic/manual curves and numerical agreement | Planned |
+| 10 | Vibe coding, sliding windows, batch inference | Demo page in examples/ using the frozen Week 9 pipeline; optional bonus: manual backpropagation | Upload a large image and view tissue/tumor probability maps | Released |
 
 W6–8 supply all student tests and independent CI acceptance; students run them without adding cases. In W8, students complete ten short expressions, including calls to `covariance_matrix(Xc)` and `np.linalg.eigh(C)`, then sort and select the principal directions. The teacher supplies input validation, object state handling, a NumPy randomized SVD helper for images, and plotting. Later scaffolds supply label encoding and stable loss. NumPy is used inside mini_ml from Week 5. Week 8 appends PCA to the existing decomposition.py module without moving earlier code. See the [Week 8 lesson](weeks/week-08/lesson.md), [17-slide offline lecture](teaching/week08-pca/README.md) and [print edition](teaching/week08-pca/slides.pdf).
 
@@ -27,12 +27,12 @@ Weeks 4–7 use WDBC: fixed training patient indices, malignant=1, the same two 
 
 Week 8 expands WDBC to all 30 named features with the same 341 training and 114 validation observations. Its offline image pack contains 3,000 training and 1,000 validation thumbnails, plus the same eight original display images. It contains no test images or pretrained PCA. Students fit 300 image components once and reuse prefixes of that basis when changing k.
 
-PCA receives no labels. Labels color plots and train/evaluate the classifier. Week 8 explores PC counts; Weeks 9–10 fix 30 training-only PCs, CPU float64, zero parameters and identical seed-42 mini-batches. Week 9 uses supplied PyTorch autograd/SGD; the planned Week 10 lab replaces gradients and updates with manual tensor expressions. Required experiments use training/validation only.
+PCA receives no labels. Labels color plots and train/evaluate the classifier. Week 8 explores PC counts; Weeks 9–10 fix 30 training-only PCs, CPU float64, zero parameters and identical seed-42 mini-batches. Week 9 uses supplied PyTorch autograd/SGD; Week 10 reuses the frozen Week 9 model for scanning. Required experiments use training/validation only.
 
-Required results include the Week 8 reconstruction and PCA explorations, Week 9 learning-rate loss curves, and Week 10 agreement between automatic and manual updates. Assessment covers correctness, reproducibility and evidence-based interpretation, not a minimum accuracy or visibly separated clusters.
+Required results include the Week 8 reconstruction and PCA explorations, Week 9 learning-rate loss curves, and the Week 10 scanning demo page. Assessment covers correctness, reproducibility and evidence-based interpretation, not a minimum accuracy or visibly separated clusters.
 
-## Planned Week 10 Bonus — Vibe Coding
+## Week 10 — Vibe Coding a Scanning Demo
 
-The optional scanning task will use AI coding assistance to turn the completed classifier into a pathology-image application. It is part of Week 10 and does not add a required grading milestone. Its instructions are not yet released. Freeze the model before final held-out test evaluation, and inspect original/input crops and overlapping tissue/tumor/confidence maps. Tile splits do not establish patient independence; an unannotated large image cannot establish localization accuracy.
+The [Week 10 lesson](weeks/week-10/lesson.md) (中文) and [slides](teaching/week10-vibe-coding/slides.pdf) ask students to use AI coding assistance to turn the completed classifier into a demo page: upload a large pathology image, output scan predictions. Acceptance tests check only batch/single-tile consistency of PCA and the classifier; the page is reviewed in the PR. Manual backpropagation and SGD updates are an optional bonus. Freeze the model before final held-out test evaluation, and inspect original/input crops and overlapping tissue/tumor/confidence maps. Tile splits do not establish patient independence; an unannotated large image cannot establish localization accuracy.
 
 Lessons are English step-by-step documents with directory, destination, command, expected output, failure checks and public code provenance. Explorations stay in ignored test_code/; source, unit tests and dependency locks are submitted through weekly PRs. Existing release deadlines and student review/merge rules remain in force.
