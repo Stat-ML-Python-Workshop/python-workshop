@@ -33,6 +33,10 @@ See the [application prototype preview](docs/final-project-preview.md) for recon
 - [Week 6 lesson](weeks/week-06/lesson.md): centering, sample covariance, directional variance and the native variance explorer.
 - [Intro to PCA](teaching/intro-to-pca/README.md): interactive visual introduction to modes, eigenfaces, covariance and reconstruction.
 - [Week 5 lesson](weeks/week-05/lesson.md) and [Intro to NumPy](teaching/intro-to-numpy/README.md).
+- [Week 4 lesson](weeks/week-04/lesson.md) and [slides (PDF)](teaching/week04-linear-model-score/slides.pdf). Matrix multiplication and linear model scores. Slides cover the linear-score introduction.
+- [Week 3 lesson](weeks/week-03/lesson.md) and [slides (PDF)](teaching/week03-kl-divergence/slides.pdf). Variance, cross-entropy and KL divergence. Use the lesson for the implementation steps.
+- [Week 2 lesson](weeks/week-02/lesson.md) and [slides (PDF)](teaching/week02-shannon-entropy/slides.pdf). Biological counts, class proportions and Shannon entropy.
+- [Week 1 lesson](weeks/week-01/lesson.md) and [slides (PDF)](teaching/week01-python-package/slides.pdf). Python basics, environments and your first installable package.
 - Lessons: Weeks 1–10. Reference solutions: Weeks 1–6. Check `course.json` for the current release state.
 
 ## Start here
